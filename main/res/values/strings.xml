@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Solvadoku</string>
+    <string name="solve">SOLVE </string>
+    <string name="steps">Check steps</string>
+    <string name="clear_all">Complete reset</string>
+    <string name="clear_solved">Clear solved cells</string>
+    <string name="pop_up_title">Choose Strategies</string>
+    <string name="invalid_input">Invalid input</string>
+    <string name="no_effect">The chosen strategies had no effect on the puzzle</string>
+    <string name="no_strat_chosen">Choose at least one strategy</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="partial">Solve Partially</string>
+    <string name="title">SOLVADOKU</string>
+    <string name="naked_single">When a cell has only one possible candidate remaining, we call it a Naked Single. The candidate then gets inserted into the cell.</string>
+    <string name="hidden_single">When a candidate that exists in a particular House (Row, Column, or Block) does not exist in any other cell in that same house, we call it a Hidden Single because it \"hides\" behind the other candidates in the cell. The candidate then gets inserted into the cell.</string>
+    <string name="naked_pair">If two cells in a House (Row, Column, or Block) only have two candidates and those two candidates are identical for both cells, it is called a Naked Pair. We can remove all other appearances of the pair from the other cells in that House.</string>
+    <string name="naked_triple">If three cells in a House (Row, Column, or Block) only have the same three candidates or their subset, they are called a Naked Triple. We remove all appearances of the three candidates from the other cells in that House.</string>
+    <string name="pointing_pair">When a candidate appears in only two (or three) cells in a Block and these cells are aligned in a Row or Column, they are called a Pointing Pair (or Pointing Triple if there are three cells). We remove the number as a candidate for all other cells in that Row or Column.</string>
+    <string name="claiming_pair">When a candidate only appears in two (or three) cells in a Row or Column and these cells are in the same Block, they are called a Claiming Pair (or Claiming Triple if there are three cells). We remove the number as a candidate from all other cells in that Block.</string>
+    <string name="hidden_pair">If a pair of candidates appears in only two cells in a House (Row, Column, or Block) and those cells contain other candidates as well, they are called a Hidden Pair. We remove all candidates other than the pair from both of the two cells, which then gives us a Naked Pair.</string>
+    <string name="xWing">Nadeem put something here boi</string>
+    <string name="brute_force">If all previous strategies are not successful in solving the Sudoku puzzle, Solvadoku uses Brute Force as a last resort to solve the puzzle. This method uses trial and error to solve the puzzle by computing all remaining possibilities until a logically valid solution is found.</string>
+    <string name="swordfish">here too my man..</string>
+    <string name="pencil_marks">Partial solve with pencil marks</string>
+    <string name="no_pencil_marks">Partial solve without pencil marks</string>
+    <string name="settings">Settings and Information</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="switcher">Show Pencil Marks for unsolved cells when partially solved \n </string>
+    <string name="about">Solvadoku Version 1.1</string>
+
+</resources>
