@@ -222,8 +222,10 @@ public class MainActivity extends AppCompatActivity implements View.OnFocusChang
                                                     unit[i][j].setText(String.valueOf(puzzle[i][j].getSolution()));
                                                 }
                                                else if(!hasValue(unit[i][j]) && putPencilMarks){
-                                                    unit[i][j].setTextSize(actualFontSize/2);
-                                                    unit[i][j].setFilters(new InputFilter[] { new InputFilter.LengthFilter(10) });
+                                                    unit[i][j].setTextSize(actualFontSize/2.5f);
+                                                    unit[i][j].setGravity(Gravity.TOP);
+
+                                                    unit[i][j].setFilters(new InputFilter[] { new InputFilter.LengthFilter(20) });
                                                     unit[i][j].setTextColor(getResources().getColor(R.color.colorBlack));
                                                     unit[i][j].setText(puzzle[i][j].listCandidates());
                                                 }
@@ -662,7 +664,6 @@ public class MainActivity extends AppCompatActivity implements View.OnFocusChang
                     for (int j = 0; j < 9; j++) {
                         unit[i][j].setGravity(Gravity.CENTER);
                         unit[i][j].setTextSize(actualFontSize);
-                        unit[i][j].setInputType(InputType.TYPE_CLASS_NUMBER);
                         unit[i][j].setKeyListener(DigitsKeyListener.getInstance("123456789"));
                         unit[i][j].setFilters(new InputFilter[] { new InputFilter.LengthFilter(1) });
                         makeEditable(unit[i][j]);
