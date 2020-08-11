@@ -79,9 +79,19 @@ public class Cell {
 
     public String listCandidates() {
         String s = "";
-        for(byte i = 0; i < getNoOfCandidates() ; i++){
-            s+= getCandidate(i);
-        }
+       for(byte i = 0 ; i < 9 ; i++){
+           if(candidates[i]){
+               s+= (i+1);
+           }
+           else
+               s+= " ";
+           if((i+1)%3==0){
+               s+= '\n';
+           }
+          else
+              s+=" ";
+       }
+        System.out.println(s);
         return s;
     }
 
