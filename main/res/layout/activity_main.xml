@@ -7,26 +7,22 @@
     android:background="@color/colorPrimaryDark"
     tools:context=".MainActivity">
 
-    <FrameLayout
-        android:id="@+id/frameLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_weight="1"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
-
         <com.yde.solvadoku.SquareGridLayout
             android:id="@+id/gridLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            tools:ignore="ExtraText"
             android:focusableInTouchMode="true"
             app:columnCount="9"
-            app:layout_constraintBottom_toTopOf="@+id/solve"
             app:rowCount="9">
+
 
             <EditText
                 android:id="@+id/et00"
@@ -1244,7 +1240,7 @@
                 app:layout_rowWeight="0.11" />
 
         </com.yde.solvadoku.SquareGridLayout>
-    </FrameLayout>
+
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -1281,7 +1277,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout">
+        app:layout_constraintTop_toBottomOf="@+id/gridLayout">
 
         <Button
             android:id="@+id/solve"
