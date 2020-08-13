@@ -2,8 +2,6 @@ package com.yde.solvadoku;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
-
 import androidx.gridlayout.widget.GridLayout;
 
 
@@ -26,7 +24,6 @@ public class SquareGridLayout extends GridLayout {
     protected void onMeasure(int widthSpec, int heightSpec) {
         int width = MeasureSpec.getSize(widthSpec);
         int height = MeasureSpec.getSize(heightSpec);
-        Log.i("Size" , (double)width/height + "");
         int makeSquare = Math.min(width, height);
         if((double)width/height<=0.66){
             super.onMeasure(MeasureSpec.makeMeasureSpec(makeSquare, MeasureSpec.EXACTLY),

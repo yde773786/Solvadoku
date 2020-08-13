@@ -1,5 +1,7 @@
 package com.yde.solvadoku;
 
+import android.util.Log;
+
 import java.util.Arrays;
 
 /**
@@ -84,14 +86,13 @@ public class Cell {
                s+= (i+1);
            }
            else
-               s+= " ";
+               s+= "_";
            if((i+1)%3==0){
                s+= '\n';
            }
           else
               s+=" ";
        }
-        System.out.println(s);
         return s;
     }
 

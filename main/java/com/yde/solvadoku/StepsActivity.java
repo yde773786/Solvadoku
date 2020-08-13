@@ -66,6 +66,7 @@ public class StepsActivity extends AppCompatActivity {
             algorithmDetail.put("Naked Triple",R.string.naked_triple);
             algorithmDetail.put("X-Wing" , R.string.xWing);
             algorithmDetail.put("Swordfish",R.string.swordfish);
+            algorithmDetail.put("Jellyfish" , R.string.jellyfish);
             algorithmDetail.put("Brute Force",R.string.brute_force);
             about.setOnClickListener(this);
         }

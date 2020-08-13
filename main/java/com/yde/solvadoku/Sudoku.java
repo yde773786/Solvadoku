@@ -1235,157 +1235,20 @@ public final class Sudoku {
     }// end of hiddenPairCheckSteps()
 
     private static void xWing(Cell[][] puzzle){
-
-        byte freq;//counter to find xwing, if present.
-
-        for(byte num = 1 ; num <=9 ; num++) {
-
-            ArrayList<Byte> eligibleRows = new ArrayList<>();//to store row of xwing candidates
-            ArrayList<Byte> eligibleColumns = new ArrayList<>();//to store column of xwing candidates
-
-            for (byte r = 0; r < 9; r++) {//traversal
-                freq = 0;
-                byte[] tmp_columns = new byte[3];//the temporary columns
-                for (byte c = 0; c < 9 && freq < 3; c++) {
-                    if (puzzle[r][c].isCandidate(num) && puzzle[r][c].isNotSet()) {//if candidate and not set
-                        tmp_columns[freq] = c;//store column in row which has num as a candidate
-                        freq++;
-                    }
-                }
-                if (freq == 2) {//catches the locked pair of cells in a particular row
-                    eligibleRows.add(r);//since freq is 2, there are only two cells in the row that have num as a candidate (locked pair)
-                    eligibleColumns.add(tmp_columns[0]);//store first cell in row which is a member of the locked pair
-                    eligibleColumns.add(tmp_columns[1]);//store second cell in row which is a member of the locked pair
-                }
-            }
-
-            xWingRemoval(puzzle,eligibleRows,eligibleColumns,num,(byte)1);//check if xwing exists and remove where necessary
-
-            eligibleColumns = new ArrayList<>();//reset eligibleColumns
-            eligibleRows = new ArrayList<>();//reset eligibleRows
-
-            for (byte c = 0; c < 9; c++) {//traversal
-                freq = 0;
-                byte[] tmp_rows = new byte[3];//the temporary rows
-                for (byte r = 0; r < 9 && freq < 3; r++) {
-                    if (puzzle[r][c].isCandidate(num) && puzzle[r][c].isNotSet()) {//if candidate and not set
-                        tmp_rows[freq] = r;//stores the row in the column where num is a candidate
-                        freq++;
-                    }
-                }
-                if (freq == 2) {//catches the locked pair of cells in a particular column
-                    eligibleColumns.add(c);//since the freq is 2, there are only two cells in the column that have num as a candidate (locked pair)
-                    eligibleRows.add(tmp_rows[0]);//store first cell in column which is locked pair
-                    eligibleRows.add(tmp_rows[1]);//store second cell in column which is locked pair
-                }
-            }
-
-            xWingRemoval(puzzle,eligibleRows,eligibleColumns,num,(byte)2);//check if xwing exists and remove where necessary
-
-        }
+        basicFish(puzzle,(byte)1);
     }// end of xWing()
 
-    private static void xWingRemoval(Cell[][] puzzle , ArrayList<Byte> eligibleRows , ArrayList<Byte> eligibleColumns , byte num,  byte which){
-
-        if(which == 1){//x wing in rows
-            /* for there to be a possible xwing for candidate removals, there needs to be 2 rows. Thus the primary check is to
-             * make sure that there are 2 rows. If this is the case, check if the cells that are a part of the locked pair, lie
-             * in the same column position. */
-
-            if(eligibleRows.size()>=2) {
-                for (int i = 0; i < eligibleRows.size() - 1; i++) {
-                    for (int j = i + 1; j < eligibleRows.size(); j++) {
-                        if((eligibleColumns.get(2*i).byteValue()==eligibleColumns.get(2*j).byteValue() &&
-                                eligibleColumns.get(2*i+1).byteValue()==eligibleColumns.get(2*j+1).byteValue())){
-
-                            String title = "X-Wing in " + " Row " + (eligibleRows.get(i)+1) + " and " + (eligibleRows.get(j)+1) ;
-                            String insert_s = "Candidate " + num + " is common to cells " + "(" + (eligibleRows.get(i)+1) + "," +
-                                    (eligibleColumns.get(2*i)+1) + ")" + " " + "(" + (eligibleRows.get(i)+1) + "," + (eligibleColumns.get(2*i+1)+1) + ")"
-                                    + " " + "(" + (eligibleRows.get(j)+1) + "," + (eligibleColumns.get(2*j)+1) + ")" + " " + "(" + (eligibleRows.get(j)+1) + ","
-                                    + (eligibleColumns.get(2*j+1)+1) + ")";
-                            String remove_s = "Remove Candidate " + num + " from ";
-
-                            int tmp = changeCounter;
-                            for(byte r = 0 ; r<9 ; r++){//remove num from cells of the two columns except if they belong to one of the two eligibleRows
-                                if(r!=eligibleRows.get(i) && r!=eligibleRows.get(j)){
-                                    if(puzzle[r][eligibleColumns.get(2*i)].isNotSet() && puzzle[r][eligibleColumns.get(2*i)].isCandidate(num)) {
-                                        changeCounter++;
-                                        puzzle[r][eligibleColumns.get((2*i))].removeCandidate(num);
-                                        remove_s += "(" + (r+1) + "," + (eligibleColumns.get(2*i)+1) + ")" + " " ;
-                                    }
-                                    if(puzzle[r][eligibleColumns.get(2*i+1)].isNotSet() && puzzle[r][eligibleColumns.get(2*i+1)].isCandidate(num)) {
-                                        changeCounter++;
-                                        puzzle[r][eligibleColumns.get((2*i+1))].removeCandidate(num);
-                                        remove_s += "(" + (r+1) + "," + (eligibleColumns.get(2*i+1)+1) + ")" + " " ;
-                                    }
-                                }
-                            }
-
-                            if(tmp!=changeCounter){
-                                algorithm.add(title);
-                                insert.add(insert_s);
-                                remove.add(remove_s);
-                            }
-
-                        }
-
-                    }
-                }
-            }
-        }
-
-        if(which == 2){//x wing in columns
-            /* for there to be a possible xwing for candidate removals, there needs to be 2 columns. Thus the primary check is to
-             * make sure that there are 2 columns. If this is the case, check if the cells that are a part of the locked pair, lie
-             * in the same row position. */
-
-            if(eligibleColumns.size()>=2){
-                for (int i = 0; i < eligibleColumns.size() - 1; i++) {
-                    for (int j = i + 1; j < eligibleColumns.size(); j++) {
-                        if((eligibleRows.get(2*i).byteValue()==eligibleRows.get(2*j).byteValue() &&
-                                eligibleRows.get(2*i+1).byteValue()==eligibleRows.get(2*j+1).byteValue())){
-
-                            String title = "X-Wing in " + " Columns " + (eligibleColumns.get(i)+1) + " and " + (eligibleColumns.get(j)+1) ;
-                            String insert_s = "Candidate " + num + " is common to cells " + "(" + (eligibleRows.get(2*i)+1) + "," +
-                                    (eligibleColumns.get(i)+1) + ")" + " " + "(" + (eligibleRows.get(2*i + 1)+1) + "," + (eligibleColumns.get(i)+1) + ")"
-                                    + " " + "(" + (eligibleRows.get(2*j)+1) + "," + (eligibleColumns.get(j)+1) + ")" + " " + "(" + (eligibleRows.get(2*j+1)+1) + ","
-                                    + (eligibleColumns.get(j)+1) + ")";
-                            String remove_s = "Remove Candidate " + num + " from ";
-
-                            int tmp = changeCounter;
-                            for(byte c = 0 ; c<9 ; c++){//remove num from cells of the two rows except if they belong to one of the two eligibleColumns
-                                if(c!=eligibleColumns.get(i) && c!=eligibleColumns.get(j)){
-                                    if(puzzle[eligibleRows.get(2*i)][c].isNotSet() && puzzle[eligibleRows.get(2*i)][c].isCandidate(num)) {
-                                        changeCounter++;
-                                        puzzle[eligibleRows.get(2*i)][c].removeCandidate(num);
-                                        remove_s += "(" + (eligibleRows.get(2*i)+1) + "," + (c+1) + ")" + " " ;
-                                    }
-                                    if(puzzle[eligibleRows.get(2*i+1)][c].isNotSet() && puzzle[eligibleRows.get(2*i+1)][c].isCandidate(num)) {
-                                        changeCounter++;
-                                        puzzle[eligibleRows.get(2*i+1)][c].removeCandidate(num);
-                                        remove_s += "(" + (eligibleRows.get(2*i+1)+1) + "," + (c+1) + ")" + " " ;
-                                    }
-                                }
-                            }
-
-                            if(tmp!=changeCounter){
-                                algorithm.add(title);
-                                insert.add(insert_s);
-                                remove.add(remove_s);
-                            }
-
-                        }
-                    }
-                }
-            }
-
-        }
-
-    }// end of xWingRemoval()
-
     private static void swordfish(Cell[][] puzzle){
+        basicFish(puzzle,(byte) 2);
+    }// end of swordfish()
 
-        byte freq;//counter to find swordfish, if present.
+    private static void jellyfish(Cell[][] puzzle){
+        basicFish(puzzle,(byte) 3);
+    }// end of jellyfish()
+
+    private static void basicFish(Cell[][] puzzle,byte type){
+
+        byte freq;//counter to find fish , if present.
 
         for(byte num = 1 ; num <=9 ; num++) {
 
@@ -1395,8 +1258,8 @@ public final class Sudoku {
 
             for (byte r = 0; r < 9; r++) {//traversal
                 freq = 0;
-                byte[] tmp_columns = new byte[4];//the temporary columns
-                for (byte c = 0; c < 9 && freq < 4; c++) {
+                byte[] tmp_columns = new byte[type + 2];//the temporary columns
+                for (byte c = 0; c < 9 && freq < type+2 ; c++) {
                     if (puzzle[r][c].isCandidate(num) && puzzle[r][c].isNotSet()) {//if candidate and not set
                         tmp_columns[freq] = c;//store column in row which has num as a candidate
                         freq++;
@@ -1407,13 +1270,13 @@ public final class Sudoku {
                         tmp_columns[i] = -1;
                     }
                 }
-                if (freq == 3 || freq ==2) {//catches the locked triplet of cells in a particular column
-                    r_eligibleRows.add(r);//since the freq is 3, there are only three cells in the row that have num as a candidate (locked pair)
+                if (freq > 0 && freq <=type+1) {//catches the locked triplet of cells in a particular column
+                    r_eligibleRows.add(r);//since the freq is type+1, there are only as many cells in the row that have num as a candidate (locked set)
                     r_eligibleColumns.add(tmp_columns);
                 }
 
             }
-            swordfishRemoval(puzzle,r_eligibleRows,r_eligibleColumns,num,(byte)1);
+            basicFishRemoval(puzzle,r_eligibleRows,r_eligibleColumns,num,(byte)1,type);
 
 
             //checking Columns
@@ -1422,112 +1285,326 @@ public final class Sudoku {
 
             for(byte c = 0 ; c < 9 ; c++){
                 freq = 0;
-                byte[] tmp_rows = new byte[4];//the temporary rows
-                for(byte r = 0 ; r < 9 && freq < 4 ; r++){
+                byte[] tmp_rows = new byte[type+2];//the temporary rows
+                for(byte r = 0 ; r < 9 && freq < type+2 ; r++){
                     if (puzzle[r][c].isCandidate(num) && puzzle[r][c].isNotSet()) {//if candidate and not set
                         tmp_rows[freq] = r;//store column in row which has num as a candidate
                         freq++;
                     }
                 }
-                if(freq == 3) {//catches the locked triplet of cells in a particular row
-                    c_eligibleColumns.add(c);//since the freq is 3, there are only three cells in the column that have num as a candidate (locked pair)
+                if(freq!=0){
+                    for(int i = freq ; i < tmp_rows.length ; i++){
+                        tmp_rows[i] = -1;
+                    }
+                }
+                if(freq > 0 && freq <=type+1) {//catches the locked set of cells in a particular row
+                    c_eligibleColumns.add(c);//since the freq is type +1, there are only as many cells in the column that have num as a candidate (locked set)
                     c_eligibleRows.add(tmp_rows);
                 }
             }
-            swordfishRemoval(puzzle, c_eligibleColumns, c_eligibleRows, num, (byte)2);
+            basicFishRemoval(puzzle, c_eligibleColumns, c_eligibleRows, num, (byte)2 , type);
         }
 
-    }// end of swordfish()
+    }
 
-    private static void swordfishRemoval(Cell[][] puzzle, ArrayList<Byte> house_in, ArrayList<byte[]> candidate_pos, byte num, byte which) {
+    private static void basicFishRemoval(Cell[][] puzzle, ArrayList<Byte> house_in, ArrayList<byte[]> candidate_pos, byte num, byte which , byte type){
+        if(house_in.size()>=type+1) {//if the rows/columns where the swordfish candidates are in is more than 3, a swordfish may exist
 
-        if(house_in.size()>=3){
-            for(int i = 0 ; i<house_in.size()-2 ; i++){
-                for(int j = i+1 ; j<house_in.size()-1 ; j++){
-                    for(int k = j+1 ; k<house_in.size(); k++){
-                        ArrayList<Byte> other_house = compare_candidate_pos(candidate_pos.get(i),candidate_pos.get(j),candidate_pos.get(k));
-                        if(other_house.size()==3){
-                            if(which==1){
-                                String title = "Swordfish in " + " Row " + (house_in.get(i)+1) + " and " + (house_in.get(j)+1) +
-                                        " and " + (house_in.get(k)+1) ;
+            if(type == 1){
+                for (int i = 0; i < house_in.size() - 1; i++) {
+                    for (int j = i + 1; j < house_in.size(); j++) {
+                        ArrayList<Byte> other_house = compare_candidate_pos(candidate_pos.get(i), candidate_pos.get(j), null ,null);//find the unique set of houses from where candidates need to be removed
+                        if (other_house.size() == 2) {//two unique houses from where candidates are to be removed (xwing)
+                            if (which == 1) {
+                                String title = "X-wing in " + " Row " + (house_in.get(i) + 1) + " and " + (house_in.get(j) + 1);
                                 String insert_s = "Candidate " + num + " is common to cells ";
-                                for(int tmp = 0 ; tmp <other_house.size() ; tmp++){
-                                    if(puzzle[house_in.get(i)][other_house.get(tmp)].isCandidate(num)
+                                for (int tmp = 0; tmp < other_house.size(); tmp++) {//list all xwing cells
+                                    if (puzzle[house_in.get(i)][other_house.get(tmp)].isCandidate(num)
                                             && puzzle[house_in.get(i)][other_house.get(tmp)].isNotSet())
-                                        insert_s += "(" + (house_in.get(i)+1) + "," + (other_house.get(tmp)+1) + ") ";
-                                    if(puzzle[house_in.get(j)][other_house.get(tmp)].isCandidate(num)
+                                        insert_s += "(" + (house_in.get(i) + 1) + "," + (other_house.get(tmp) + 1) + ") ";
+                                    if (puzzle[house_in.get(j)][other_house.get(tmp)].isCandidate(num)
                                             && puzzle[house_in.get(j)][other_house.get(tmp)].isNotSet())
-                                        insert_s += "(" + (house_in.get(j)+1) + "," + (other_house.get(tmp)+1) + ") ";
-                                    if(puzzle[house_in.get(k)][other_house.get(tmp)].isCandidate(num)
-                                            && puzzle[house_in.get(k)][other_house.get(tmp)].isNotSet())
-                                        insert_s += "(" + (house_in.get(k)+1) + "," + (other_house.get(tmp)+1) + ") ";
+                                        insert_s += "(" + (house_in.get(j) + 1) + "," + (other_house.get(tmp) + 1) + ") ";
                                 }
 
                                 String remove_s = "Remove Candidate " + num + " from ";
                                 int changechk = changeCounter;
-                                for(byte r = 0 ; r<9 ; r++){
-                                    if(r!=house_in.get(i) && r!= house_in.get(j) && r!=house_in.get(k)) {
+                                for (byte r = 0; r < 9; r++) {
+                                    if (r != house_in.get(i) && r != house_in.get(j)) {
                                         if (puzzle[r][other_house.get(0)].isCandidate(num) && puzzle[r][other_house.get(0)].isNotSet()) {
                                             changeCounter++;
-                                            remove_s += "(" + (r+1) + "," + (other_house.get(0) + 1) + ")" + " ";
+                                            remove_s += "(" + (r + 1) + "," + (other_house.get(0) + 1) + ")" + " ";
                                             puzzle[r][other_house.get(0)].removeCandidate(num);
                                         }
                                         if (puzzle[r][other_house.get(1)].isCandidate(num) && puzzle[r][other_house.get(1)].isNotSet()) {
                                             changeCounter++;
-                                            remove_s += "(" + (r+1) + "," + (other_house.get(1) + 1) + ")" + " ";
+                                            remove_s += "(" + (r + 1) + "," + (other_house.get(1) + 1) + ")" + " ";
                                             puzzle[r][other_house.get(1)].removeCandidate(num);
-                                        }
-                                        if (puzzle[r][other_house.get(2)].isCandidate(num) && puzzle[r][other_house.get(2)].isNotSet()) {
-                                            changeCounter++;
-                                            remove_s += "(" + (r+1) + "," + (other_house.get(2) + 1) + ")" + " ";
-                                            puzzle[r][other_house.get(2)].removeCandidate(num);
                                         }
                                     }
                                 }
 
-                                if(changechk!=changeCounter){
+                                if (changechk != changeCounter) {
+                                    algorithm.add(title);
+                                    insert.add(insert_s);
+                                    remove.add(remove_s);
+                                }
+
+                            } else {
+
+                                String title = "X-Wing in " + " Column " + (house_in.get(i) + 1) + " and " + (house_in.get(j) + 1);
+                                String insert_s = "Candidate " + num + " is common to cells ";
+                                for (int tmp = 0; tmp < other_house.size(); tmp++) {
+                                    if (puzzle[other_house.get(tmp)][house_in.get(i)].isCandidate(num)
+                                            && puzzle[other_house.get(tmp)][house_in.get(i)].isNotSet())
+                                        insert_s += "(" + (other_house.get(tmp) + 1) + "," + (house_in.get(i) + 1) + ") ";
+                                    if (puzzle[other_house.get(tmp)][house_in.get(j)].isCandidate(num)
+                                            && puzzle[other_house.get(tmp)][house_in.get(j)].isNotSet())
+                                        insert_s += "(" + (other_house.get(tmp) + 1) + "," + (house_in.get(j) + 1) + ") ";
+                                }
+
+                                String remove_s = "Remove Candidate " + num + " from ";
+                                int changechk = changeCounter;
+                                for (byte c = 0; c < 9; c++) {
+                                    if (c != house_in.get(i) && c != house_in.get(j)) {
+                                        if (puzzle[other_house.get(0)][c].isCandidate(num) && puzzle[other_house.get(0)][c].isNotSet()) {
+                                            changeCounter++;
+                                            remove_s += "(" + (other_house.get(0) + 1) + "," + (c + 1) + ")" + " ";
+                                            puzzle[other_house.get(0)][c].removeCandidate(num);
+                                        }
+                                        if (puzzle[other_house.get(1)][c].isCandidate(num) && puzzle[other_house.get(1)][c].isNotSet()) {
+                                            changeCounter++;
+                                            remove_s += "(" + (other_house.get(1) + 1) + "," + (c + 1) + ")" + " ";
+                                            puzzle[other_house.get(1)][c].removeCandidate(num);
+                                        }
+
+                                    }
+                                }
+
+                                if (changechk != changeCounter) {
                                     algorithm.add(title);
                                     insert.add(insert_s);
                                     remove.add(remove_s);
                                 }
 
                             }
-                            else{
+                        }
+                    }
+                }
+            } // first if statement
 
-                                String title = "Swordfish in " + " Column " + (house_in.get(i)+1) + " and " + (house_in.get(j)+1) +
-                                        " and " + (house_in.get(k)+1) ;
-                                String insert_s = "Candidate " + num + " is common to cells ";
-                                for(int tmp = 0 ; tmp <other_house.size() ; tmp++){
-                                    if(puzzle[other_house.get(tmp)][house_in.get(i)].isCandidate(num)
-                                            && puzzle[other_house.get(tmp)][house_in.get(i)].isNotSet())
-                                        insert_s += "(" + (house_in.get(i)+1) + "," + (other_house.get(tmp)+1) + ") ";
-                                    if(puzzle[other_house.get(tmp)][house_in.get(j)].isCandidate(num)
-                                            && puzzle[other_house.get(tmp)][house_in.get(j)].isNotSet())
-                                        insert_s += "(" + (house_in.get(j)+1) + "," + (other_house.get(tmp)+1) + ") ";
-                                    if(puzzle[other_house.get(tmp)][house_in.get(k)].isCandidate(num)
-                                            && puzzle[other_house.get(tmp)][house_in.get(k)].isNotSet())
-                                        insert_s += "(" + (house_in.get(k)+1) + "," + (other_house.get(tmp)+1) + ") ";
+            if (type == 2) {//swordfish
+                for (int i = 0; i < house_in.size() - 2; i++) {
+                    for (int j = i + 1; j < house_in.size() - 1; j++) {
+                        for (int k = j + 1; k < house_in.size(); k++) {//these iterators are to find different combinations of row/columns and see if a swordfish can be found
+                            ArrayList<Byte> other_house = compare_candidate_pos(candidate_pos.get(i), candidate_pos.get(j), candidate_pos.get(k),null);//find the unique set of houses from where candidates need to be removed
+                            if (other_house.size() == 3) {//three unique houses from where candidates are to be removed (swordfish)
+                                if (which == 1) {
+                                    String title = "Swordfish in " + " Row " + (house_in.get(i) + 1) + "," + (house_in.get(j) + 1) +
+                                            " and " + (house_in.get(k) + 1);
+                                    String insert_s = "Candidate " + num + " is common to cells ";
+                                    for (int tmp = 0; tmp < other_house.size(); tmp++) {//list all swordfish cells
+                                        if (puzzle[house_in.get(i)][other_house.get(tmp)].isCandidate(num)
+                                                && puzzle[house_in.get(i)][other_house.get(tmp)].isNotSet())
+                                            insert_s += "(" + (house_in.get(i) + 1) + "," + (other_house.get(tmp) + 1) + ") ";
+                                        if (puzzle[house_in.get(j)][other_house.get(tmp)].isCandidate(num)
+                                                && puzzle[house_in.get(j)][other_house.get(tmp)].isNotSet())
+                                            insert_s += "(" + (house_in.get(j) + 1) + "," + (other_house.get(tmp) + 1) + ") ";
+                                        if (puzzle[house_in.get(k)][other_house.get(tmp)].isCandidate(num)
+                                                && puzzle[house_in.get(k)][other_house.get(tmp)].isNotSet())
+                                            insert_s += "(" + (house_in.get(k) + 1) + "," + (other_house.get(tmp) + 1) + ") ";
+                                    }
+
+                                    String remove_s = "Remove Candidate " + num + " from ";
+                                    int changechk = changeCounter;
+                                    for (byte r = 0; r < 9; r++) {
+                                        if (r != house_in.get(i) && r != house_in.get(j) && r != house_in.get(k)) {
+                                            if (puzzle[r][other_house.get(0)].isCandidate(num) && puzzle[r][other_house.get(0)].isNotSet()) {
+                                                changeCounter++;
+                                                remove_s += "(" + (r + 1) + "," + (other_house.get(0) + 1) + ")" + " ";
+                                                puzzle[r][other_house.get(0)].removeCandidate(num);
+                                            }
+                                            if (puzzle[r][other_house.get(1)].isCandidate(num) && puzzle[r][other_house.get(1)].isNotSet()) {
+                                                changeCounter++;
+                                                remove_s += "(" + (r + 1) + "," + (other_house.get(1) + 1) + ")" + " ";
+                                                puzzle[r][other_house.get(1)].removeCandidate(num);
+                                            }
+                                            if (puzzle[r][other_house.get(2)].isCandidate(num) && puzzle[r][other_house.get(2)].isNotSet()) {
+                                                changeCounter++;
+                                                remove_s += "(" + (r + 1) + "," + (other_house.get(2) + 1) + ")" + " ";
+                                                puzzle[r][other_house.get(2)].removeCandidate(num);
+                                            }
+                                        }
+                                    }
+
+                                    if (changechk != changeCounter) {
+                                        algorithm.add(title);
+                                        insert.add(insert_s);
+                                        remove.add(remove_s);
+                                    }
+
+                                } else {
+
+                                    String title = "Swordfish in " + " Column " + (house_in.get(i) + 1) + "," + (house_in.get(j) + 1) +
+                                            " and " + (house_in.get(k) + 1);
+                                    String insert_s = "Candidate " + num + " is common to cells ";
+                                    for (int tmp = 0; tmp < other_house.size(); tmp++) {
+                                        if (puzzle[other_house.get(tmp)][house_in.get(i)].isCandidate(num)
+                                                && puzzle[other_house.get(tmp)][house_in.get(i)].isNotSet())
+                                            insert_s += "(" + (other_house.get(tmp) + 1) + "," + (house_in.get(i) + 1) + ") ";
+                                        if (puzzle[other_house.get(tmp)][house_in.get(j)].isCandidate(num)
+                                                && puzzle[other_house.get(tmp)][house_in.get(j)].isNotSet())
+                                            insert_s += "(" + (other_house.get(tmp) + 1) + "," + (house_in.get(j) + 1) + ") ";
+                                        if (puzzle[other_house.get(tmp)][house_in.get(k)].isCandidate(num)
+                                                && puzzle[other_house.get(tmp)][house_in.get(k)].isNotSet())
+                                            insert_s += "(" + (other_house.get(tmp) + 1) + "," + (house_in.get(k) + 1) + ") ";
+                                    }
+
+                                    String remove_s = "Remove Candidate " + num + " from ";
+                                    int changechk = changeCounter;
+                                    for (byte c = 0; c < 9; c++) {
+                                        if (c != house_in.get(i) && c != house_in.get(j) && c != house_in.get(k)) {
+                                            if (puzzle[other_house.get(0)][c].isCandidate(num) && puzzle[other_house.get(0)][c].isNotSet()) {
+                                                changeCounter++;
+                                                remove_s += "(" + (other_house.get(0) + 1) + "," + (c + 1) + ")" + " ";
+                                                puzzle[other_house.get(0)][c].removeCandidate(num);
+                                            }
+                                            if (puzzle[other_house.get(1)][c].isCandidate(num) && puzzle[other_house.get(1)][c].isNotSet()) {
+                                                changeCounter++;
+                                                remove_s += "(" + (other_house.get(1) + 1) + "," + (c + 1) + ")" + " ";
+                                                puzzle[other_house.get(1)][c].removeCandidate(num);
+                                            }
+                                            if (puzzle[other_house.get(2)][c].isCandidate(num) && puzzle[other_house.get(2)][c].isNotSet()) {
+                                                changeCounter++;
+                                                remove_s += "(" + (other_house.get(2) + 1) + "," + (c + 1) + ")" + " ";
+                                                puzzle[other_house.get(2)][c].removeCandidate(num);
+                                            }
+                                        }
+                                    }
+
+                                    if (changechk != changeCounter) {
+                                        algorithm.add(title);
+                                        insert.add(insert_s);
+                                        remove.add(remove_s);
+                                    }
+
                                 }
+                            }
+                        }
+                    }
+                }
+            }
+            if(type==3){
+                for (int i = 0; i < house_in.size() - 3; i++) {
+                    for (int j = i + 1; j < house_in.size() - 2; j++) {
+                        for (int k = j + 1; k < house_in.size()-1; k++) {
+                            for(int l = k+1; l<house_in.size();l++){
+                                ArrayList<Byte> other_house = compare_candidate_pos(candidate_pos.get(i), candidate_pos.get(j), candidate_pos.get(k), candidate_pos.get(l));
+                                if (other_house.size() == 4) {//four unique houses from where candidates are to be removed (jellyfish)
+                                    if (which == 1) {
+                                        String title = "Jellyfish in " + " Row " + (house_in.get(i) + 1) + "," + (house_in.get(j) + 1) +
+                                                "," + (house_in.get(k) + 1) + " and " + (house_in.get(l) + 1) ;
+                                        String insert_s = "Candidate " + num + " is common to cells ";
+                                        for (int tmp = 0; tmp < other_house.size(); tmp++) {//list all swordfish cells
+                                            if (puzzle[house_in.get(i)][other_house.get(tmp)].isCandidate(num)
+                                                    && puzzle[house_in.get(i)][other_house.get(tmp)].isNotSet())
+                                                insert_s += "(" + (house_in.get(i) + 1) + "," + (other_house.get(tmp) + 1) + ") ";
+                                            if (puzzle[house_in.get(j)][other_house.get(tmp)].isCandidate(num)
+                                                    && puzzle[house_in.get(j)][other_house.get(tmp)].isNotSet())
+                                                insert_s += "(" + (house_in.get(j) + 1) + "," + (other_house.get(tmp) + 1) + ") ";
+                                            if (puzzle[house_in.get(k)][other_house.get(tmp)].isCandidate(num)
+                                                    && puzzle[house_in.get(k)][other_house.get(tmp)].isNotSet())
+                                                insert_s += "(" + (house_in.get(k) + 1) + "," + (other_house.get(tmp) + 1) + ") ";
+                                            if (puzzle[house_in.get(l)][other_house.get(tmp)].isCandidate(num)
+                                                    && puzzle[house_in.get(l)][other_house.get(tmp)].isNotSet())
+                                                insert_s += "(" + (house_in.get(l) + 1) + "," + (other_house.get(tmp) + 1) + ") ";
+                                        }
 
-                                String remove_s = "Remove Candidate " + num + " from ";
-                                int changechk = changeCounter;
-                                for(byte c = 0 ; c<9 ; c++){
-                                    if(c!=house_in.get(i) && c!= house_in.get(j) && c!=house_in.get(k)) {
-                                        if (puzzle[other_house.get(0)][c].isCandidate(num) && puzzle[other_house.get(0)][c].isNotSet()) {
-                                            changeCounter++;
-                                            remove_s += "(" + (other_house.get(0)+1) + "," + (c + 1) + ")" + " ";
-                                            puzzle[other_house.get(0)][c].removeCandidate(num);
+                                        String remove_s = "Remove Candidate " + num + " from ";
+                                        int changechk = changeCounter;
+                                        for (byte r = 0; r < 9; r++) {
+                                            if (r != house_in.get(i) && r != house_in.get(j) && r != house_in.get(k) && r!= house_in.get(l)) {
+                                                if (puzzle[r][other_house.get(0)].isCandidate(num) && puzzle[r][other_house.get(0)].isNotSet()) {
+                                                    changeCounter++;
+                                                    remove_s += "(" + (r + 1) + "," + (other_house.get(0) + 1) + ")" + " ";
+                                                    puzzle[r][other_house.get(0)].removeCandidate(num);
+                                                }
+                                                if (puzzle[r][other_house.get(1)].isCandidate(num) && puzzle[r][other_house.get(1)].isNotSet()) {
+                                                    changeCounter++;
+                                                    remove_s += "(" + (r + 1) + "," + (other_house.get(1) + 1) + ")" + " ";
+                                                    puzzle[r][other_house.get(1)].removeCandidate(num);
+                                                }
+                                                if (puzzle[r][other_house.get(2)].isCandidate(num) && puzzle[r][other_house.get(2)].isNotSet()) {
+                                                    changeCounter++;
+                                                    remove_s += "(" + (r + 1) + "," + (other_house.get(2) + 1) + ")" + " ";
+                                                    puzzle[r][other_house.get(2)].removeCandidate(num);
+                                                }
+                                                if (puzzle[r][other_house.get(3)].isCandidate(num) && puzzle[r][other_house.get(3)].isNotSet()) {
+                                                    changeCounter++;
+                                                    remove_s += "(" + (r + 1) + "," + (other_house.get(3) + 1) + ")" + " ";
+                                                    puzzle[r][other_house.get(3)].removeCandidate(num);
+                                                }
+                                            }
                                         }
-                                        if (puzzle[other_house.get(1)][c].isCandidate(num) && puzzle[other_house.get(1)][c].isNotSet()) {
-                                            changeCounter++;
-                                            remove_s += "(" + (other_house.get(1)+1) + "," + (c + 1) + ")" + " ";
-                                            puzzle[other_house.get(1)][c].removeCandidate(num);
+
+                                        if (changechk != changeCounter) {
+                                            algorithm.add(title);
+                                            insert.add(insert_s);
+                                            remove.add(remove_s);
                                         }
-                                        if (puzzle[other_house.get(2)][c].isCandidate(num) && puzzle[other_house.get(2)][c].isNotSet()) {
-                                            changeCounter++;
-                                            remove_s += "(" + (other_house.get(2)+1) + "," + (c + 1) + ")" + " ";
-                                            puzzle[other_house.get(2)][c].removeCandidate(num);
+
+                                    } else {
+                                        String title = "JellyFish in " + " Column " + (house_in.get(i) + 1) + "," + (house_in.get(j) + 1) +
+                                                "," + (house_in.get(k) + 1) + " and " + (house_in.get(l) + 1);
+                                        String insert_s = "Candidate " + num + " is common to cells ";
+                                        for (int tmp = 0; tmp < other_house.size(); tmp++) {
+                                            if (puzzle[other_house.get(tmp)][house_in.get(i)].isCandidate(num)
+                                                    && puzzle[other_house.get(tmp)][house_in.get(i)].isNotSet())
+                                                insert_s += "(" + (other_house.get(tmp) + 1) + "," + (house_in.get(i) + 1) + ") ";
+                                            if (puzzle[other_house.get(tmp)][house_in.get(j)].isCandidate(num)
+                                                    && puzzle[other_house.get(tmp)][house_in.get(j)].isNotSet())
+                                                insert_s += "(" + (other_house.get(tmp) + 1) + "," + (house_in.get(j) + 1) + ") ";
+                                            if (puzzle[other_house.get(tmp)][house_in.get(k)].isCandidate(num)
+                                                    && puzzle[other_house.get(tmp)][house_in.get(k)].isNotSet())
+                                                insert_s += "(" + (other_house.get(tmp) + 1) + "," + (house_in.get(k) + 1) + ") ";
+                                            if (puzzle[other_house.get(tmp)][house_in.get(l)].isCandidate(num)
+                                                    && puzzle[other_house.get(tmp)][house_in.get(l)].isNotSet())
+                                                insert_s += "(" + (other_house.get(tmp) + 1) + "," + (house_in.get(l) + 1) + ") ";
                                         }
+
+                                        String remove_s = "Remove Candidate " + num + " from ";
+                                        int changechk = changeCounter;
+                                        for (byte c = 0; c < 9; c++) {
+                                            if (c != house_in.get(i) && c != house_in.get(j) && c != house_in.get(k) && c!=house_in.get(l)) {
+                                                if (puzzle[other_house.get(0)][c].isCandidate(num) && puzzle[other_house.get(0)][c].isNotSet()) {
+                                                    changeCounter++;
+                                                    remove_s += "(" + (other_house.get(0) + 1) + "," + (c + 1) + ")" + " ";
+                                                    puzzle[other_house.get(0)][c].removeCandidate(num);
+                                                }
+                                                if (puzzle[other_house.get(1)][c].isCandidate(num) && puzzle[other_house.get(1)][c].isNotSet()) {
+                                                    changeCounter++;
+                                                    remove_s += "(" + (other_house.get(1) + 1) + "," + (c + 1) + ")" + " ";
+                                                    puzzle[other_house.get(1)][c].removeCandidate(num);
+                                                }
+                                                if (puzzle[other_house.get(2)][c].isCandidate(num) && puzzle[other_house.get(2)][c].isNotSet()) {
+                                                    changeCounter++;
+                                                    remove_s += "(" + (other_house.get(2) + 1) + "," + (c + 1) + ")" + " ";
+                                                    puzzle[other_house.get(2)][c].removeCandidate(num);
+                                                }
+                                                if (puzzle[other_house.get(3)][c].isCandidate(num) && puzzle[other_house.get(3)][c].isNotSet()) {
+                                                    changeCounter++;
+                                                    remove_s += "(" + (other_house.get(3) + 1) + "," + (c + 1) + ")" + " ";
+                                                    puzzle[other_house.get(3)][c].removeCandidate(num);
+                                                }
+                                            }
+                                        }
+
+                                        if (changechk != changeCounter) {
+                                            algorithm.add(title);
+                                            insert.add(insert_s);
+                                            remove.add(remove_s);
+                                        }
+
                                     }
                                 }
                             }
@@ -1536,21 +1613,37 @@ public final class Sudoku {
                 }
             }
         }// first if statement
-    }// end of swordfishRemoval()
+    }
 
-    private static ArrayList<Byte> compare_candidate_pos(byte[] bytes, byte[] bytes1, byte[] bytes2) {
+    private static void finnedXWing(Cell[][] puzzle){
+
+    }
+
+    private static ArrayList<Byte> compare_candidate_pos(byte[] bytes, byte[] bytes1, byte[] bytes2 , byte[] bytes3) {
         ArrayList<Byte> unique_dig = new ArrayList<>();
-        for (byte aByte : bytes) {
-            if (aByte != -1)
-                unique_dig.add(aByte);
+        if(bytes!=null) {
+            for (byte aByte : bytes) {
+                if (aByte != -1)
+                    unique_dig.add(aByte);
+            }
         }
-        for (byte b : bytes1) {
-            if (b != -1 && !unique_dig.contains(b))
-                unique_dig.add(b);
+        if(bytes1!=null) {
+            for (byte b : bytes1) {
+                if (b != -1 && !unique_dig.contains(b))
+                    unique_dig.add(b);
+            }
         }
-        for (byte b : bytes2) {
-            if (b != -1 && !unique_dig.contains(b))
-                unique_dig.add(b);
+        if(bytes2!=null) {
+            for (byte b : bytes2) {
+                if (b != -1 && !unique_dig.contains(b))
+                    unique_dig.add(b);
+            }
+        }
+        if(bytes3!=null) {
+            for (byte b : bytes3) {
+                if (b != -1 && !unique_dig.contains(b))
+                    unique_dig.add(b);
+            }
         }
         return unique_dig;
     }// end of compare_candidate_pos()
@@ -1627,6 +1720,13 @@ public final class Sudoku {
             changeCounter = 0;//reinitializing the counter to 0 before the start of every iteration
 
             switch (levelUpdater) {
+
+                case 8:
+                    beforeUsingStrategy = changeCounter;
+                    jellyfish(puzzle);
+                    if(beforeUsingStrategy != changeCounter)//if they are equal, change was effected by swordfish()
+                        levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
+
                 case 7:
                     beforeUsingStrategy = changeCounter;
                     swordfish(puzzle);
@@ -1677,7 +1777,7 @@ public final class Sudoku {
             if (changeCounter == 0)//if no changes have been made to the puzzle with the current set of algorithms, increase the level to utilize more complex solving strategies
                 levelUpdater++;
 
-        } while (levelUpdater <= 7);//if the levelUpdater goes greater than 5, it means despite using all the algorithms available - the puzzle could not be solved
+        } while (levelUpdater <= 8);//if the levelUpdater goes greater than 5, it means despite using all the algorithms available - the puzzle could not be solved
 
         //if the solving strategies could not completely solve the puzzle, resort to brute force
         if(cellCount != 81) {//checking if the puzzle is unsolved
@@ -1701,7 +1801,7 @@ public final class Sudoku {
     public static void partiallySolve(Cell[][] puzzle , ArrayList<String> chosenStrategies){
 
         final String[] logics = {"Naked Single", "Hidden Single" , "Naked Pair" , "Pointing Pair" ,
-                "Claiming Pair",  "Hidden Pair" ,  "Naked Triple" , "X-Wing" , "Swordfish" , "Brute Force"};
+                "Claiming Pair",  "Hidden Pair" ,  "Naked Triple" , "X-Wing" , "Swordfish" , "Jellyfish" , "Brute Force"};
 
         boolean[] strategy = new boolean[logics.length];//array that indicates which solving strategies the user wants to use
         //Order of the strategies is the same as that of the array logics[] shown above
@@ -1720,6 +1820,14 @@ public final class Sudoku {
         do {//loop to call the functions to solve the puzzle
             changeCounter = 0;//reinitializing the counter to 0 before the start of every iteration
             switch (levelUpdater) {
+
+                case 9:
+                    if(strategy[9]){
+                        beforeUsingStrategy = changeCounter;
+                        jellyfish(puzzle);
+                        if(beforeUsingStrategy != changeCounter)//if they are equal, change was effected by swordfish()
+                            levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
+                    }
 
                 case 8:
                     if(strategy[8]){
@@ -1792,7 +1900,7 @@ public final class Sudoku {
             if (changeCounter == 0)//if no changes have been made to the puzzle with the current set of algorithms, increase the level to utilize more complex solving strategies
                 levelUpdater++;
 
-        } while (levelUpdater <= 8);//if the levelUpdater goes greater than 6, it means after using the chosen algorithms - the puzzle could still not be solved
+        } while (levelUpdater <= 9);//if the levelUpdater goes greater than 6, it means after using the chosen algorithms - the puzzle could still not be solved
 
         //if the solving strategies could not completely solve the puzzle, resort to brute force
         if(cellCount != 81 && strategy[logics.length-1]) {//checking if the puzzle is unsolved AND the user has chosen to use Brute Force
