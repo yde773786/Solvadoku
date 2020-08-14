@@ -1678,7 +1678,78 @@ public final class Sudoku {
     }
 
     private static void finnedFish(Cell[][] puzzle, byte type) {
-        
+
+        byte freq;//counter to find fish , if present.
+
+        for (byte num = 1; num <= 9; num++) {
+
+            //checking Rows
+            ArrayList<Byte> r_eligibleRows = new ArrayList<>();//to store row of wing candidates
+            ArrayList<byte[]> r_eligibleColumns = new ArrayList<>();//to store column of wing candidates
+            ArrayList<Byte> r_eligibleFinRows = new ArrayList<>();//to store row of finned wing candidates
+            ArrayList<byte[]> r_eligibleFinColumns = new ArrayList<>();//to store column of finned wing candidates
+
+            for (byte r = 0; r < 9; r++) {//traversal
+                freq = 0;
+                byte[] tmp_columns = new byte[type + 4];//the temporary columns
+                for (byte c = 0; c < 9 && freq < type + 4; c++) {//max of 2 fins
+                    if (puzzle[r][c].isCandidate(num) && puzzle[r][c].isNotSet()) {//if candidate and not set
+                        tmp_columns[freq] = c;//store column in row which has num as a candidate
+                        freq++;
+                    }
+                }
+                if (freq != 0) {
+                    for (int i = freq; i < tmp_columns.length; i++) {
+                        tmp_columns[i] = -1;
+                    }
+                }
+                if (freq > 0 && freq <= type + 1) {//catches the locked triplet of cells in a particular column
+                    r_eligibleRows.add(r);//since the freq is type+1, there are only as many cells in the row that have num as a candidate (locked set)
+                    r_eligibleColumns.add(tmp_columns);
+                } else if (freq > type + 1 && freq <= type + 3) {//catches the locked triplet of cells in a particular column
+                    r_eligibleFinRows.add(r);//since the freq is type+1, there are only as many cells in the row that have num as a candidate (locked set)
+                    r_eligibleFinColumns.add(tmp_columns);
+                }
+
+            }
+            finnedFishRemoval(puzzle, r_eligibleRows, r_eligibleColumns, r_eligibleFinRows, r_eligibleFinColumns, num, (byte) 1, type);
+
+
+            //checking Columns
+            ArrayList<Byte> c_eligibleColumns = new ArrayList<>();//to store column of wing candidates (column check)
+            ArrayList<byte[]> c_eligibleRows = new ArrayList<>();//to store row of wing candidates (row check)
+            ArrayList<Byte> c_eligibleFinColumns = new ArrayList<>();//to store column of finned wing candidates
+            ArrayList<byte[]> c_eligibleFinRows = new ArrayList<>();//to store row of finned wing candidates
+
+            for (byte c = 0; c < 9; c++) {
+                freq = 0;
+                byte[] tmp_rows = new byte[type + 4];//the temporary rows
+                for (byte r = 0; r < 9 && freq < type + 4; r++) {
+                    if (puzzle[r][c].isCandidate(num) && puzzle[r][c].isNotSet()) {//if candidate and not set
+                        tmp_rows[freq] = r;//store column in row which has num as a candidate
+                        freq++;
+                    }
+                }
+                if (freq != 0) {
+                    for (int i = freq; i < tmp_rows.length; i++) {
+                        tmp_rows[i] = -1;
+                    }
+                }
+                if (freq > 0 && freq <= type + 1) {//catches the locked set of cells in a particular row
+                    c_eligibleColumns.add(c);//since the freq is type +1, there are only as many cells in the column that have num as a candidate (locked set)
+                    c_eligibleRows.add(tmp_rows);
+                } else if (freq > type + 1 && freq <= type + 3) {//catches the locked set of cells in a particular row
+                    c_eligibleFinColumns.add(c);//since the freq is type +1, there are only as many cells in the column that have num as a candidate (locked set)
+                    c_eligibleFinRows.add(tmp_rows);
+                }
+            }
+            finnedFishRemoval(puzzle, c_eligibleColumns, c_eligibleRows, c_eligibleFinColumns, c_eligibleFinRows, num, (byte) 2, type);
+        }
+
+    }
+
+    private static void finnedFishRemoval(Cell[][] puzzle, ArrayList<Byte> house_in, ArrayList<byte[]> candidate_pos, ArrayList<Byte> houseFin_in, ArrayList<byte[]> candidateFin_pos,
+                                          byte num, byte which, byte type) {
     }
 
     private static ArrayList<Byte> compare_candidate_pos(byte[] bytes, byte[] bytes1, byte[] bytes2, byte[] bytes3) {
