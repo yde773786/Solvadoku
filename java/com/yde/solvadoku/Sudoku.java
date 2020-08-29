@@ -2,6 +2,7 @@ package com.yde.solvadoku;
 
 import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * A utility class that consists of all the operations that are to be performed to the sudoku puzzle
@@ -1783,17 +1784,30 @@ public final class Sudoku {
                                         if ((subsquare_markers = commonSubsquare(fin_coordinates)) != null) {//all the fins are in the same subsquare
                                             byte sample_house_1 = sample_other_house.get(sample_1);
                                             byte sample_house_2 = sample_other_house.get(sample_2);
-                                            String title = "Finned X-wing in " + " Row " + (houseFin_in.get(i) + 1) + " and " + (houseFin_in.get(j) + 1);
-                                            String insert_s = "Candidate " + num + " is common to cells ";
+                                            String title = "Finned X-Wing in " + " Row " + (houseFin_in.get(i) + 1) + " and " + (houseFin_in.get(j) + 1);
+                                            String insert_s = "Candidate " + num + " is common to X-Wing cells : ";
                                             String remove_s = "Remove Candidate " + num + " from ";
-                                            //String fins_s = " [Fins] : ";
+                                            String fins_s = ", with fin(s) : ";
                                             for (int temp = 0; temp < sample_other_house.size(); temp++) {//list all finned xwing cells
+
                                                 if (puzzle[houseFin_in.get(i)][sample_other_house.get(temp)].isCandidate(num)
-                                                        && puzzle[houseFin_in.get(i)][sample_other_house.get(temp)].isNotSet())
+                                                        && puzzle[houseFin_in.get(i)][sample_other_house.get(temp)].isNotSet()
+                                                        && !contains(fin_coordinates, new byte[]{houseFin_in.get(i), sample_other_house.get(temp)}))
                                                     insert_s += "(" + (houseFin_in.get(i) + 1) + "," + (sample_other_house.get(temp) + 1) + ") ";
+                                                else if (puzzle[houseFin_in.get(i)][sample_other_house.get(temp)].isCandidate(num)
+                                                        && puzzle[houseFin_in.get(i)][sample_other_house.get(temp)].isNotSet()
+                                                        && contains(fin_coordinates, new byte[]{houseFin_in.get(i), sample_other_house.get(temp)}))
+                                                    fins_s += "(" + (houseFin_in.get(i) + 1) + "," + (sample_other_house.get(temp) + 1) + ") ";
+
                                                 if (puzzle[houseFin_in.get(j)][sample_other_house.get(temp)].isCandidate(num)
-                                                        && puzzle[houseFin_in.get(j)][sample_other_house.get(temp)].isNotSet())
+                                                        && puzzle[houseFin_in.get(j)][sample_other_house.get(temp)].isNotSet()
+                                                        && !contains(fin_coordinates, new byte[]{houseFin_in.get(j), sample_other_house.get(temp)}))
                                                     insert_s += "(" + (houseFin_in.get(j) + 1) + "," + (sample_other_house.get(temp) + 1) + ") ";
+                                                else if (puzzle[houseFin_in.get(j)][sample_other_house.get(temp)].isCandidate(num)
+                                                        && puzzle[houseFin_in.get(j)][sample_other_house.get(temp)].isNotSet()
+                                                        && contains(fin_coordinates, new byte[]{houseFin_in.get(j), sample_other_house.get(temp)}))
+                                                    fins_s += "(" + (houseFin_in.get(j) + 1) + "," + (sample_other_house.get(temp) + 1) + ") ";
+
                                             }
                                             int var = changeCounter;
                                             if (sample_house_1 - sample_house_1 % 3 == subsquare_markers[1]) {
@@ -1820,11 +1834,11 @@ public final class Sudoku {
                                             }
                                             if (var != changeCounter) {
                                                 algorithm.add(title);
-                                                insert.add(insert_s);
+                                                insert.add(insert_s + fins_s);
                                                 remove.add(remove_s);
                                             }
                                         }
-                                    } else {
+                                    } else if (which == 2 && (fin_in_first == null || fin_in_second == null)) {
                                         if (fin_in_first != null) {//prospective fin is in the first column
                                             byte[] first = new byte[2];
                                             first[0] = fin_in_first.get(0);
@@ -1853,17 +1867,30 @@ public final class Sudoku {
                                         if ((subsquare_markers = commonSubsquare(fin_coordinates)) != null) {
                                             byte sample_house_1 = sample_other_house.get(sample_1);
                                             byte sample_house_2 = sample_other_house.get(sample_2);
-                                            String title = "Finned X-wing in " + " Column " + (houseFin_in.get(i) + 1) + " and " + (houseFin_in.get(j) + 1);
-                                            String insert_s = "Candidate " + num + " is common to cells ";
+                                            String title = "Finned X-Wing in " + " Column " + (houseFin_in.get(i) + 1) + " and " + (houseFin_in.get(j) + 1);
+                                            String insert_s = "Candidate " + num + " is common to X-Wing cells : ";
                                             String remove_s = "Remove Candidate " + num + " from ";
-                                            //String fins_s = " [Fins] : ";
+                                            String fins_s = ", with fin(s) : ";
                                             for (int temp = 0; temp < sample_other_house.size(); temp++) {//list all finned xwing cells
+
                                                 if (puzzle[sample_other_house.get(temp)][houseFin_in.get(i)].isCandidate(num)
-                                                        && puzzle[sample_other_house.get(temp)][houseFin_in.get(i)].isNotSet())
+                                                        && puzzle[sample_other_house.get(temp)][houseFin_in.get(i)].isNotSet() &&
+                                                        !contains(fin_coordinates, new byte[]{sample_other_house.get(temp), houseFin_in.get(i)}))
                                                     insert_s += "(" + (sample_other_house.get(temp) + 1) + "," + (houseFin_in.get(i) + 1) + ") ";
+                                                else if (puzzle[sample_other_house.get(temp)][houseFin_in.get(i)].isCandidate(num)
+                                                        && puzzle[sample_other_house.get(temp)][houseFin_in.get(i)].isNotSet() &&
+                                                        contains(fin_coordinates, new byte[]{sample_other_house.get(temp), houseFin_in.get(i)}))
+                                                    fins_s += "(" + (sample_other_house.get(temp) + 1) + "," + (houseFin_in.get(i) + 1) + ") ";
+
                                                 if (puzzle[sample_other_house.get(temp)][houseFin_in.get(j)].isCandidate(num)
-                                                        && puzzle[sample_other_house.get(temp)][houseFin_in.get(j)].isNotSet())
+                                                        && puzzle[sample_other_house.get(temp)][houseFin_in.get(j)].isNotSet()
+                                                        && !contains(fin_coordinates, new byte[]{sample_other_house.get(temp), houseFin_in.get(j)}))
                                                     insert_s += "(" + (sample_other_house.get(temp) + 1) + "," + (houseFin_in.get(j) + 1) + ") ";
+                                                else if (puzzle[sample_other_house.get(temp)][houseFin_in.get(j)].isCandidate(num)
+                                                        && puzzle[sample_other_house.get(temp)][houseFin_in.get(j)].isNotSet()
+                                                        && contains(fin_coordinates, new byte[]{sample_other_house.get(temp), houseFin_in.get(j)}))
+                                                    fins_s += "(" + (sample_other_house.get(temp) + 1) + "," + (houseFin_in.get(j) + 1) + ") ";
+
                                             }
                                             int var = changeCounter;
                                             if (sample_house_1 - sample_house_1 % 3 == subsquare_markers[0]) {
@@ -1890,7 +1917,7 @@ public final class Sudoku {
                                             }
                                             if (var != changeCounter) {
                                                 algorithm.add(title);
-                                                insert.add(insert_s);
+                                                insert.add(insert_s + fins_s);
                                                 remove.add(remove_s);
                                             }
                                         }
@@ -1960,6 +1987,15 @@ public final class Sudoku {
             }
         }
 
+    }
+
+    private static boolean contains(ArrayList<byte[]> fin_coordinates, byte[] bytes) {
+        for (byte[] bytearr : fin_coordinates) {
+            if (Arrays.equals(bytearr, bytes)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static byte[] commonSubsquare(ArrayList<byte[]> fin_coordinates) {
