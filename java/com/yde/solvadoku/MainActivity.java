@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements View.OnFocusChang
                     LayoutInflater inflater = getLayoutInflater();
                     View customTitle = inflater.inflate(R.layout.custom_title, null);
                     final String[] logics = {"Naked Single", "Hidden Single", "Naked Pair", "Pointing Pair",
-                            "Claiming Pair", "Hidden Pair", "Naked Triple", "X-Wing", "Swordfish", "Jellyfish", "Finned X-Wing", "Brute Force"};
+                            "Claiming Pair", "Hidden Pair", "Naked Triple", "X-Wing", "Swordfish", "Jellyfish", "Finned X-Wing", "Finned Swordfish", "Brute Force"};
                     boolean[] previous = new boolean[logics.length];
                     for (int i = 0; i < logics.length; i++) {
                         if (checkedItems.contains(logics[i])) {
