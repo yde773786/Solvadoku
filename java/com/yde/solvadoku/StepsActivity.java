@@ -70,6 +70,7 @@ public class StepsActivity extends AppCompatActivity {
             algorithmDetail.put("Finned X-Wing", R.string.finned_x_wing);
             algorithmDetail.put("Brute Force", R.string.brute_force);
             algorithmDetail.put("Finned Swordfish", R.string.finned_swordfish);
+            algorithmDetail.put("Finned Jellyfish", R.string.finned_jellyfish);
             about.setOnClickListener(this);
         }
 
