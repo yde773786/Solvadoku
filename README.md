@@ -1,7 +1,7 @@
 # Solvadoku
 An android application that solves and provides steps on how a Sudoku puzzle was solved.
 
-This application is built over Base classes that have been forked from https://github.com/CookieCrumbs19212/Sudoku_Puzzle
+This application is built over Base classes that have been previously contributed to at https://github.com/CookieCrumbs19212/Sudoku_Puzzle
 
 Solvadoku uses a wide range of strategies to solve any puzzle you throw at it. Our Partial Solve feature gives you the freedom to choose any combination of strategies and Solvadoku will attempt to solve as much of the puzzle as possible using only the chosen algorithms.
 
