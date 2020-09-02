@@ -1,4 +1,4 @@
-package com.yde.solvadoku;
+package Solvadoku;
 
 import java.sql.Array;
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public final class Sudoku {
      * placeNumber places a value in the cell of certain row and column in the puzzle. it also
      * alters the value of hasChanged to true signifying that the puzzle has been altered in some way or form
      */
-    public static String placeNumber(Cell[][] puzzle, byte row, byte col, byte val) {
+    public static String placeNumber(Cell[][] puzzle, int row, int col, int val) {
 
         changeCounter++;
         cellCount++;
@@ -31,7 +31,7 @@ public final class Sudoku {
         int removeCounter = 0;
         String remove = "Remove Candidate " + val + " at ";
 
-        for (byte r = 0; r < 9; r++)//loop running across the column
+        for (int r = 0; r < 9; r++)//loop running across the column
         {
             if (puzzle[r][col].isCandidate(val) && puzzle[r][col].isNotSet()) {//remove candidates from cells that are not set
                 removeCounter++;
@@ -40,7 +40,7 @@ public final class Sudoku {
             }
         }
 
-        for (byte c = 0; c < 9; c++)//loop running across the row
+        for (int c = 0; c < 9; c++)//loop running across the row
         {
             if (puzzle[row][c].isCandidate(val) && puzzle[row][c].isNotSet()) {//remove candidates from cells that are not set
                 removeCounter++;
@@ -49,10 +49,10 @@ public final class Sudoku {
             }
         }
 
-        byte tmp_r = (byte) (row - (row % 3));//starting point (Row) of the subsquare to which the current cell belongs to
-        byte tmp_c = (byte) (col - (col % 3));//starting point (Column) of the subsquare to which the current cell belongs to
-        for (byte r = tmp_r; r <= tmp_r + 2; r++) {//traverse subsquare
-            for (byte c = tmp_c; c <= tmp_c + 2; c++) {//traverse subsquare
+        int tmp_r =  (row - (row % 3));//starting point (Row) of the subsquare to which the current cell belongs to
+        int tmp_c =  (col - (col % 3));//starting point (Column) of the subsquare to which the current cell belongs to
+        for (int r = tmp_r; r <= tmp_r + 2; r++) {//traverse subsquare
+            for (int c = tmp_c; c <= tmp_c + 2; c++) {//traverse subsquare
                 if (puzzle[r][c].isCandidate(val) && puzzle[r][c].isNotSet()) {//remove candidates from cells that are not set
                     removeCounter++;
                     remove += "(" + (r + 1) + "," + (c + 1) + ")" + " ";
@@ -73,11 +73,11 @@ public final class Sudoku {
      * The digit must then go into that cell.
      */
     private static void nakedSingle(Cell[][] puzzle) {
-        for (byte r = 0; r < 9; r++) {//traversing the entire puzzle
-            for (byte c = 0; c < 9; c++) {
+        for (int r = 0; r < 9; r++) {//traversing the entire puzzle
+            for (int c = 0; c < 9; c++) {
                 if (puzzle[r][c].getNoOfCandidates() == 1 && puzzle[r][c].isNotSet()) {//if only one Candidate and nothing is inserted, insert the value in the puzzle at the current row and column
                     algorithm.add("Naked Single");
-                    byte val = puzzle[r][c].getCandidate(0);//since there is only one Candidate, it occupies position 0
+                    int val = puzzle[r][c].getCandidate(0);//since there is only one Candidate, it occupies position 0
                     insert.add("Insert Candidate " + val + " at " + "(" + (r + 1) + "," + (c + 1) + ")");
                     remove.add(placeNumber(puzzle, r, c, val));
                 }
@@ -91,47 +91,47 @@ public final class Sudoku {
      */
     private static void hiddenSingle(Cell[][] puzzle) {
 
-        byte freq;//find when hidden single has been found, if present.
+        int freq;//find when hidden single has been found, if present.
 
-        for (byte num = 1; num < 10; num++) {//running through all digits 1 to 9 to check for hidden Singles that contain only num as a candidate
+        for (int num = 1; num < 10; num++) {//running through all digits 1 to 9 to check for hidden Singles that contain only num as a candidate
 
-            byte index_c = 0;//the column of the cell which is a hiddenSingle
-            for (byte r = 0; r < 9; r++) {//traversal
+            int index_c = 0;//the column of the cell which is a hiddenSingle
+            for (int r = 0; r < 9; r++) {//traversal
                 freq = 0;
-                for (byte c = 0; c < 9 && freq < 2; c++) {
+                for (int c = 0; c < 9 && freq < 2; c++) {
                     if (puzzle[r][c].isCandidate(num) && puzzle[r][c].isNotSet()) {//if candidate and not set
                         freq++;
                         index_c = c;
                     }
                 }
                 if (freq == 1) {//catches the hidden Single. If there was no candidate, freq would be 0 and if there were many candidates , freq would be 2
-                    hiddenSingleCheckSteps(puzzle, num, r, index_c, (byte) 1);
+                    hiddenSingleCheckSteps(puzzle, num, r, index_c,  1);
                 }
             }
 
 
-            byte index_r = 0; //the row of the cell which is a hiddenSingle
+            int index_r = 0; //the row of the cell which is a hiddenSingle
 
-            for (byte c = 0; c < 9; c++) {//traveral
+            for (int c = 0; c < 9; c++) {//traveral
                 freq = 0;
-                for (byte r = 0; r < 9 && freq < 2; r++) {
+                for (int r = 0; r < 9 && freq < 2; r++) {
                     if (puzzle[r][c].isCandidate(num) && puzzle[r][c].isNotSet()) {//if candidate and not set
                         freq++;
                         index_r = r;
                     }
                 }
                 if (freq == 1) {//catches the hidden Single. If there was no candidate, freq would be 0 and if there were many candidates , freq would be 2
-                    hiddenSingleCheckSteps(puzzle, num, index_r, c, (byte) 2);
+                    hiddenSingleCheckSteps(puzzle, num, index_r, c,  2);
                 }
             }
 
             index_c = 0;
             index_r = 0;
-            for (byte r1 = 0; r1 <= 6; r1 += 3) {//jumps to first row position of subsquare
-                for (byte c1 = 0; c1 <= 6; c1 += 3) {//jumps to first column position of subsquare
+            for (int r1 = 0; r1 <= 6; r1 += 3) {//jumps to first row position of subsquare
+                for (int c1 = 0; c1 <= 6; c1 += 3) {//jumps to first column position of subsquare
                     freq = 0;
-                    for (byte r = r1; r < r1 + 3; r++) {//traversal (subsquare)
-                        for (byte c = c1; c < c1 + 3; c++) {
+                    for (int r = r1; r < r1 + 3; r++) {//traversal (subsquare)
+                        for (int c = c1; c < c1 + 3; c++) {
                             if (puzzle[r][c].isCandidate(num) && puzzle[r][c].isNotSet()) {//if candidate and not set
                                 freq++;
                                 index_r = r;
@@ -140,7 +140,7 @@ public final class Sudoku {
                         }
                     }
                     if (freq == 1) {//catches the hidden Single. If there was no candidate, freq would be 0 and if there were many candidates , freq would be 2
-                        hiddenSingleCheckSteps(puzzle, num, index_r, index_c, (byte) 3);
+                        hiddenSingleCheckSteps(puzzle, num, index_r, index_c,  3);
                     }
                 }
             }
@@ -150,7 +150,7 @@ public final class Sudoku {
     /**
      * add changes made by  hidden single to the check steps linked lists
      */
-    private static void hiddenSingleCheckSteps(Cell[][] puzzle, byte num, byte row, byte col, byte house) {
+    private static void hiddenSingleCheckSteps(Cell[][] puzzle, int num, int row, int col, int house) {
 
         String end_tag = "";
 
@@ -181,23 +181,23 @@ public final class Sudoku {
     private static void nakedPair(Cell[][] puzzle) {
 
         /* find naked pairs in each row */
-        for (byte r = 0; r < 9; r++) {
+        for (int r = 0; r < 9; r++) {
 
             boolean pairNotFound = true;//to find if a pair has been found or not
-            byte[] skip_columns = new byte[2];// to find out which columns to skip over when removing candidates ( the naked pairs columns )
-            byte[] the_pair = new byte[2];// to store the pair of values that are common to the naked pair
+            int[] skip_columns = new int[2];// to find out which columns to skip over when removing candidates ( the naked pairs columns )
+            int[] the_pair = new int[2];// to store the pair of values that are common to the naked pair
             String removeFirst = "";//first naked pair candidate string
             String removeSecond = "";//second naked pair candidate string
             boolean chkremoveFirst, chkremoveSecond;//to check if either candidate was removed anywhere in puzzle
             chkremoveFirst = chkremoveSecond = false;
 
-            for (byte c = 1; c < 9; c++) {// each column in row
+            for (int c = 1; c < 9; c++) {// each column in row
 
                 if (pairNotFound) {//if a naked pair has not been found
 
                         /* a loop running from the previous cell in the row till the start of that row (column 0).
                             Checks if the current cell (at [r,c]) has 2 candidates and is not set first.*/
-                    for (byte rev_c = (byte) (c - 1); rev_c >= 0 && puzzle[r][c].getNoOfCandidates() == 2 && puzzle[r][c].isNotSet(); rev_c--) {
+                    for (int rev_c =  (c - 1); rev_c >= 0 && puzzle[r][c].getNoOfCandidates() == 2 && puzzle[r][c].isNotSet(); rev_c--) {
 
                             /* if any cell before [r,c] in the same row has 2 candidates and is not set, check
                                    if that cell has the same candidates as the cell at [r,c]*/
@@ -227,7 +227,7 @@ public final class Sudoku {
                 /* this segment will only run if a naked pair has been located in the row */
                 else {
                     if (c != skip_columns[0] && c != skip_columns[1] && puzzle[r][c].isNotSet()) {//current cell is not set and not one of the naked pairs
-                        ArrayList<Byte> removeList = eliminateFromCell(puzzle[r][c], the_pair);
+                        ArrayList<Integer> removeList = eliminateFromCell(puzzle[r][c], the_pair);
                         if (removeList.contains(the_pair[0])) {
                             chkremoveFirst = true;
                             removeFirst += "(" + (r + 1) + "," + (c + 1) + ")";
@@ -240,28 +240,28 @@ public final class Sudoku {
                 }
             }
 
-            nakedPairCheckSteps(chkremoveFirst, chkremoveSecond, removeFirst, removeSecond, the_pair, r, skip_columns[0], r, skip_columns[1], (byte) 1);
+            nakedPairCheckSteps(chkremoveFirst, chkremoveSecond, removeFirst, removeSecond, the_pair, r, skip_columns[0], r, skip_columns[1],  1);
 
         }
 
         /* find naked pairs in each column */
-        for (byte c = 0; c < 9; c++) {
+        for (int c = 0; c < 9; c++) {
 
             boolean pairNotFound = true;//to find if a pair has been found or not
-            byte[] skip_rows = new byte[2];// to find out which rows to skip over when removing candidates ( the naked pairs rows )
-            byte[] the_pair = new byte[2];// to store the pair of values that are common to the naked pair
+            int[] skip_rows = new int[2];// to find out which rows to skip over when removing candidates ( the naked pairs rows )
+            int[] the_pair = new int[2];// to store the pair of values that are common to the naked pair
             String removeFirst = "";//first naked pair candidate string
             String removeSecond = "";//second naked pair candidate string
             boolean chkremoveFirst, chkremoveSecond;//to check if either candidate was removed anywhere in puzzle
             chkremoveFirst = chkremoveSecond = false;
 
-            for (byte r = 1; r < 9; r++) {// each row in column
+            for (int r = 1; r < 9; r++) {// each row in column
 
                 if (pairNotFound) {//if a naked pair has not been found
 
                         /* a loop running from the previous cell in the column till the start of that column (row 0).
                             Checks if the current cell (at [r,c]) has 2 candidates and is not set first.*/
-                    for (byte rev_r = (byte) (r - 1); rev_r >= 0 && puzzle[r][c].getNoOfCandidates() == 2 && puzzle[r][c].isNotSet(); rev_r--) {
+                    for (int rev_r =  (r - 1); rev_r >= 0 && puzzle[r][c].getNoOfCandidates() == 2 && puzzle[r][c].isNotSet(); rev_r--) {
 
                             /* if any cell before [r,c] in the same column has 2 candidates and is not set, check
                                    if that cell has the same candidates as the cell at [r,c]*/
@@ -289,7 +289,7 @@ public final class Sudoku {
                 } else {
 
                     if (r != skip_rows[0] && r != skip_rows[1] && puzzle[r][c].isNotSet()) {//current cell is not set and not one of the naked pairs
-                        ArrayList<Byte> removeList = eliminateFromCell(puzzle[r][c], the_pair);
+                        ArrayList<Integer> removeList = eliminateFromCell(puzzle[r][c], the_pair);
                         if (removeList.contains(the_pair[0])) {
                             chkremoveFirst = true;
                             removeFirst += "(" + (r + 1) + "," + (c + 1) + ")";
@@ -303,31 +303,31 @@ public final class Sudoku {
                 }
             }
 
-            nakedPairCheckSteps(chkremoveFirst, chkremoveSecond, removeFirst, removeSecond, the_pair, skip_rows[0], c, skip_rows[1], c, (byte) 2);
+            nakedPairCheckSteps(chkremoveFirst, chkremoveSecond, removeFirst, removeSecond, the_pair, skip_rows[0], c, skip_rows[1], c,  2);
 
         }
 
         /* find naked pairs in a subsquare */
-        for (byte r1 = 0; r1 <= 6; r1 += 3) {//travers subsquare
-            for (byte c1 = 0; c1 <= 6; c1 += 3) {
+        for (int r1 = 0; r1 <= 6; r1 += 3) {//travers subsquare
+            for (int c1 = 0; c1 <= 6; c1 += 3) {
 
                 boolean pairNotFound = true;//to find if a pair has been found or not
-                byte[][] skip_index = new byte[2][2];// to find out which indexes to skip over when removing candidates ( the naked pairs of the subsquare )
-                byte[] the_pair = new byte[2];// to store the pair of values that are common to the naked pair
+                int[][] skip_index = new int[2][2];// to find out which indexes to skip over when removing candidates ( the naked pairs of the subsquare )
+                int[] the_pair = new int[2];// to store the pair of values that are common to the naked pair
                 String removeFirst = "";//first naked pair candidate string
                 String removeSecond = "";//second naked pair candidate string
                 boolean chkremoveFirst, chkremoveSecond;//to check if either candidate was removed anywhere in puzzle
                 chkremoveFirst = chkremoveSecond = false;
 
-                for (byte r = r1; r < r1 + 3; r++) {
-                    for (byte c = (byte) (c1 + 1); c < c1 + 3; c++) {
+                for (int r = r1; r < r1 + 3; r++) {
+                    for (int c =  (c1 + 1); c < c1 + 3; c++) {
 
                         if (pairNotFound) {
 
                                 /* a loop running from the previous cell in the column till the start of that subsquare [r1,c1]
                                  Checks if the current cell (at [r,c]) has 2 candidates and is not set first. */
-                            for (byte rev_r = r; rev_r >= r1 && puzzle[r][c].getNoOfCandidates() == 2 && puzzle[r][c].isNotSet(); rev_r--) {
-                                for (byte rev_c = (byte) (c - 1); rev_c >= c1; rev_c--) {
+                            for (int rev_r = r; rev_r >= r1 && puzzle[r][c].getNoOfCandidates() == 2 && puzzle[r][c].isNotSet(); rev_r--) {
+                                for (int rev_c =  (c - 1); rev_c >= c1; rev_c--) {
 
                                         /* if any cell before [r,c] in the same subsquare has 2 candidates and is not set, check
                                    if that cell has the same candidates as the cell at [r,c] */
@@ -353,7 +353,7 @@ public final class Sudoku {
                           assign r1 and c1-1 to columns to restart the loop */
                             if (!pairNotFound) {
                                 r = r1;
-                                c = (byte) (c1 - 1);
+                                c =  (c1 - 1);
                             }
                         }
 
@@ -361,7 +361,7 @@ public final class Sudoku {
                         else {
 
                             if (!(r == skip_index[0][0] && c == skip_index[0][1]) && !(r == skip_index[1][0] && c == skip_index[1][1]) && puzzle[r][c].isNotSet()) {//current cell is not set and not one of the naked pairs
-                                ArrayList<Byte> removeList = eliminateFromCell(puzzle[r][c], the_pair);
+                                ArrayList<Integer> removeList = eliminateFromCell(puzzle[r][c], the_pair);
                                 if (removeList.contains(the_pair[0])) {
                                     chkremoveFirst = true;
                                     removeFirst += "(" + (r + 1) + "," + (c + 1) + ")";
@@ -376,7 +376,7 @@ public final class Sudoku {
                 }
 
                 nakedPairCheckSteps(chkremoveFirst, chkremoveSecond, removeFirst, removeSecond, the_pair, skip_index[0][0], skip_index[0][1],
-                        skip_index[1][0], skip_index[1][1], (byte) 3);
+                        skip_index[1][0], skip_index[1][1],  3);
 
             }
         }
@@ -386,8 +386,8 @@ public final class Sudoku {
     /**
      * eliminate candidate(s) from current cell if it is present
      */
-    private static ArrayList<Byte> eliminateFromCell(Cell cell, byte[] toBeEliminated) {
-        ArrayList<Byte> removedCandidates = new ArrayList<>();
+    private static ArrayList<Integer> eliminateFromCell(Cell cell, int[] toBeEliminated) {
+        ArrayList<Integer> removedCandidates = new ArrayList<>();
 
         for (int i = 0; i < toBeEliminated.length; i++) {
             if (cell.isCandidate(toBeEliminated[i])) {
@@ -404,7 +404,7 @@ public final class Sudoku {
      * add changes made by naked pair to the check steps linked lists
      */
     private static void nakedPairCheckSteps(boolean chkremoveFirst, boolean chkremoveSecond, String removeFirst, String removeSecond,
-                                            byte[] the_pair, byte row_1, byte column_1, byte row_2, byte column_2, byte house) {
+                                            int[] the_pair, int row_1, int column_1, int row_2, int column_2, int house) {
 
         String end_tag = "";
 
@@ -448,16 +448,16 @@ public final class Sudoku {
      */
     private static void nakedTriple(Cell[][] puzzle) {
 
-        for (byte r = 0; r < 9; r++) {//find nakedTriples in each row
-            ArrayList<Byte> eligible_columns = new ArrayList<>();//an arraylist containing all columns in a row that are eligible  candidates of nakedTriple
-            for (byte c = 0; c < 9; c++) {
+        for (int r = 0; r < 9; r++) {//find nakedTriples in each row
+            ArrayList<Integer> eligible_columns = new ArrayList<>();//an arraylist containing all columns in a row that are eligible  candidates of nakedTriple
+            for (int c = 0; c < 9; c++) {
                 if (checkNakedTripleEligible(puzzle[r][c])) {//checks if eligible
                     eligible_columns.add(c);//if so, add it to the arrayList
                 }
             }
 
-            byte[] skip_columns = new byte[3];//stores the columns of nakedTriple (if existing) , to be skipped.
-            byte[] the_triplet = new byte[3];//stores the candidates tn=hat are common to the nakedTriplet of existing.
+            int[] skip_columns = new int[3];//stores the columns of nakedTriple (if existing) , to be skipped.
+            int[] the_triplet = new int[3];//stores the candidates tn=hat are common to the nakedTriplet of existing.
             boolean triplet_not_found = true;//checks if a triplet has been found
             String removeFirst = "";//first naked triple candidate string
             String removeSecond = "";//second naked triple candidate string
@@ -467,21 +467,21 @@ public final class Sudoku {
 
             if (eligible_columns.size() >= 3) {//if the number of eligible columns is less than 3, a naked triple cannot exist.
 
-                for (byte first = 0; first < eligible_columns.size() && triplet_not_found; first++) {//loop generating the first cell that 'could' be a naked triple
+                for (int first = 0; first < eligible_columns.size() && triplet_not_found; first++) {//loop generating the first cell that 'could' be a naked triple
 
-                    ArrayList<Byte> candidateList = new ArrayList<>();//stores the list of unique candidates amongst a combination of three cells whose columns were eligible
+                    ArrayList<Integer> candidateList = new ArrayList<>();//stores the list of unique candidates amongst a combination of three cells whose columns were eligible
                     addIfAbsent(candidateList, puzzle[r][eligible_columns.get(first)]);
 
-                    for (byte second = 0; second < eligible_columns.size() && triplet_not_found; second++) {//loop generating the second cell that 'could' be a naked triple
+                    for (int second = 0; second < eligible_columns.size() && triplet_not_found; second++) {//loop generating the second cell that 'could' be a naked triple
 
                         if (first != second) {//make sure that the same cell is not the first cell as well , to create valid permutations
 
-                            byte countSecondsCandidates = addIfAbsent(candidateList, puzzle[r][eligible_columns.get(second)]); // to count the candidates of second cell that are added to candidateList
+                            int countSecondsCandidates = addIfAbsent(candidateList, puzzle[r][eligible_columns.get(second)]); // to count the candidates of second cell that are added to candidateList
 
-                            for (byte third = 0; third < eligible_columns.size() && triplet_not_found; third++) {//loop generating the third cell that 'could' be a naked triple
+                            for (int third = 0; third < eligible_columns.size() && triplet_not_found; third++) {//loop generating the third cell that 'could' be a naked triple
                                 if (first != third && second != third) {//make sure that the same cell is not either first or second cell, to create valid permutations
 
-                                    byte countThirdsCandidates = addIfAbsent(candidateList, puzzle[r][eligible_columns.get(third)]);
+                                    int countThirdsCandidates = addIfAbsent(candidateList, puzzle[r][eligible_columns.get(third)]);
 
                                     if (candidateList.size() == 3) {//if the list of unique candidates amongst the first, second and third cells  is 3, they must be a naked triple.
                                         /*Store the columns and triplets to be skipped.*/
@@ -510,7 +510,7 @@ public final class Sudoku {
             if (!triplet_not_found) {//if the triplet has ben found, remove candidates from that row that aren't naked triplets or set.
                 for (int c = 0; c < 9; c++) {
                     if (c != skip_columns[0] && c != skip_columns[1] && c != skip_columns[2] && puzzle[r][c].isNotSet()) {
-                        ArrayList<Byte> removeList = eliminateFromCell(puzzle[r][c], the_triplet);//gets the candidates removed from the particular cell
+                        ArrayList<Integer> removeList = eliminateFromCell(puzzle[r][c], the_triplet);//gets the candidates removed from the particular cell
                         if (removeList.contains(the_triplet[0])) {
                             chkremoveFirst = true;
                             removeFirst += "(" + (r + 1) + "," + (c + 1) + ")";
@@ -532,16 +532,16 @@ public final class Sudoku {
 
         }
 
-        for (byte c = 0; c < 9; c++) {//find nakedTriples in each column
-            ArrayList<Byte> eligible_rows = new ArrayList<>();//an arraylist containing all rows in a column that are eligible  candidates of nakedTriple
-            for (byte r = 0; r < 9; r++) {
+        for (int c = 0; c < 9; c++) {//find nakedTriples in each column
+            ArrayList<Integer> eligible_rows = new ArrayList<>();//an arraylist containing all rows in a column that are eligible  candidates of nakedTriple
+            for (int r = 0; r < 9; r++) {
                 if (checkNakedTripleEligible(puzzle[r][c])) {//checks if eligible
                     eligible_rows.add(r);//if so, add it to the arrayList
                 }
             }
 
-            byte[] skip_rows = new byte[3];//stores the rows of nakedTriple (if existing) , to be skipped.
-            byte[] the_triplet = new byte[3];//stores the candidates tn=hat are common to the nakedTriplet of existing.
+            int[] skip_rows = new int[3];//stores the rows of nakedTriple (if existing) , to be skipped.
+            int[] the_triplet = new int[3];//stores the candidates tn=hat are common to the nakedTriplet of existing.
             boolean triplet_not_found = true;//checks if a triplet has been found
             String removeFirst = "";//first naked triple candidate string
             String removeSecond = "";//second naked triple candidate string
@@ -551,20 +551,20 @@ public final class Sudoku {
 
             if (eligible_rows.size() >= 3) {//if the number of eligible columns is less than 3, a naked triple cannot exist.
 
-                for (byte first = 0; first < eligible_rows.size() && triplet_not_found; first++) {//loop generating the first cell that 'could' be a naked triple
+                for (int first = 0; first < eligible_rows.size() && triplet_not_found; first++) {//loop generating the first cell that 'could' be a naked triple
 
-                    ArrayList<Byte> candidateList = new ArrayList<>();//stores the list of unique candidates amongst a combination of three cells whose columns were eligible
+                    ArrayList<Integer> candidateList = new ArrayList<>();//stores the list of unique candidates amongst a combination of three cells whose columns were eligible
                     addIfAbsent(candidateList, puzzle[eligible_rows.get(first)][c]);
 
-                    for (byte second = 0; second < eligible_rows.size() && triplet_not_found; second++) {//loop generating the second cell that 'could' be a naked triple
+                    for (int second = 0; second < eligible_rows.size() && triplet_not_found; second++) {//loop generating the second cell that 'could' be a naked triple
 
                         if (first != second) {//make sure that the same cell is not the first cell as well , to create valid permutations
-                            byte countSecondsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(second)][c]); //to count the candidates of second cell that are added to candidateList
+                            int countSecondsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(second)][c]); //to count the candidates of second cell that are added to candidateList
 
-                            for (byte third = 0; third < eligible_rows.size() && triplet_not_found; third++) {//loop generating the third cell that 'could' be a naked triple
+                            for (int third = 0; third < eligible_rows.size() && triplet_not_found; third++) {//loop generating the third cell that 'could' be a naked triple
 
                                 if (first != third && second != third) {//make sure that the same cell is not either first or second cell, to create valid permutations
-                                    byte countThirdsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(third)][c]);//to remove the candidates of third cell if naked triple is not found
+                                    int countThirdsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(third)][c]);//to remove the candidates of third cell if naked triple is not found
 
                                     if (candidateList.size() == 3) {//if the list of unique candidates amongst the first, second and third cells  is 3, they must be a naked triple.
                                         /*Store the rows to be skipped and triplets .*/
@@ -593,7 +593,7 @@ public final class Sudoku {
             if (!triplet_not_found) {//if the triplet has ben found, remove candidates from that column that aren't naked triplets or set.
                 for (int r = 0; r < 9; r++) {
                     if (r != skip_rows[0] && r != skip_rows[1] && r != skip_rows[2] && puzzle[r][c].isNotSet()) {
-                        ArrayList<Byte> removeList = eliminateFromCell(puzzle[r][c], the_triplet);//gets the candidates removed from the particular cell
+                        ArrayList<Integer> removeList = eliminateFromCell(puzzle[r][c], the_triplet);//gets the candidates removed from the particular cell
                         if (removeList.contains(the_triplet[0])) {
                             chkremoveFirst = true;
                             removeFirst += "(" + (r + 1) + "," + (c + 1) + ")";
@@ -615,13 +615,13 @@ public final class Sudoku {
 
         }
 
-        for (byte r1 = 0; r1 <= 6; r1 += 3) {//travers subsquare
-            for (byte c1 = 0; c1 <= 6; c1 += 3) {
+        for (int r1 = 0; r1 <= 6; r1 += 3) {//travers subsquare
+            for (int c1 = 0; c1 <= 6; c1 += 3) {
 
-                ArrayList<Byte> eligible_columns = new ArrayList<>();//an arraylist containing all columns in a subset that are eligible  candidates of nakedTriple
-                ArrayList<Byte> eligible_rows = new ArrayList<>();//an arraylist containing all rows in a subset that are eligible  candidates of nakedTriple
-                for (byte r = r1; r < r1 + 3; r++) {//in a particular subsquare
-                    for (byte c = c1; c < c1 + 3; c++) {
+                ArrayList<Integer> eligible_columns = new ArrayList<>();//an arraylist containing all columns in a subset that are eligible  candidates of nakedTriple
+                ArrayList<Integer> eligible_rows = new ArrayList<>();//an arraylist containing all rows in a subset that are eligible  candidates of nakedTriple
+                for (int r = r1; r < r1 + 3; r++) {//in a particular subsquare
+                    for (int c = c1; c < c1 + 3; c++) {
                         if (checkNakedTripleEligible(puzzle[r][c])) {//checks if eligible
                             eligible_columns.add(c);//if so, add column to the arrayList
                             eligible_rows.add(r); // add row to the arrayList
@@ -630,9 +630,9 @@ public final class Sudoku {
 
                 }
 
-                byte[] skip_rows = new byte[3];//stores the rows of nakedTriple (if existing) , to be skipped.
-                byte[] skip_columns = new byte[3];//stores the columns of nakedTriple (if existing) , to be skipped.
-                byte[] the_triplet = new byte[3];//stores the candidates that are common to the nakedTriplet of existing.
+                int[] skip_rows = new int[3];//stores the rows of nakedTriple (if existing) , to be skipped.
+                int[] skip_columns = new int[3];//stores the columns of nakedTriple (if existing) , to be skipped.
+                int[] the_triplet = new int[3];//stores the candidates that are common to the nakedTriplet of existing.
                 boolean triplet_not_found = true;//checks if a triplet has been found
                 int eligibleCellsLength = eligible_columns.size();
                 String removeFirst = "";//first naked triple candidate string
@@ -644,19 +644,19 @@ public final class Sudoku {
 
                 if (eligibleCellsLength >= 3) {//if the number of eligible cells in subsquare is less than 3, a naked triple cannot exist.
 
-                    for (byte first = 0; first < eligibleCellsLength && triplet_not_found; first++) {
+                    for (int first = 0; first < eligibleCellsLength && triplet_not_found; first++) {
 
-                        ArrayList<Byte> candidateList = new ArrayList<>();//stores the list of unique candidates amongst a combination of three cells whose cells were eligible
+                        ArrayList<Integer> candidateList = new ArrayList<>();//stores the list of unique candidates amongst a combination of three cells whose cells were eligible
                         addIfAbsent(candidateList, puzzle[eligible_rows.get(first)][eligible_columns.get(first)]);
 
-                        for (byte second = 0; second < eligibleCellsLength && triplet_not_found; second++) {//loop generating the second cell that 'could' be a naked triple
+                        for (int second = 0; second < eligibleCellsLength && triplet_not_found; second++) {//loop generating the second cell that 'could' be a naked triple
 
                             if (first != second) {//make sure that the same cell is not the first cell as well , to create valid permutations
-                                byte countSecondsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(second)][eligible_columns.get(second)]); //to count the candidates of second cell that are added to candidateList
+                                int countSecondsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(second)][eligible_columns.get(second)]); //to count the candidates of second cell that are added to candidateList
 
-                                for (byte third = 0; third < eligibleCellsLength && triplet_not_found; third++) {//loop generating the third cell that 'could' be a naked triple
+                                for (int third = 0; third < eligibleCellsLength && triplet_not_found; third++) {//loop generating the third cell that 'could' be a naked triple
                                     if (first != third && second != third) {//make sure all cells are unique for valid permutation
-                                        byte countThirdsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(third)][eligible_columns.get(third)]);
+                                        int countThirdsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(third)][eligible_columns.get(third)]);
 
                                         if (candidateList.size() == 3) {
                                             skip_rows[0] = eligible_rows.get(first);
@@ -685,10 +685,10 @@ public final class Sudoku {
                 }
 
                 if (!triplet_not_found) {//if the triplet has ben found, remove candidates from that column that aren't naked triplets or set.
-                    for (byte r = r1; r < r1 + 3; r++) {
-                        for (byte c = c1; c < c1 + 3; c++) {
+                    for (int r = r1; r < r1 + 3; r++) {
+                        for (int c = c1; c < c1 + 3; c++) {
                             if (!(r == skip_rows[0] && c == skip_columns[0]) && !(r == skip_rows[1] && c == skip_columns[1]) && !(r == skip_rows[2] && c == skip_columns[2]) && puzzle[r][c].isNotSet()) {
-                                ArrayList<Byte> removeList = eliminateFromCell(puzzle[r][c], the_triplet);//gets the candidates removed from the particular cell
+                                ArrayList<Integer> removeList = eliminateFromCell(puzzle[r][c], the_triplet);//gets the candidates removed from the particular cell
                                 if (removeList.contains(the_triplet[0])) {
                                     chkremoveFirst = true;
                                     removeFirst += "(" + (r + 1) + "," + (c + 1) + ")";
@@ -717,9 +717,9 @@ public final class Sudoku {
      * Adds a  unique candidate of cell to the candidateList arraylist used in nakedTriple. Returns the number of such
      * unique candidates inserted.
      */
-    private static byte addIfAbsent(ArrayList<Byte> candidateList, Cell cell) {
-        byte count = 0;
-        for (byte position = 0; position < cell.getNoOfCandidates(); position++) {
+    private static int addIfAbsent(ArrayList<Integer> candidateList, Cell cell) {
+        int count = 0;
+        for (int position = 0; position < cell.getNoOfCandidates(); position++) {
             if (!candidateList.contains(cell.getCandidate(position))) {
                 candidateList.add(cell.getCandidate(position));
                 count++;
@@ -732,8 +732,8 @@ public final class Sudoku {
      * If a Naked Triple or Quadruple is not found, the recently added members of the candidateList needs to be removed
      * to make another combination of 3/4 cells to check for nakedTriple or Quadruple
      */
-    private static void removeRecentAdditions(ArrayList<Byte> candidateList, byte numberOfRemovals) {
-        for (byte i = 0; i < numberOfRemovals; i++) {//remove the current second cell's candidates to restart
+    private static void removeRecentAdditions(ArrayList<Integer> candidateList, int numberOfRemovals) {
+        for (int i = 0; i < numberOfRemovals; i++) {//remove the current second cell's candidates to restart
             candidateList.remove(candidateList.size() - 1);
         }
     }// end of removeRecentAdditions()
@@ -743,8 +743,8 @@ public final class Sudoku {
      */
     private static void nakedTripleCheckSteps(boolean chkremoveFirst, boolean chkremoveSecond, boolean chkremoveThird,
                                               String removeFirst, String removeSecond, String removeThird,
-                                              byte[] the_triplet, byte row_1, byte column_1, byte row_2, byte column_2,
-                                              byte row_3, byte column_3, int house) {
+                                              int[] the_triplet, int row_1, int column_1, int row_2, int column_2,
+                                              int row_3, int column_3, int house) {
 
         String end_tag = "";
 
@@ -785,23 +785,23 @@ public final class Sudoku {
      */
     private static void pointingPair(Cell[][] puzzle) {
         // checking for pointing pairs in rows
-        byte freq;
-        for (byte num = 1; num < 10; num++) {// num is the candidate we are checking pointing pairs for
+        int freq;
+        for (int num = 1; num < 10; num++) {// num is the candidate we are checking pointing pairs for
 
-            for (byte sqr_r = 0; sqr_r < 9; sqr_r += 3) {// nested loop to go to the top left cell of each subsquare
-                for (byte sqr_c = 0; sqr_c < 9; sqr_c += 3) {
+            for (int sqr_r = 0; sqr_r < 9; sqr_r += 3) {// nested loop to go to the top left cell of each subsquare
+                for (int sqr_c = 0; sqr_c < 9; sqr_c += 3) {
 
-                    for (byte r = sqr_r; r < sqr_r + 3; r++) {//nested loop to run through the subsquare
+                    for (int r = sqr_r; r < sqr_r + 3; r++) {//nested loop to run through the subsquare
                         freq = 0; // stores frequency of a candidate in a column
                         String[] insert_candidates = new String[3];//the coordinates of pointing pairs (size 3 to avoid out of bounds in case of pointing triple
-                        for (byte c = sqr_c; c < sqr_c + 3; c++) {
+                        for (int c = sqr_c; c < sqr_c + 3; c++) {
 
                             if (puzzle[r][c].isNotSet() && puzzle[r][c].isCandidate(num)) {// checking if num is a candidate in the cell
                                 insert_candidates[freq] = "(" + (r + 1) + "," + (c + 1) + ")";
                                 freq++;
                                 if (freq == 2) { // if there are 2 cells in the row with num as a candidate
                                     if (!existsInOtherRowsInSubsquare(puzzle, num, r, c)) {// checking if any other row in the subsquare has num as a candidate
-                                        pointingPairCheckSteps(puzzle, insert_candidates, num, r, c, (byte) 1);
+                                        pointingPairCheckSteps(puzzle, insert_candidates, num, r, c,  1);
                                     }
                                 }
                             }
@@ -812,20 +812,20 @@ public final class Sudoku {
             } // sqr_r
 
             //checking for pointing pairs in columns
-            for (byte sqr_r = 0; sqr_r < 9; sqr_r += 3) {// nested loop to go to the top left cell of each subsquare
-                for (byte sqr_c = 0; sqr_c < 9; sqr_c += 3) {
+            for (int sqr_r = 0; sqr_r < 9; sqr_r += 3) {// nested loop to go to the top left cell of each subsquare
+                for (int sqr_c = 0; sqr_c < 9; sqr_c += 3) {
 
-                    for (byte c = sqr_c; c < sqr_c + 3; c++) {//nested loop to run through the subsquare
+                    for (int c = sqr_c; c < sqr_c + 3; c++) {//nested loop to run through the subsquare
                         freq = 0; // stores frequency of a candidate in a column
                         String[] insert_candidates = new String[3];//the coordinates of pointing pairs (size 3 to avoid out of bounds in case of pointing triple
-                        for (byte r = sqr_r; r < sqr_r + 3; r++) {
+                        for (int r = sqr_r; r < sqr_r + 3; r++) {
 
                             if (puzzle[r][c].isNotSet() && puzzle[r][c].isCandidate(num)) {// checking if num is a candidate in the cell
                                 insert_candidates[freq] = "(" + (r + 1) + "," + (c + 1) + ")";
                                 freq++;
                                 if (freq == 2) { // if there are 2 cells in the column with num as a candidate
                                     if (!existsInOtherColumnsInSubsquare(puzzle, num, r, c)) {// checking if any other column in the subsquare has num as a candidate
-                                        pointingPairCheckSteps(puzzle, insert_candidates, num, r, c, (byte) 2);
+                                        pointingPairCheckSteps(puzzle, insert_candidates, num, r, c,  2);
                                     }
                                 }
                             }
@@ -840,11 +840,11 @@ public final class Sudoku {
     /**
      * Checks if the candidate is present in other columns of the subsquare
      */
-    private static boolean existsInOtherColumnsInSubsquare(Cell[][] puzzle, byte num, byte current_row, byte current_col) {
-        byte tmp_r = (byte) (current_row - (current_row % 3));// starting row of current subsquare
-        byte tmp_c = (byte) (current_col - (current_col % 3));// starting column of current subsquare
-        for (byte r = tmp_r; r < tmp_r + 3; r++) {
-            for (byte c = tmp_c; c < tmp_c + 3; c++) {
+    private static boolean existsInOtherColumnsInSubsquare(Cell[][] puzzle, int num, int current_row, int current_col) {
+        int tmp_r =  (current_row - (current_row % 3));// starting row of current subsquare
+        int tmp_c =  (current_col - (current_col % 3));// starting column of current subsquare
+        for (int r = tmp_r; r < tmp_r + 3; r++) {
+            for (int c = tmp_c; c < tmp_c + 3; c++) {
                 if (c != current_col && puzzle[r][c].isCandidate(num) && puzzle[r][c].isNotSet()) {// avoid the current column and check if num is a candidate in the cell
                     return true;
                 }
@@ -856,11 +856,11 @@ public final class Sudoku {
     /**
      * Checks if the candidate is present in other rows of the subsquare
      */
-    private static boolean existsInOtherRowsInSubsquare(Cell[][] puzzle, byte num, byte current_row, byte current_col) {
-        byte tmp_r = (byte) (current_row - (current_row % 3));// starting row of current subsquare
-        byte tmp_c = (byte) (current_col - (current_col % 3));// starting column of current subsquare
-        for (byte r = tmp_r; r < tmp_r + 3; r++) {
-            for (byte c = tmp_c; c < tmp_c + 3; c++) {
+    private static boolean existsInOtherRowsInSubsquare(Cell[][] puzzle, int num, int current_row, int current_col) {
+        int tmp_r =  (current_row - (current_row % 3));// starting row of current subsquare
+        int tmp_c =  (current_col - (current_col % 3));// starting column of current subsquare
+        for (int r = tmp_r; r < tmp_r + 3; r++) {
+            for (int c = tmp_c; c < tmp_c + 3; c++) {
                 if (r != current_row && puzzle[r][c].isCandidate(num) && puzzle[r][c].isNotSet()) {// avoid the current row and check if num is a candidate in the cell
                     return true;
                 }
@@ -872,10 +872,10 @@ public final class Sudoku {
     /**
      * Remove all non pointing pairs from column
      */
-    private static String removeFromColumn(Cell[][] puzzle, byte num, byte current_row, byte current_col) {
+    private static String removeFromColumn(Cell[][] puzzle, int num, int current_row, int current_col) {
         String remove_str = "Remove Candidate " + num + " at ";
-        byte tmp_r = (byte) (current_row - (current_row % 3));// starting row of current subsquare
-        for (byte r = 0; r < 9; r++) {
+        int tmp_r =  (current_row - (current_row % 3));// starting row of current subsquare
+        for (int r = 0; r < 9; r++) {
             if ((r < tmp_r || r >= tmp_r + 3) && puzzle[r][current_col].isCandidate(num) && puzzle[r][current_col].isNotSet()) {// if statment to avoid removing candidates from the current subsquare
                 puzzle[r][current_col].removeCandidate(num);
                 remove_str += "(" + (r + 1) + "," + (current_col + 1) + ")";
@@ -888,10 +888,10 @@ public final class Sudoku {
     /**
      * Remove all non pointing pairs from row
      */
-    private static String removeFromRow(Cell[][] puzzle, byte num, byte current_row, byte current_col) {
+    private static String removeFromRow(Cell[][] puzzle, int num, int current_row, int current_col) {
         String remove_str = "Remove Candidate " + num + " at ";
-        byte tmp_c = (byte) (current_col - (current_col % 3));// starting column of current subsquare
-        for (byte c = 0; c < 9; c++) {
+        int tmp_c =  (current_col - (current_col % 3));// starting column of current subsquare
+        for (int c = 0; c < 9; c++) {
             if ((c < tmp_c || c >= tmp_c + 3) && puzzle[current_row][c].isCandidate(num) && puzzle[current_row][c].isNotSet()) {// if statment to avoid removing candidates from the current subsquare
                 puzzle[current_row][c].removeCandidate(num);
                 remove_str += "(" + (current_row + 1) + "," + (c + 1) + ")";
@@ -904,7 +904,7 @@ public final class Sudoku {
     /**
      * add changes made by pointing pair to the check steps linked lists
      */
-    private static void pointingPairCheckSteps(Cell[][] puzzle, String[] insert_candidates, byte num, byte row, byte col, byte house) {
+    private static void pointingPairCheckSteps(Cell[][] puzzle, String[] insert_candidates, int num, int row, int col, int house) {
 
         int tmp = changeCounter;
         String remove_str = "";
@@ -936,18 +936,18 @@ public final class Sudoku {
      */
     private static void claimingPair(Cell[][] puzzle) {
 
-        for (byte num = 1; num < 10; num++) {//checking all possible candidates
+        for (int num = 1; num < 10; num++) {//checking all possible candidates
 
-            for (byte r = 0; r < 9; r++) {//check each row
-                for (byte sub_c = 3; sub_c <= 9; sub_c += 3) {//points to the end of each subsquare in the particular row
-                    byte freq = 0;
+            for (int r = 0; r < 9; r++) {//check each row
+                for (int sub_c = 3; sub_c <= 9; sub_c += 3) {//points to the end of each subsquare in the particular row
+                    int freq = 0;
                     String[] insert_candidates = new String[3];//the coordinates of claiming pairs (size 3 to avoid out of bounds in case of pointing triple)
-                    for (byte c = (byte) (sub_c - 3); c < sub_c; c++) {//from beginning of subsquare at the row till its end (sub_c)
+                    for (int c =  (sub_c - 3); c < sub_c; c++) {//from beginning of subsquare at the row till its end (sub_c)
                         if (puzzle[r][c].isCandidate(num) && puzzle[r][c].isNotSet()) {
                             insert_candidates[freq] = "(" + (r + 1) + "," + (c + 1) + ")";
                             freq++;
                             if (freq == 2 && notInOtherCellsOfRow(puzzle, sub_c, r, num)) {//number of cells in the row and subsquare is 2. remove all 'num' candidates within the subsquare that are not part of the row
-                                claimingPairCheckSteps(puzzle, insert_candidates, num, r, (byte) (sub_c - 3), (byte) 1);
+                                claimingPairCheckSteps(puzzle, insert_candidates, num, r,  (sub_c - 3),  1);
                             }
 
                         }
@@ -956,16 +956,16 @@ public final class Sudoku {
                 }
             }
 
-            for (byte c = 0; c < 9; c++) {//check each column
-                for (byte sub_r = 3; sub_r <= 9; sub_r += 3) {
-                    byte freq = 0;
+            for (int c = 0; c < 9; c++) {//check each column
+                for (int sub_r = 3; sub_r <= 9; sub_r += 3) {
+                    int freq = 0;
                     String[] insert_candidates = new String[3];
-                    for (byte r = (byte) (sub_r - 3); r < sub_r; r++) {//from beginning of subsquare at the column till its end (sub_r)
+                    for (int r =  (sub_r - 3); r < sub_r; r++) {//from beginning of subsquare at the column till its end (sub_r)
                         if (puzzle[r][c].isCandidate(num) && puzzle[r][c].isNotSet()) {
                             insert_candidates[freq] = "(" + (r + 1) + "," + (c + 1) + ")";
                             freq++;
                             if (freq == 2 && notInOtherCellsOfColumn(puzzle, sub_r, c, num)) {
-                                claimingPairCheckSteps(puzzle, insert_candidates, num, c, (byte) (sub_r - 3), (byte) 2);
+                                claimingPairCheckSteps(puzzle, insert_candidates, num, c,  (sub_r - 3),  2);
                             }
                         }
                     }
@@ -978,9 +978,9 @@ public final class Sudoku {
     /**
      * Checks if there are any other cells in the row other than subsquare that have the candidate
      */
-    private static boolean notInOtherCellsOfRow(Cell[][] puzzle, byte sub_c, byte r, byte num) {
+    private static boolean notInOtherCellsOfRow(Cell[][] puzzle, int sub_c, int r, int num) {
 
-        for (byte c = 0; c < 9; c++) {
+        for (int c = 0; c < 9; c++) {
             if (c < sub_c - 3 || c >= sub_c) {//is not part of the current subsquare
                 if (puzzle[r][c].isCandidate(num) && puzzle[r][c].isNotSet()) {
                     return false;
@@ -993,8 +993,8 @@ public final class Sudoku {
     /**
      * Checks if there are any other cells in the column other than subsquare that have the candidate
      */
-    private static boolean notInOtherCellsOfColumn(Cell[][] puzzle, byte sub_r, byte c, byte num) {
-        for (byte r = 0; r < 9; r++) {
+    private static boolean notInOtherCellsOfColumn(Cell[][] puzzle, int sub_r, int c, int num) {
+        for (int r = 0; r < 9; r++) {
             if (r < sub_r - 3 || r >= sub_r) {//is not part of the current subsquare
                 if (puzzle[r][c].isCandidate(num) && puzzle[r][c].isNotSet()) {
                     return false;
@@ -1008,22 +1008,22 @@ public final class Sudoku {
      * removes the num candidate from all cells in a subsquare as long as it is not part of a specific row or column,
      * which is determined by int i.
      */
-    private static String removeFromSubsquare(Cell[][] puzzle, byte current, byte tmp_start, byte num, int i) {
+    private static String removeFromSubsquare(Cell[][] puzzle, int current, int tmp_start, int num, int i) {
 
         String remove_str = "Remove Candidate " + num + " at ";
-        byte tmp_r, tmp_c;// storing the index beginning of the subsquare required
+        int tmp_r, tmp_c;// storing the index beginning of the subsquare required
 
         if (i == 1) {// if i is 1 , the claimingPair is being checked row-wise
-            tmp_r = (byte) (current - current % 3);//finds first row of the subsquare to which the current row belongs
+            tmp_r =  (current - current % 3);//finds first row of the subsquare to which the current row belongs
             tmp_c = tmp_start;//tmp_start already contains the index of first column of subsquare
         } else {// if i is 2 , the claimingPair is being checked column-wise
             tmp_r = tmp_start;//tmp_start already contains the index of first row of subsquare
-            tmp_c = (byte) (current - current % 3);//finds first column of the subsquare to which the current row belongs
+            tmp_c =  (current - current % 3);//finds first column of the subsquare to which the current row belongs
         }
 
-        for (byte r = tmp_r; r < tmp_r + 3; r++) {
+        for (int r = tmp_r; r < tmp_r + 3; r++) {
             if (!(i == 1 && current == r)) {//if claimPair is being checked row-wise and the r is the current_row, we should not remove any candidates
-                for (byte c = tmp_c; c < tmp_c + 3; c++) {
+                for (int c = tmp_c; c < tmp_c + 3; c++) {
                     if (!(i == 2 && current == c)) {//if claimPair is being checked column-wise and the c is the current column, we should not remove any candidates
                         if (puzzle[r][c].isNotSet() && puzzle[r][c].isCandidate(num)) {
                             remove_str += "(" + (r + 1) + "," + (c + 1) + ")";
@@ -1042,7 +1042,7 @@ public final class Sudoku {
     /**
      * add changes made by claiming pair to the check steps linked lists
      */
-    private static void claimingPairCheckSteps(Cell[][] puzzle, String[] insert_candidates, byte num, byte current, byte tmp_start, byte house) {
+    private static void claimingPairCheckSteps(Cell[][] puzzle, String[] insert_candidates, int num, int current, int tmp_start, int house) {
 
         int tmp = changeCounter;
         String remove_str = "";
@@ -1074,27 +1074,27 @@ public final class Sudoku {
      */
     private static void hiddenPair(Cell[][] puzzle) {
         //checking for hidden pairs in rows first
-        byte[] pair = new byte[2];//array to store the values of the pair
-        for (byte r = 0; r < 9; r++) {
-            ArrayList<Byte> eligible_columns = new ArrayList<>();//columns in the current row that could possibly contain a hidden pairs
-            for (byte c = 0; c < 9; c++) { //loop to find eligible cells in this row
+        int[] pair = new int[2];//array to store the values of the pair
+        for (int r = 0; r < 9; r++) {
+            ArrayList<Integer> eligible_columns = new ArrayList<>();//columns in the current row that could possibly contain a hidden pairs
+            for (int c = 0; c < 9; c++) { //loop to find eligible cells in this row
                 if (puzzle[r][c].isNotSet() && puzzle[r][c].getNoOfCandidates() >= 2)//if cell has 2 or more candidates, it is eligible
                     eligible_columns.add(c);
             }//c
 
             if (eligible_columns.size() >= 2) {
-                for (byte i = 0; i < eligible_columns.size() - 1; i++) {//loop to go through combinations of the eligible cells in the rows to find valid hidden pairs
-                    for (byte j = (byte) (i + 1); j < eligible_columns.size(); j++) {
-                        byte index_1 = eligible_columns.get(i);
-                        byte index_2 = eligible_columns.get(j);
-                        ArrayList<Byte> similarCandidates = getSimilarCandidates(puzzle[r][index_1], puzzle[r][index_2]);//store the similar candidates between chosen candidates
+                for (int i = 0; i < eligible_columns.size() - 1; i++) {//loop to go through combinations of the eligible cells in the rows to find valid hidden pairs
+                    for (int j =  (i + 1); j < eligible_columns.size(); j++) {
+                        int index_1 = eligible_columns.get(i);
+                        int index_2 = eligible_columns.get(j);
+                        ArrayList<Integer> similarCandidates = getSimilarCandidates(puzzle[r][index_1], puzzle[r][index_2]);//store the similar candidates between chosen candidates
                         if (similarCandidates.size() >= 2) {//checking if there are exactly 2 similar candidates
-                            for (byte outer = 0; outer < similarCandidates.size() - 1; outer++) {
-                                for (byte inner = (byte) (outer + 1); inner < similarCandidates.size(); inner++) {//choose any 2 of the similar candidates
+                            for (int outer = 0; outer < similarCandidates.size() - 1; outer++) {
+                                for (int inner =  (outer + 1); inner < similarCandidates.size(); inner++) {//choose any 2 of the similar candidates
                                     pair[0] = similarCandidates.get(outer);
                                     pair[1] = similarCandidates.get(inner);
                                     if (pairDoesNotExistInOtherCellsInRow(puzzle, r, pair, index_1, index_2))//checking if any other cells in the same row also have pair[0] or pair[1] as candidates
-                                        hiddenPairCheckSteps(puzzle, r, index_1, r, index_2, pair, (byte) 1);
+                                        hiddenPairCheckSteps(puzzle, r, index_1, r, index_2, pair,  1);
                                 }
                             }
 
@@ -1105,26 +1105,26 @@ public final class Sudoku {
         }//r
 
         //checking for hidden pairs in columns
-        for (byte c = 0; c < 9; c++) {
-            ArrayList<Byte> eligible_rows = new ArrayList<>();//rows in the current column that could possibly contain a hidden pairs
-            for (byte r = 0; r < 9; r++) { //loop to find eligible cells in this column
+        for (int c = 0; c < 9; c++) {
+            ArrayList<Integer> eligible_rows = new ArrayList<>();//rows in the current column that could possibly contain a hidden pairs
+            for (int r = 0; r < 9; r++) { //loop to find eligible cells in this column
                 if (puzzle[r][c].isNotSet() && puzzle[r][c].getNoOfCandidates() >= 2)//if cell has 2 or more candidates, it is eligible
                     eligible_rows.add(r);
             }//r
 
             if (eligible_rows.size() >= 2) {
-                for (byte i = 0; i < eligible_rows.size() - 1; i++) {//loop to go through combinations of the eligible cells in the columns to find valid hidden pairs
-                    for (byte j = (byte) (i + 1); j < eligible_rows.size(); j++) {
-                        byte index_1 = eligible_rows.get(i);
-                        byte index_2 = eligible_rows.get(j);
-                        ArrayList<Byte> similarCandidates = getSimilarCandidates(puzzle[index_1][c], puzzle[index_2][c]);//store the similar candidates between chosen candidates
+                for (int i = 0; i < eligible_rows.size() - 1; i++) {//loop to go through combinations of the eligible cells in the columns to find valid hidden pairs
+                    for (int j =  (i + 1); j < eligible_rows.size(); j++) {
+                        int index_1 = eligible_rows.get(i);
+                        int index_2 = eligible_rows.get(j);
+                        ArrayList<Integer> similarCandidates = getSimilarCandidates(puzzle[index_1][c], puzzle[index_2][c]);//store the similar candidates between chosen candidates
                         if (similarCandidates.size() >= 2) {//checking if there are more than or equal to 2 similar candidates
-                            for (byte outer = 0; outer < similarCandidates.size() - 1; outer++) {
-                                for (byte inner = (byte) (outer + 1); inner < similarCandidates.size(); inner++) {//choose any 2 of the similar candidates
+                            for (int outer = 0; outer < similarCandidates.size() - 1; outer++) {
+                                for (int inner =  (outer + 1); inner < similarCandidates.size(); inner++) {//choose any 2 of the similar candidates
                                     pair[0] = similarCandidates.get(outer);
                                     pair[1] = similarCandidates.get(inner);
                                     if (pairDoesNotExistInOtherCellsInColumn(puzzle, c, pair, index_1, index_2))//checking if any other cells in the same column also have pair[0] or pair[1] as candidates
-                                        hiddenPairCheckSteps(puzzle, index_1, c, index_2, c, pair, (byte) 2);
+                                        hiddenPairCheckSteps(puzzle, index_1, c, index_2, c, pair,  2);
                                 }
                             }
                         }//if statement
@@ -1134,12 +1134,12 @@ public final class Sudoku {
         }//c
 
 
-        for (byte r1 = 0; r1 <= 6; r1 += 3) {//jumps to first row position of subsquare
-            for (byte c1 = 0; c1 <= 6; c1 += 3) {//jumps to first column position of subsquare
-                ArrayList<Byte> eligible_rows = new ArrayList<>();//rows  that could possibly contain a hidden pairs
-                ArrayList<Byte> eligible_columns = new ArrayList<>();//columns that could possibly contain hidden pairs
-                for (byte r = r1; r < r1 + 3; r++) {//traversal (subsquare)
-                    for (byte c = c1; c < c1 + 3; c++) {
+        for (int r1 = 0; r1 <= 6; r1 += 3) {//jumps to first row position of subsquare
+            for (int c1 = 0; c1 <= 6; c1 += 3) {//jumps to first column position of subsquare
+                ArrayList<Integer> eligible_rows = new ArrayList<>();//rows  that could possibly contain a hidden pairs
+                ArrayList<Integer> eligible_columns = new ArrayList<>();//columns that could possibly contain hidden pairs
+                for (int r = r1; r < r1 + 3; r++) {//traversal (subsquare)
+                    for (int c = c1; c < c1 + 3; c++) {
                         if (puzzle[r][c].isNotSet() && puzzle[r][c].getNoOfCandidates() >= 2) {//if cell has 2 or more candidates, it is eligible
                             eligible_rows.add(r);
                             eligible_columns.add(c);
@@ -1149,20 +1149,20 @@ public final class Sudoku {
 
                 int eligibleCellsSize = eligible_columns.size();
                 if (eligibleCellsSize >= 2) {
-                    for (byte i = 0; i < eligibleCellsSize - 1; i++) {//loop to go through combinations of the eligible cells in the subquare to find valid hidden pairs
-                        for (byte j = (byte) (i + 1); j < eligibleCellsSize; j++) {
-                            byte index_1_r = eligible_rows.get(i);
-                            byte index_1_c = eligible_columns.get(i);
-                            byte index_2_r = eligible_rows.get(j);
-                            byte index_2_c = eligible_columns.get(j);
-                            ArrayList<Byte> similarCandidates = getSimilarCandidates(puzzle[index_1_r][index_1_c], puzzle[index_2_r][index_2_c]);//store the similar candidates between chosen candidates
+                    for (int i = 0; i < eligibleCellsSize - 1; i++) {//loop to go through combinations of the eligible cells in the subquare to find valid hidden pairs
+                        for (int j =  (i + 1); j < eligibleCellsSize; j++) {
+                            int index_1_r = eligible_rows.get(i);
+                            int index_1_c = eligible_columns.get(i);
+                            int index_2_r = eligible_rows.get(j);
+                            int index_2_c = eligible_columns.get(j);
+                            ArrayList<Integer> similarCandidates = getSimilarCandidates(puzzle[index_1_r][index_1_c], puzzle[index_2_r][index_2_c]);//store the similar candidates between chosen candidates
                             if (similarCandidates.size() >= 2) {//checking if there are more than or equal to 2 similar candidates
-                                for (byte outer = 0; outer < similarCandidates.size() - 1; outer++) {
-                                    for (byte inner = (byte) (outer + 1); inner < similarCandidates.size(); inner++) {//choose any 2 of the similar candidates
+                                for (int outer = 0; outer < similarCandidates.size() - 1; outer++) {
+                                    for (int inner =  (outer + 1); inner < similarCandidates.size(); inner++) {//choose any 2 of the similar candidates
                                         pair[0] = similarCandidates.get(outer);
                                         pair[1] = similarCandidates.get(inner);
                                         if (pairDoesNotExistInOtherCellsInSubsquare(puzzle, r1, c1, pair, index_1_r, index_1_c, index_2_r, index_2_c))//checking if any other cells in the same subsquare also have pair[0] or pair[1] as candidates
-                                            hiddenPairCheckSteps(puzzle, index_1_r, index_1_c, index_2_r, index_2_c, pair, (byte) 3);
+                                            hiddenPairCheckSteps(puzzle, index_1_r, index_1_c, index_2_r, index_2_c, pair,  3);
                                     }
                                 }
                             }//if statement
@@ -1174,9 +1174,9 @@ public final class Sudoku {
     }// end of hiddenPair()
 
 
-    private static ArrayList<Byte> getSimilarCandidates(Cell cell_1, Cell cell_2) {
-        ArrayList<Byte> similar_candidates = new ArrayList<>();//stores the similar candidates
-        for (byte num = 1; num < 10; num++) {
+    private static ArrayList<Integer> getSimilarCandidates(Cell cell_1, Cell cell_2) {
+        ArrayList<Integer> similar_candidates = new ArrayList<>();//stores the similar candidates
+        for (int num = 1; num < 10; num++) {
             if (cell_1.isCandidate(num) && cell_2.isCandidate(num)) {
                 similar_candidates.add(num);//adding similar candidates to array
             }// if statement
@@ -1185,13 +1185,13 @@ public final class Sudoku {
     }// end of getSimilarCandidates()
 
 
-    private static String[] removeNonPairCandidates(Cell cell_1, Cell cell_2, byte[] pair) {
+    private static String[] removeNonPairCandidates(Cell cell_1, Cell cell_2, int[] pair) {
 
         String[] removePair = new String[2];
         removePair[0] = removePair[1] = "Remove Candidates ";
         boolean tmp_0, tmp_1;
         tmp_0 = tmp_1 = true;
-        for (byte num = 1; num < 10; num++) {
+        for (int num = 1; num < 10; num++) {
             if (num != pair[0] && num != pair[1]) {
                 if (cell_1.isCandidate(num)) {
                     cell_1.removeCandidate(num);
@@ -1223,8 +1223,8 @@ public final class Sudoku {
     }// end of removeNonPairCandidates()
 
 
-    private static boolean pairDoesNotExistInOtherCellsInRow(Cell[][] puzzle, byte row, byte[] pair, byte index1, byte index2) {
-        for (byte c = 0; c < 9; c++) {
+    private static boolean pairDoesNotExistInOtherCellsInRow(Cell[][] puzzle, int row, int[] pair, int index1, int index2) {
+        for (int c = 0; c < 9; c++) {
             if ((puzzle[row][c].isCandidate(pair[0]) || puzzle[row][c].isCandidate(pair[1])) && (c != index1 && c != index2) && puzzle[row][c].isNotSet()) {
                 return false;
             }
@@ -1232,8 +1232,8 @@ public final class Sudoku {
         return true;
     }// end of pairDoesNotExistInOtherCellsInRow()
 
-    private static boolean pairDoesNotExistInOtherCellsInColumn(Cell[][] puzzle, byte col, byte[] pair, byte index1, byte index2) {
-        for (byte r = 0; r < 9; r++) {
+    private static boolean pairDoesNotExistInOtherCellsInColumn(Cell[][] puzzle, int col, int[] pair, int index1, int index2) {
+        for (int r = 0; r < 9; r++) {
             if ((puzzle[r][col].isCandidate(pair[0]) || puzzle[r][col].isCandidate(pair[1])) && (r != index1 && r != index2) && puzzle[r][col].isNotSet()) {
                 return false;
             }
@@ -1241,9 +1241,9 @@ public final class Sudoku {
         return true;
     }// end of pairDoesNotExistInOtherCellsInColumn()
 
-    private static boolean pairDoesNotExistInOtherCellsInSubsquare(Cell[][] puzzle, byte r1, byte c1, byte[] pair, byte index_1_r, byte index_1_c, byte index_2_r, byte index_2_c) {
-        for (byte r = r1; r < r1 + 3; r++) {//traversal (subsquare)
-            for (byte c = c1; c < c1 + 3; c++) {
+    private static boolean pairDoesNotExistInOtherCellsInSubsquare(Cell[][] puzzle, int r1, int c1, int[] pair, int index_1_r, int index_1_c, int index_2_r, int index_2_c) {
+        for (int r = r1; r < r1 + 3; r++) {//traversal (subsquare)
+            for (int c = c1; c < c1 + 3; c++) {
                 if ((puzzle[r][c].isCandidate(pair[0]) || puzzle[r][c].isCandidate(pair[1])) && (!(r == index_1_r && c == index_1_c) && !(r == index_2_r && c == index_2_c)) && puzzle[r][c].isNotSet()) {
                     return false;
                 }
@@ -1255,7 +1255,7 @@ public final class Sudoku {
     /**
      * adds changes made by hidden pair to the check steps linked lists
      */
-    private static void hiddenPairCheckSteps(Cell[][] puzzle, byte row_1, byte col_1, byte row_2, byte col_2, byte[] pair, byte house) {
+    private static void hiddenPairCheckSteps(Cell[][] puzzle, int row_1, int col_1, int row_2, int col_2, int[] pair, int house) {
 
         int tmp = changeCounter;
         String end_tag = "";
@@ -1287,31 +1287,31 @@ public final class Sudoku {
     }// end of hiddenPairCheckSteps()
 
     private static void xWing(Cell[][] puzzle) {
-        basicFish(puzzle, (byte) 1);
+        basicFish(puzzle,  1);
     }// end of xWing()
 
     private static void swordfish(Cell[][] puzzle) {
-        basicFish(puzzle, (byte) 2);
+        basicFish(puzzle,  2);
     }// end of swordfish()
 
     private static void jellyfish(Cell[][] puzzle) {
-        basicFish(puzzle, (byte) 3);
+        basicFish(puzzle,  3);
     }// end of jellyfish()
 
-    private static void basicFish(Cell[][] puzzle, byte type) {
+    private static void basicFish(Cell[][] puzzle, int type) {
 
-        byte freq;//counter to find fish , if present.
+        int freq;//counter to find fish , if present.
 
-        for (byte num = 1; num <= 9; num++) {
+        for (int num = 1; num <= 9; num++) {
 
             //checking Rows
-            ArrayList<Byte> r_eligibleRows = new ArrayList<>();//to store row of swordfish candidates
-            ArrayList<byte[]> r_eligibleColumns = new ArrayList<>();//to store column of swordfish candidates
+            ArrayList<Integer> r_eligibleRows = new ArrayList<>();//to store row of swordfish candidates
+            ArrayList<int[]> r_eligibleColumns = new ArrayList<>();//to store column of swordfish candidates
 
-            for (byte r = 0; r < 9; r++) {//traversal
+            for (int r = 0; r < 9; r++) {//traversal
                 freq = 0;
-                byte[] tmp_columns = new byte[type + 2];//the temporary columns
-                for (byte c = 0; c < 9 && freq < type + 2; c++) {
+                int[] tmp_columns = new int[type + 2];//the temporary columns
+                for (int c = 0; c < 9 && freq < type + 2; c++) {
                     if (puzzle[r][c].isCandidate(num) && puzzle[r][c].isNotSet()) {//if candidate and not set
                         tmp_columns[freq] = c;//store column in row which has num as a candidate
                         freq++;
@@ -1328,17 +1328,17 @@ public final class Sudoku {
                 }
 
             }
-            basicFishRemoval(puzzle, r_eligibleRows, r_eligibleColumns, num, (byte) 1, type);
+            basicFishRemoval(puzzle, r_eligibleRows, r_eligibleColumns, num,  1, type);
 
 
             //checking Columns
-            ArrayList<Byte> c_eligibleColumns = new ArrayList<>();//to store column of swordfish candidates (column check)
-            ArrayList<byte[]> c_eligibleRows = new ArrayList<>();//to store row of swordfish candidates (row check)
+            ArrayList<Integer> c_eligibleColumns = new ArrayList<>();//to store column of swordfish candidates (column check)
+            ArrayList<int[]> c_eligibleRows = new ArrayList<>();//to store row of swordfish candidates (row check)
 
-            for (byte c = 0; c < 9; c++) {
+            for (int c = 0; c < 9; c++) {
                 freq = 0;
-                byte[] tmp_rows = new byte[type + 2];//the temporary rows
-                for (byte r = 0; r < 9 && freq < type + 2; r++) {
+                int[] tmp_rows = new int[type + 2];//the temporary rows
+                for (int r = 0; r < 9 && freq < type + 2; r++) {
                     if (puzzle[r][c].isCandidate(num) && puzzle[r][c].isNotSet()) {//if candidate and not set
                         tmp_rows[freq] = r;//store column in row which has num as a candidate
                         freq++;
@@ -1354,18 +1354,18 @@ public final class Sudoku {
                     c_eligibleRows.add(tmp_rows);
                 }
             }
-            basicFishRemoval(puzzle, c_eligibleColumns, c_eligibleRows, num, (byte) 2, type);
+            basicFishRemoval(puzzle, c_eligibleColumns, c_eligibleRows, num,  2, type);
         }
 
     }
 
-    private static void basicFishRemoval(Cell[][] puzzle, ArrayList<Byte> house_in, ArrayList<byte[]> candidate_pos, byte num, byte which, byte type) {
+    private static void basicFishRemoval(Cell[][] puzzle, ArrayList<Integer> house_in, ArrayList<int[]> candidate_pos, int num, int which, int type) {
         if (house_in.size() >= type + 1) {//if the rows/columns where the swordfish candidates are in is more than 3, a swordfish may exist
 
             if (type == 1) {
                 for (int i = 0; i < house_in.size() - 1; i++) {
                     for (int j = i + 1; j < house_in.size(); j++) {
-                        ArrayList<Byte> other_house = compareCandidatePos(candidate_pos.get(i), candidate_pos.get(j), null, null);//find the unique set of houses from where candidates need to be removed
+                        ArrayList<Integer> other_house = compareCandidatePos(candidate_pos.get(i), candidate_pos.get(j), null, null);//find the unique set of houses from where candidates need to be removed
                         if (other_house.size() == 2) {//two unique houses from where candidates are to be removed (xwing)
                             if (which == 1) {
                                 String title = "X-wing in " + " Row " + (house_in.get(i) + 1) + " and " + (house_in.get(j) + 1);
@@ -1381,7 +1381,7 @@ public final class Sudoku {
 
                                 String remove_s = "Remove Candidate " + num + " from ";
                                 int changechk = changeCounter;
-                                for (byte r = 0; r < 9; r++) {
+                                for (int r = 0; r < 9; r++) {
                                     if (r != house_in.get(i) && r != house_in.get(j)) {
                                         if (puzzle[r][other_house.get(0)].isCandidate(num) && puzzle[r][other_house.get(0)].isNotSet()) {
                                             changeCounter++;
@@ -1417,7 +1417,7 @@ public final class Sudoku {
 
                                 String remove_s = "Remove Candidate " + num + " from ";
                                 int changechk = changeCounter;
-                                for (byte c = 0; c < 9; c++) {
+                                for (int c = 0; c < 9; c++) {
                                     if (c != house_in.get(i) && c != house_in.get(j)) {
                                         if (puzzle[other_house.get(0)][c].isCandidate(num) && puzzle[other_house.get(0)][c].isNotSet()) {
                                             changeCounter++;
@@ -1449,7 +1449,7 @@ public final class Sudoku {
                 for (int i = 0; i < house_in.size() - 2; i++) {
                     for (int j = i + 1; j < house_in.size() - 1; j++) {
                         for (int k = j + 1; k < house_in.size(); k++) {//these iterators are to find different combinations of row/columns and see if a swordfish can be found
-                            ArrayList<Byte> other_house = compareCandidatePos(candidate_pos.get(i), candidate_pos.get(j), candidate_pos.get(k), null);//find the unique set of houses from where candidates need to be removed
+                            ArrayList<Integer> other_house = compareCandidatePos(candidate_pos.get(i), candidate_pos.get(j), candidate_pos.get(k), null);//find the unique set of houses from where candidates need to be removed
                             if (other_house.size() == 3) {//three unique houses from where candidates are to be removed (swordfish)
                                 if (which == 1) {
                                     String title = "Swordfish in " + " Row " + (house_in.get(i) + 1) + "," + (house_in.get(j) + 1) +
@@ -1469,7 +1469,7 @@ public final class Sudoku {
 
                                     String remove_s = "Remove Candidate " + num + " from ";
                                     int changechk = changeCounter;
-                                    for (byte r = 0; r < 9; r++) {
+                                    for (int r = 0; r < 9; r++) {
                                         if (r != house_in.get(i) && r != house_in.get(j) && r != house_in.get(k)) {
                                             if (puzzle[r][other_house.get(0)].isCandidate(num) && puzzle[r][other_house.get(0)].isNotSet()) {
                                                 changeCounter++;
@@ -1514,7 +1514,7 @@ public final class Sudoku {
 
                                     String remove_s = "Remove Candidate " + num + " from ";
                                     int changechk = changeCounter;
-                                    for (byte c = 0; c < 9; c++) {
+                                    for (int c = 0; c < 9; c++) {
                                         if (c != house_in.get(i) && c != house_in.get(j) && c != house_in.get(k)) {
                                             if (puzzle[other_house.get(0)][c].isCandidate(num) && puzzle[other_house.get(0)][c].isNotSet()) {
                                                 changeCounter++;
@@ -1550,7 +1550,7 @@ public final class Sudoku {
                     for (int j = i + 1; j < house_in.size() - 2; j++) {
                         for (int k = j + 1; k < house_in.size() - 1; k++) {
                             for (int l = k + 1; l < house_in.size(); l++) {
-                                ArrayList<Byte> other_house = compareCandidatePos(candidate_pos.get(i), candidate_pos.get(j), candidate_pos.get(k), candidate_pos.get(l));
+                                ArrayList<Integer> other_house = compareCandidatePos(candidate_pos.get(i), candidate_pos.get(j), candidate_pos.get(k), candidate_pos.get(l));
                                 if (other_house.size() == 4) {//four unique houses from where candidates are to be removed (jellyfish)
                                     if (which == 1) {
                                         String title = "Jellyfish in " + " Row " + (house_in.get(i) + 1) + "," + (house_in.get(j) + 1) +
@@ -1573,7 +1573,7 @@ public final class Sudoku {
 
                                         String remove_s = "Remove Candidate " + num + " from ";
                                         int changechk = changeCounter;
-                                        for (byte r = 0; r < 9; r++) {
+                                        for (int r = 0; r < 9; r++) {
                                             if (r != house_in.get(i) && r != house_in.get(j) && r != house_in.get(k) && r != house_in.get(l)) {
                                                 if (puzzle[r][other_house.get(0)].isCandidate(num) && puzzle[r][other_house.get(0)].isNotSet()) {
                                                     changeCounter++;
@@ -1625,7 +1625,7 @@ public final class Sudoku {
 
                                         String remove_s = "Remove Candidate " + num + " from ";
                                         int changechk = changeCounter;
-                                        for (byte c = 0; c < 9; c++) {
+                                        for (int c = 0; c < 9; c++) {
                                             if (c != house_in.get(i) && c != house_in.get(j) && c != house_in.get(k) && c != house_in.get(l)) {
                                                 if (puzzle[other_house.get(0)][c].isCandidate(num) && puzzle[other_house.get(0)][c].isNotSet()) {
                                                     changeCounter++;
@@ -1667,31 +1667,31 @@ public final class Sudoku {
     }
 
     private static void finnedXWing(Cell[][] puzzle) {
-        finnedFish(puzzle, (byte) 1);
+        finnedFish(puzzle,  1);
     }
 
     private static void finnedSwordfish(Cell[][] puzzle) {
-        finnedFish(puzzle, (byte) 2);
+        finnedFish(puzzle,  2);
     }
 
     private static void finnedJellyfish(Cell[][] puzzle) {
-        finnedFish(puzzle, (byte) 3);
+        finnedFish(puzzle,  3);
     }
 
-    private static void finnedFish(Cell[][] puzzle, byte type) {
+    private static void finnedFish(Cell[][] puzzle, int type) {
 
-        byte freq;//counter to find fish , if present.
+        int freq;//counter to find fish , if present.
 
-        for (byte num = 1; num <= 9; num++) {
+        for (int num = 1; num <= 9; num++) {
 
             //checking Rows
-            ArrayList<Byte> r_eligibleFinRows = new ArrayList<>();//to store row of finned wing candidates
-            ArrayList<byte[]> r_eligibleFinColumns = new ArrayList<>();//to store column of finned wing candidates
+            ArrayList<Integer> r_eligibleFinRows = new ArrayList<>();//to store row of finned wing candidates
+            ArrayList<int[]> r_eligibleFinColumns = new ArrayList<>();//to store column of finned wing candidates
 
-            for (byte r = 0; r < 9; r++) {//traversal
+            for (int r = 0; r < 9; r++) {//traversal
                 freq = 0;
-                byte[] tmp_columns = new byte[type + 4];//the temporary columns
-                for (byte c = 0; c < 9 && freq < type + 4; c++) {//max of 2 fins
+                int[] tmp_columns = new int[type + 4];//the temporary columns
+                for (int c = 0; c < 9 && freq < type + 4; c++) {//max of 2 fins
                     if (puzzle[r][c].isCandidate(num) && puzzle[r][c].isNotSet()) {//if candidate and not set
                         tmp_columns[freq] = c;//store column in row which has num as a candidate
                         freq++;
@@ -1708,17 +1708,17 @@ public final class Sudoku {
                 }
 
             }
-            finnedFishRemoval(puzzle, r_eligibleFinRows, r_eligibleFinColumns, num, (byte) 1, type);
+            finnedFishRemoval(puzzle, r_eligibleFinRows, r_eligibleFinColumns, num,  1, type);
 
 
             //checking Columns
-            ArrayList<Byte> c_eligibleFinColumns = new ArrayList<>();//to store column of finned wing candidates
-            ArrayList<byte[]> c_eligibleFinRows = new ArrayList<>();//to store row of finned wing candidates
+            ArrayList<Integer> c_eligibleFinColumns = new ArrayList<>();//to store column of finned wing candidates
+            ArrayList<int[]> c_eligibleFinRows = new ArrayList<>();//to store row of finned wing candidates
 
-            for (byte c = 0; c < 9; c++) {
+            for (int c = 0; c < 9; c++) {
                 freq = 0;
-                byte[] tmp_rows = new byte[type + 4];//the temporary rows
-                for (byte r = 0; r < 9 && freq < type + 4; r++) {
+                int[] tmp_rows = new int[type + 4];//the temporary rows
+                for (int r = 0; r < 9 && freq < type + 4; r++) {
                     if (puzzle[r][c].isCandidate(num) && puzzle[r][c].isNotSet()) {//if candidate and not set
                         tmp_rows[freq] = r;//store column in row which has num as a candidate
                         freq++;
@@ -1734,39 +1734,39 @@ public final class Sudoku {
                     c_eligibleFinRows.add(tmp_rows);
                 }
             }
-            finnedFishRemoval(puzzle, c_eligibleFinColumns, c_eligibleFinRows, num, (byte) 2, type);
+            finnedFishRemoval(puzzle, c_eligibleFinColumns, c_eligibleFinRows, num,  2, type);
         }
 
     }
 
-    private static void finnedFishRemoval(Cell[][] puzzle, ArrayList<Byte> houseFin_in, ArrayList<byte[]> candidateFin_pos,
-                                          byte num, byte which, byte type) {
+    private static void finnedFishRemoval(Cell[][] puzzle, ArrayList<Integer> houseFin_in, ArrayList<int[]> candidateFin_pos,
+                                          int num, int which, int type) {
 
         if (houseFin_in.size() >= type + 1) {//more than the minimum number of houses required for finned xwing to be present
             if (type == 1) {
                 for (int i = 0; i < houseFin_in.size() - 1; i++) {
                     for (int j = i + 1; j < houseFin_in.size(); j++) {//combination of prospective wings
-                        ArrayList<Byte> sample_other_house = compareCandidatePos(candidateFin_pos.get(i), candidateFin_pos.get(j), null, null);//generate unique set of the other house
+                        ArrayList<Integer> sample_other_house = compareCandidatePos(candidateFin_pos.get(i), candidateFin_pos.get(j), null, null);//generate unique set of the other house
                         if (sample_other_house.size() > 2 && sample_other_house.size() < 5) {//for finned xWing, the other house must have a size of 3 or 4
                             for (int sample_1 = 0; sample_1 < sample_other_house.size() - 1; sample_1++) {
                                 for (int sample_2 = sample_1 + 1; sample_2 < sample_other_house.size(); sample_2++) {//take a combination from the other house that could be the xWing
 
-                                    ArrayList<Byte> tmp = new ArrayList<>(sample_other_house);
+                                    ArrayList<Integer> tmp = new ArrayList<>(sample_other_house);
                                     tmp.remove(sample_other_house.get(sample_1));
                                     tmp.remove(sample_other_house.get(sample_2));//tmp now only contains the other house which could be fins
-                                    ArrayList<byte[]> fin_coordinates = new ArrayList<>();//the coordinates of the could be fins
-                                    ArrayList<Byte> fin_in_first = finPresent(candidateFin_pos.get(i), tmp);//store the other house if prospective fin present
-                                    ArrayList<Byte> fin_in_second = finPresent(candidateFin_pos.get(j), tmp);
+                                    ArrayList<int[]> fin_coordinates = new ArrayList<>();//the coordinates of the could be fins
+                                    ArrayList<Integer> fin_in_first = finPresent(candidateFin_pos.get(i), tmp);//store the other house if prospective fin present
+                                    ArrayList<Integer> fin_in_second = finPresent(candidateFin_pos.get(j), tmp);
 
                                     if (which == 1 && (fin_in_first == null || fin_in_second == null)) {//row wise finned X Wing prospective
 
                                         addFinCoordinates(fin_in_first, houseFin_in.get(i), fin_coordinates, 1);
                                         addFinCoordinates(fin_in_second, houseFin_in.get(j), fin_coordinates, 1);
 
-                                        byte[] subsquare_markers;
+                                        int[] subsquare_markers;
                                         if ((subsquare_markers = commonSubsquare(fin_coordinates)) != null) {//all the fins are in the same subsquare
-                                            byte sample_house_1 = sample_other_house.get(sample_1);
-                                            byte sample_house_2 = sample_other_house.get(sample_2);
+                                            int sample_house_1 = sample_other_house.get(sample_1);
+                                            int sample_house_2 = sample_other_house.get(sample_2);
                                             String title = "Finned X-Wing in " + " Row " + (houseFin_in.get(i) + 1) + " and " + (houseFin_in.get(j) + 1);
                                             String insert_s = "Candidate " + num + " is common to X-Wing cells : ";
                                             String remove_s = "Remove Candidate " + num + " from ";
@@ -1796,10 +1796,10 @@ public final class Sudoku {
                                         addFinCoordinates(fin_in_first, houseFin_in.get(i), fin_coordinates, 2);
                                         addFinCoordinates(fin_in_second, houseFin_in.get(j), fin_coordinates, 2);
 
-                                        byte[] subsquare_markers;
+                                        int[] subsquare_markers;
                                         if ((subsquare_markers = commonSubsquare(fin_coordinates)) != null) {
-                                            byte sample_house_1 = sample_other_house.get(sample_1);
-                                            byte sample_house_2 = sample_other_house.get(sample_2);
+                                            int sample_house_1 = sample_other_house.get(sample_1);
+                                            int sample_house_2 = sample_other_house.get(sample_2);
                                             String title = "Finned X-Wing in " + " Column " + (houseFin_in.get(i) + 1) + " and " + (houseFin_in.get(j) + 1);
                                             String insert_s = "Candidate " + num + " is common to X-Wing cells : ";
                                             String remove_s = "Remove Candidate " + num + " from ";
@@ -1834,31 +1834,31 @@ public final class Sudoku {
                 for (int i = 0; i < houseFin_in.size() - 2; i++) {
                     for (int j = i + 1; j < houseFin_in.size() - 1; j++) {
                         for (int k = j + 1; k < houseFin_in.size(); k++) {
-                            ArrayList<Byte> sample_other_house = compareCandidatePos(candidateFin_pos.get(i), candidateFin_pos.get(j),
+                            ArrayList<Integer> sample_other_house = compareCandidatePos(candidateFin_pos.get(i), candidateFin_pos.get(j),
                                     candidateFin_pos.get(k), null);
                             if (sample_other_house.size() > 3 && sample_other_house.size() < 6) {
                                 for (int sample_1 = 0; sample_1 < sample_other_house.size() - 2; sample_1++) {
                                     for (int sample_2 = sample_1 + 1; sample_2 < sample_other_house.size() - 1; sample_2++) {//take a combination from the other house that could be the swordfish
                                         for (int sample_3 = sample_2 + 1; sample_3 < sample_other_house.size(); sample_3++) {
-                                            ArrayList<Byte> tmp = new ArrayList<>(sample_other_house);
+                                            ArrayList<Integer> tmp = new ArrayList<>(sample_other_house);
                                             tmp.remove(sample_other_house.get(sample_1));
                                             tmp.remove(sample_other_house.get(sample_2));//tmp now only contains the other house which could be fins
                                             tmp.remove(sample_other_house.get(sample_3));
-                                            ArrayList<byte[]> fin_coordinates = new ArrayList<>();//the coordinates of the could be fins
-                                            ArrayList<Byte> fin_in_first = finPresent(candidateFin_pos.get(i), tmp);//store the other house if prospective fin present
-                                            ArrayList<Byte> fin_in_second = finPresent(candidateFin_pos.get(j), tmp);
-                                            ArrayList<Byte> fin_in_third = finPresent(candidateFin_pos.get(k), tmp);
+                                            ArrayList<int[]> fin_coordinates = new ArrayList<>();//the coordinates of the could be fins
+                                            ArrayList<Integer> fin_in_first = finPresent(candidateFin_pos.get(i), tmp);//store the other house if prospective fin present
+                                            ArrayList<Integer> fin_in_second = finPresent(candidateFin_pos.get(j), tmp);
+                                            ArrayList<Integer> fin_in_third = finPresent(candidateFin_pos.get(k), tmp);
                                             if (which == 1) {
 
                                                 addFinCoordinates(fin_in_first, houseFin_in.get(i), fin_coordinates, 1);
                                                 addFinCoordinates(fin_in_second, houseFin_in.get(j), fin_coordinates, 1);
                                                 addFinCoordinates(fin_in_third, houseFin_in.get(k), fin_coordinates, 1);
 
-                                                byte[] subsquare_markers;
+                                                int[] subsquare_markers;
                                                 if ((subsquare_markers = commonSubsquare(fin_coordinates)) != null) {//all the fins are in the same subsquare
-                                                    byte sample_house_1 = sample_other_house.get(sample_1);
-                                                    byte sample_house_2 = sample_other_house.get(sample_2);
-                                                    byte sample_house_3 = sample_other_house.get(sample_3);
+                                                    int sample_house_1 = sample_other_house.get(sample_1);
+                                                    int sample_house_2 = sample_other_house.get(sample_2);
+                                                    int sample_house_3 = sample_other_house.get(sample_3);
                                                     String title = "Finned Swordfish in " + " Row " + (houseFin_in.get(i) + 1) + ", " + (houseFin_in.get(j) + 1) + " and " + (houseFin_in.get(k) + 1);
                                                     String insert_s = "Candidate " + num + " is common to Swordfish cells : ";
                                                     String remove_s = "Remove Candidate " + num + " from ";
@@ -1894,11 +1894,11 @@ public final class Sudoku {
                                                 addFinCoordinates(fin_in_second, houseFin_in.get(j), fin_coordinates, 2);
                                                 addFinCoordinates(fin_in_third, houseFin_in.get(k), fin_coordinates, 2);
 
-                                                byte[] subsquare_markers;
+                                                int[] subsquare_markers;
                                                 if ((subsquare_markers = commonSubsquare(fin_coordinates)) != null) {//all the fins are in the same subsquare
-                                                    byte sample_house_1 = sample_other_house.get(sample_1);
-                                                    byte sample_house_2 = sample_other_house.get(sample_2);
-                                                    byte sample_house_3 = sample_other_house.get(sample_3);
+                                                    int sample_house_1 = sample_other_house.get(sample_1);
+                                                    int sample_house_2 = sample_other_house.get(sample_2);
+                                                    int sample_house_3 = sample_other_house.get(sample_3);
                                                     String title = "Finned Swordfish in " + " Columns " + (houseFin_in.get(i) + 1) + ", " + (houseFin_in.get(j) + 1) + " and " + (houseFin_in.get(k) + 1);
                                                     String insert_s = "Candidate " + num + " is common to Swordfish cells : ";
                                                     String remove_s = "Remove Candidate " + num + " from ";
@@ -1942,23 +1942,23 @@ public final class Sudoku {
                     for (int j = i + 1; j < houseFin_in.size() - 2; j++) {
                         for (int k = j + 1; k < houseFin_in.size() - 1; k++) {
                             for (int l = k + 1; l < houseFin_in.size(); l++) {
-                                ArrayList<Byte> sample_other_house = compareCandidatePos(candidateFin_pos.get(i), candidateFin_pos.get(j),
+                                ArrayList<Integer> sample_other_house = compareCandidatePos(candidateFin_pos.get(i), candidateFin_pos.get(j),
                                         candidateFin_pos.get(k), candidateFin_pos.get(l));
                                 if (sample_other_house.size() > 4 && sample_other_house.size() < 7) {
                                     for (int sample_1 = 0; sample_1 < sample_other_house.size() - 3; sample_1++) {
                                         for (int sample_2 = sample_1 + 1; sample_2 < sample_other_house.size() - 2; sample_2++) {//take a combination from the other house that could be the swordfish
                                             for (int sample_3 = sample_2 + 1; sample_3 < sample_other_house.size() - 1; sample_3++) {
                                                 for (int sample_4 = sample_3 + 1; sample_4 < sample_other_house.size(); sample_4++) {
-                                                    ArrayList<Byte> tmp = new ArrayList<>(sample_other_house);
+                                                    ArrayList<Integer> tmp = new ArrayList<>(sample_other_house);
                                                     tmp.remove(sample_other_house.get(sample_1));
                                                     tmp.remove(sample_other_house.get(sample_2));//tmp now only contains the other house which could be fins
                                                     tmp.remove(sample_other_house.get(sample_3));
                                                     tmp.remove(sample_other_house.get(sample_4));
-                                                    ArrayList<byte[]> fin_coordinates = new ArrayList<>();//the coordinates of the could be fins
-                                                    ArrayList<Byte> fin_in_first = finPresent(candidateFin_pos.get(i), tmp);//store the other house if prospective fin present
-                                                    ArrayList<Byte> fin_in_second = finPresent(candidateFin_pos.get(j), tmp);
-                                                    ArrayList<Byte> fin_in_third = finPresent(candidateFin_pos.get(k), tmp);
-                                                    ArrayList<Byte> fin_in_fourth = finPresent(candidateFin_pos.get(l), tmp);
+                                                    ArrayList<int[]> fin_coordinates = new ArrayList<>();//the coordinates of the could be fins
+                                                    ArrayList<Integer> fin_in_first = finPresent(candidateFin_pos.get(i), tmp);//store the other house if prospective fin present
+                                                    ArrayList<Integer> fin_in_second = finPresent(candidateFin_pos.get(j), tmp);
+                                                    ArrayList<Integer> fin_in_third = finPresent(candidateFin_pos.get(k), tmp);
+                                                    ArrayList<Integer> fin_in_fourth = finPresent(candidateFin_pos.get(l), tmp);
                                                     if (which == 1) {
 
                                                         addFinCoordinates(fin_in_first, houseFin_in.get(i), fin_coordinates, 1);
@@ -1966,12 +1966,12 @@ public final class Sudoku {
                                                         addFinCoordinates(fin_in_third, houseFin_in.get(k), fin_coordinates, 1);
                                                         addFinCoordinates(fin_in_fourth, houseFin_in.get(l), fin_coordinates, 1);
 
-                                                        byte[] subsquare_markers;
+                                                        int[] subsquare_markers;
                                                         if ((subsquare_markers = commonSubsquare(fin_coordinates)) != null) {//all the fins are in the same subsquare
-                                                            byte sample_house_1 = sample_other_house.get(sample_1);
-                                                            byte sample_house_2 = sample_other_house.get(sample_2);
-                                                            byte sample_house_3 = sample_other_house.get(sample_3);
-                                                            byte sample_house_4 = sample_other_house.get(sample_4);
+                                                            int sample_house_1 = sample_other_house.get(sample_1);
+                                                            int sample_house_2 = sample_other_house.get(sample_2);
+                                                            int sample_house_3 = sample_other_house.get(sample_3);
+                                                            int sample_house_4 = sample_other_house.get(sample_4);
                                                             String title = "Finned Jellyfish in " + " Row " + (houseFin_in.get(i) + 1) + ", " + (houseFin_in.get(j) + 1) + " , " + (houseFin_in.get(k) + 1) +
                                                                     " and " + (houseFin_in.get(l) + 1);
                                                             String insert_s = "Candidate " + num + " is common to Jellyfish cells : ";
@@ -2015,12 +2015,12 @@ public final class Sudoku {
                                                         addFinCoordinates(fin_in_third, houseFin_in.get(k), fin_coordinates, 2);
                                                         addFinCoordinates(fin_in_fourth, houseFin_in.get(l), fin_coordinates, 2);
 
-                                                        byte[] subsquare_markers;
+                                                        int[] subsquare_markers;
                                                         if ((subsquare_markers = commonSubsquare(fin_coordinates)) != null) {//all the fins are in the same subsquare
-                                                            byte sample_house_1 = sample_other_house.get(sample_1);
-                                                            byte sample_house_2 = sample_other_house.get(sample_2);
-                                                            byte sample_house_3 = sample_other_house.get(sample_3);
-                                                            byte sample_house_4 = sample_other_house.get(sample_4);
+                                                            int sample_house_1 = sample_other_house.get(sample_1);
+                                                            int sample_house_2 = sample_other_house.get(sample_2);
+                                                            int sample_house_3 = sample_other_house.get(sample_3);
+                                                            int sample_house_4 = sample_other_house.get(sample_4);
                                                             String title = "Finned Jellyfish in " + " Columns " + (houseFin_in.get(i) + 1) + ", " + (houseFin_in.get(j) + 1) + " , " + (houseFin_in.get(k) + 1) +
                                                                     " and " + (houseFin_in.get(l) + 1);
                                                             String insert_s = "Candidate " + num + " is common to Jellyfish cells : ";
@@ -2072,13 +2072,13 @@ public final class Sudoku {
 
     }
 
-    private static String finRemover(Cell[][] puzzle, byte[] subsquare_markers, byte constant_house, Byte skip_house, Byte skip_house2, Byte skip_house3, Byte skip_house4, int which, byte num) {
+    private static String finRemover(Cell[][] puzzle, int[] subsquare_markers, int constant_house, Integer skip_house, Integer skip_house2, Integer skip_house3, Integer skip_house4, int which, int num) {
 
         String remove_s = "";
         if (which == 1) {
             if (constant_house - constant_house % 3 == subsquare_markers[1]) {
-                for (byte row = subsquare_markers[0]; row <= subsquare_markers[0] + 2; row++) {
-                    if (!((Byte) row).equals(skip_house) && !((Byte) row).equals(skip_house2) && !((Byte) row).equals(skip_house3) && !((Byte) row).equals(skip_house4)) {
+                for (int row = subsquare_markers[0]; row <= subsquare_markers[0] + 2; row++) {
+                    if (!((Integer) row).equals(skip_house) && !((Integer) row).equals(skip_house2) && !((Integer) row).equals(skip_house3) && !((Integer) row).equals(skip_house4)) {
                         if (puzzle[row][constant_house].isCandidate(num) && puzzle[row][constant_house].isNotSet()) {
                             puzzle[row][constant_house].removeCandidate(num);
                             changeCounter++;
@@ -2089,8 +2089,8 @@ public final class Sudoku {
             }
         } else {
             if (constant_house - constant_house % 3 == subsquare_markers[0]) {
-                for (byte col = subsquare_markers[1]; col <= subsquare_markers[1] + 2; col++) {
-                    if (!((Byte) col).equals(skip_house) && !((Byte) col).equals(skip_house2) && !((Byte) col).equals(skip_house3) && !((Byte) col).equals(skip_house4)) {
+                for (int col = subsquare_markers[1]; col <= subsquare_markers[1] + 2; col++) {
+                    if (!((Integer) col).equals(skip_house) && !((Integer) col).equals(skip_house2) && !((Integer) col).equals(skip_house3) && !((Integer) col).equals(skip_house4)) {
                         if (puzzle[constant_house][col].isCandidate(num) && puzzle[constant_house][col].isNotSet()) {
                             puzzle[constant_house][col].removeCandidate(num);
                             changeCounter++;
@@ -2104,33 +2104,33 @@ public final class Sudoku {
 
     }
 
-    private static String[] finInserter(Cell[][] puzzle, int row, int column, byte num, ArrayList<byte[]> fin_coordinates) {
+    private static String[] finInserter(Cell[][] puzzle, int row, int column, int num, ArrayList<int[]> fin_coordinates) {
 
         String[] finInsert = new String[2];
         finInsert[0] = "";
         finInsert[1] = "";
         if (puzzle[row][column].isCandidate(num)
                 && puzzle[row][column].isNotSet() &&
-                !contains(fin_coordinates, new byte[]{(byte) row, (byte) column}))
+                !contains(fin_coordinates, new int[]{ row,  column}))
             finInsert[0] += "(" + (row + 1) + "," + (column + 1) + ") ";
         else if (puzzle[row][column].isCandidate(num)
                 && puzzle[row][column].isNotSet() &&
-                contains(fin_coordinates, new byte[]{(byte) row, (byte) column}))
+                contains(fin_coordinates, new int[]{ row,  column}))
             finInsert[1] += "(" + (row + 1) + "," + (column + 1) + ") ";
 
         return finInsert;
 
     }
 
-    private static void addFinCoordinates(ArrayList<Byte> finnedOtherHouse, Byte finHouse, ArrayList<byte[]> fin_coordinates, int which) {
+    private static void addFinCoordinates(ArrayList<Integer> finnedOtherHouse, Integer finHouse, ArrayList<int[]> fin_coordinates, int which) {
         if (which == 1) {
             if (finnedOtherHouse != null) {//prospective fin is in the first column
-                byte[] first = new byte[2];
+                int[] first = new int[2];
                 first[1] = finnedOtherHouse.get(0);
                 first[0] = finHouse;
                 fin_coordinates.add(first);
                 if (finnedOtherHouse.size() == 2) {
-                    byte[] second = new byte[2];
+                    int[] second = new int[2];
                     second[1] = finnedOtherHouse.get(1);
                     second[0] = finHouse;
                     fin_coordinates.add(second);
@@ -2138,12 +2138,12 @@ public final class Sudoku {
             }
         } else {
             if (finnedOtherHouse != null) {//prospective fin is in the first column
-                byte[] first = new byte[2];
+                int[] first = new int[2];
                 first[0] = finnedOtherHouse.get(0);
                 first[1] = finHouse;
                 fin_coordinates.add(first);
                 if (finnedOtherHouse.size() == 2) {
-                    byte[] second = new byte[2];
+                    int[] second = new int[2];
                     second[0] = finnedOtherHouse.get(1);
                     second[1] = finHouse;
                     fin_coordinates.add(second);
@@ -2152,30 +2152,30 @@ public final class Sudoku {
         }
     }
 
-    private static boolean contains(ArrayList<byte[]> fin_coordinates, byte[] bytes) {
-        for (byte[] bytearr : fin_coordinates) {
-            if (Arrays.equals(bytearr, bytes)) {
+    private static boolean contains(ArrayList<int[]> fin_coordinates, int[] integers) {
+        for (int[] bytearr : fin_coordinates) {
+            if (Arrays.equals(bytearr, integers)) {
                 return true;
             }
         }
         return false;
     }
 
-    private static byte[] commonSubsquare(ArrayList<byte[]> fin_coordinates) {
-        byte row_s = (byte) (fin_coordinates.get(0)[0] - fin_coordinates.get(0)[0] % 3);
-        byte col_s = (byte) (fin_coordinates.get(0)[1] - fin_coordinates.get(0)[1] % 3);
+    private static int[] commonSubsquare(ArrayList<int[]> fin_coordinates) {
+        int row_s =  (fin_coordinates.get(0)[0] - fin_coordinates.get(0)[0] % 3);
+        int col_s =  (fin_coordinates.get(0)[1] - fin_coordinates.get(0)[1] % 3);
         for (int i = 1; i < fin_coordinates.size(); i++) {
-            if (!((byte) (fin_coordinates.get(i)[0] - fin_coordinates.get(i)[0] % 3) == row_s &&
-                    (byte) (fin_coordinates.get(i)[1] - fin_coordinates.get(i)[1] % 3) == col_s)) {
+            if (!( (fin_coordinates.get(i)[0] - fin_coordinates.get(i)[0] % 3) == row_s &&
+                     (fin_coordinates.get(i)[1] - fin_coordinates.get(i)[1] % 3) == col_s)) {
                 return null;
             }
         }
-        return new byte[]{row_s, col_s};
+        return new int[]{row_s, col_s};
     }
 
-    private static ArrayList<Byte> finPresent(byte[] bytes, ArrayList<Byte> tmp) {
-        ArrayList<Byte> output = new ArrayList<>();
-        for (byte aByte : bytes) {
+    private static ArrayList<Integer> finPresent(int[] integers, ArrayList<Integer> tmp) {
+        ArrayList<Integer> output = new ArrayList<>();
+        for (int aByte : integers) {
             if (tmp.contains(aByte)) {
                 output.add(aByte);
             }
@@ -2186,28 +2186,28 @@ public final class Sudoku {
         return null;
     }
 
-    private static ArrayList<Byte> compareCandidatePos(byte[] bytes, byte[] bytes1, byte[] bytes2, byte[] bytes3) {
-        ArrayList<Byte> unique_dig = new ArrayList<>();
-        if (bytes != null) {
-            for (byte aByte : bytes) {
+    private static ArrayList<Integer> compareCandidatePos(int[] integers, int[] bytes1, int[] bytes2, int[] bytes3) {
+        ArrayList<Integer> unique_dig = new ArrayList<>();
+        if (integers != null) {
+            for (int aByte : integers) {
                 if (aByte != -1)
                     unique_dig.add(aByte);
             }
         }
         if (bytes1 != null) {
-            for (byte b : bytes1) {
+            for (int b : bytes1) {
                 if (b != -1 && !unique_dig.contains(b))
                     unique_dig.add(b);
             }
         }
         if (bytes2 != null) {
-            for (byte b : bytes2) {
+            for (int b : bytes2) {
                 if (b != -1 && !unique_dig.contains(b))
                     unique_dig.add(b);
             }
         }
         if (bytes3 != null) {
-            for (byte b : bytes3) {
+            for (int b : bytes3) {
                 if (b != -1 && !unique_dig.contains(b))
                     unique_dig.add(b);
             }
@@ -2215,19 +2215,23 @@ public final class Sudoku {
         return unique_dig;
     }// end of compareCandidatePos()
 
+    private static void hiddenTriple(){
+
+    }
+
     /**
      * A last resort for the sudoku solver to solve puzzles if all of the previous logics do not work
      */
-    private static boolean bruteForce(Cell[][] puzzle, byte previous_row) {//brute forcing will be done row wise
-        byte noOfCandidates;
-        byte[] coordinates = findNextEmptyCell(puzzle, previous_row);
-        byte r = coordinates[0];
-        byte c = coordinates[1];
+    private static boolean bruteForce(Cell[][] puzzle, int previous_row) {//brute forcing will be done row wise
+        int noOfCandidates;
+        int[] coordinates = findNextEmptyCell(puzzle, previous_row);
+        int r = coordinates[0];
+        int c = coordinates[1];
         if (r == 9)//no more empty cells remaining, which means all cells have been successfully filled
             return true;
         else {
             noOfCandidates = puzzle[r][c].getNoOfCandidates();
-            for (byte inc = 0; inc < noOfCandidates; inc++) {
+            for (int inc = 0; inc < noOfCandidates; inc++) {
                 if (numCanExistInCell(puzzle, r, c, puzzle[r][c].getCandidate(inc))) {
                     puzzle[r][c].placeSolution(puzzle[r][c].getCandidate(inc));
                     if (bruteForce(puzzle, r)) {//if further brute force was successful
@@ -2235,39 +2239,39 @@ public final class Sudoku {
                     }//second if statement
                 }//first if statement
             }//for loop
-            puzzle[r][c].placeSolution((byte) 0);//making the cell empty again
+            puzzle[r][c].placeSolution( 0);//making the cell empty again
             return false;//if no candidate can be successfully placed in the cell
         }
     }//end of bruteForce()
 
-    private static byte[] findNextEmptyCell(Cell[][] puzzle, byte r) {// finding next empty cell for the brute force function
+    private static int[] findNextEmptyCell(Cell[][] puzzle, int r) {// finding next empty cell for the brute force function
         for (; r < 9; r++) {
-            for (byte c = 0; c < 9; c++) {
+            for (int c = 0; c < 9; c++) {
                 if (puzzle[r][c].isNotSet())
-                    return new byte[]{r, c};//returning the coordinates of the next empty cell
+                    return new int[]{r, c};//returning the coordinates of the next empty cell
             }
         }
-        return new byte[]{9, 9};//returning (9,9) if there are no more empty cells remaining in the puzzle
+        return new int[]{9, 9};//returning (9,9) if there are no more empty cells remaining in the puzzle
     }// end of findNextEmptyCell()
 
-    private static boolean numCanExistInCell(Cell[][] puzzle, byte row, byte col, byte num) {//checks if a number can exist in a particular cell
+    private static boolean numCanExistInCell(Cell[][] puzzle, int row, int col, int num) {//checks if a number can exist in a particular cell
         //checking row
-        for (byte c = 0; c < 9; c++) {
+        for (int c = 0; c < 9; c++) {
             if (num == puzzle[row][c].getSolution())
                 return false;
         }
 
         //checking column
-        for (byte r = 0; r < 9; r++) {
+        for (int r = 0; r < 9; r++) {
             if (num == puzzle[r][col].getSolution())
                 return false;
         }
 
         //checking subsquare
-        byte tmp_r = (byte) (row - (row % 3));// starting row of current subsquare
-        byte tmp_c = (byte) (col - (col % 3));// starting column of current subsquare
-        for (byte r = tmp_r; r < tmp_r + 3; r++) {
-            for (byte c = tmp_c; c < tmp_c + 3; c++) {
+        int tmp_r =  (row - (row % 3));// starting row of current subsquare
+        int tmp_c =  (col - (col % 3));// starting column of current subsquare
+        for (int r = tmp_r; r < tmp_r + 3; r++) {
+            for (int c = tmp_c; c < tmp_c + 3; c++) {
                 if (num == puzzle[r][c].getSolution()) {// avoid the current column and check if num is a candidate in the cell
                     return false;
                 }
@@ -2282,7 +2286,7 @@ public final class Sudoku {
      */
     public static void Solve(Cell[][] puzzle) {
 
-        byte levelUpdater = 0;//this variable determines which all algorithms are used in an iteration of the do while loop below,
+        int levelUpdater = 0;//this variable determines which all algorithms are used in an iteration of the do while loop below,
         //higher the value of levelUpdater - more complex algorithms are used
 
         int beforeUsingStrategy;//temporary variable used to check if there is a change in the value of changeCounter after a certain strategy is used
@@ -2371,7 +2375,7 @@ public final class Sudoku {
 
         //if the solving strategies could not completely solve the puzzle, resort to brute force
         if (cellCount != 81) {//checking if the puzzle is unsolved
-            bruteForce(puzzle, (byte) 0);//calling the brute force method
+            bruteForce(puzzle,  0);//calling the brute force method
             algorithm.add("Brute Force");//adding Brute Force to the list of algorithms used
             insert.add("Solvadoku solved the rest of this puzzle using brute force. There may be " +
                     "some other logic to solve the puzzle or none at all if it is a puzzle with multiple solutions");
@@ -2519,7 +2523,7 @@ public final class Sudoku {
 
         //if the solving strategies could not completely solve the puzzle, resort to brute force
         if (cellCount != 81 && strategy[logics.length - 1]) {//checking if the puzzle is unsolved AND the user has chosen to use Brute Force
-            bruteForce(puzzle, (byte) 0);//calling the brute force method
+            bruteForce(puzzle,  0);//calling the brute force method
             algorithm.add("Brute Force");
             insert.add("Solvadoku solved the rest of this puzzle using brute force. There may be " +
                     "some other logic to solve the puzzle or none at all if it is a puzzle with multiple solutions");
