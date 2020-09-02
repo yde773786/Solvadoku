@@ -2295,63 +2295,63 @@ public final class Sudoku {
                 case 11:
                     beforeUsingStrategy = changeCounter;
                     finnedJellyfish(puzzle);
-                    if (beforeUsingStrategy != changeCounter)//if they are equal, change was effected by swordfish()
+                    if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by finnedJellyfish()
                         levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
 
 
                 case 10:
                     beforeUsingStrategy = changeCounter;
                     finnedSwordfish(puzzle);
-                    if (beforeUsingStrategy != changeCounter)//if they are equal, change was effected by swordfish()
+                    if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by finnedSwordfish()
                         levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
 
                 case 9:
                     beforeUsingStrategy = changeCounter;
                     finnedXWing(puzzle);
-                    if (beforeUsingStrategy != changeCounter)//if they are equal, change was effected by swordfish()
+                    if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by finnedXWing()
                         levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
 
                 case 8:
                     beforeUsingStrategy = changeCounter;
                     jellyfish(puzzle);
-                    if (beforeUsingStrategy != changeCounter)//if they are equal, change was effected by swordfish()
+                    if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by jellyfish()
                         levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
 
                 case 7:
                     beforeUsingStrategy = changeCounter;
                     swordfish(puzzle);
-                    if (beforeUsingStrategy != changeCounter)//if they are equal, change was effected by swordfish()
+                    if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by swordfish()
                         levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
 
                 case 6:
                     beforeUsingStrategy = changeCounter;
                     xWing(puzzle);
-                    if (beforeUsingStrategy != changeCounter)//if they are equal, change was effected by xWing()
+                    if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by xWing()
                         levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
 
                 case 5:
                     beforeUsingStrategy = changeCounter;
                     nakedTriple(puzzle);
-                    if (beforeUsingStrategy != changeCounter)//if they are equal, change was effected by nakedTriple()
+                    if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by nakedTriple()
                         levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
 
                 case 4:
                     beforeUsingStrategy = changeCounter;
                     hiddenPair(puzzle);
-                    if (beforeUsingStrategy != changeCounter)//if they are equal, change was effected by hiddenPair()
+                    if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by hiddenPair()
                         levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
 
                 case 3:
                     beforeUsingStrategy = changeCounter;
                     pointingPair(puzzle);
                     claimingPair(puzzle);
-                    if (beforeUsingStrategy != changeCounter)//if they are equal, change was effected by pointingPair() and claimingPair()
+                    if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by pointingPair() and claimingPair()
                         levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
 
                 case 2:
                     beforeUsingStrategy = changeCounter;
                     nakedPair(puzzle);
-                    if (beforeUsingStrategy != changeCounter)//if they are equal, change was effected by nakedPair()
+                    if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by nakedPair()
                         levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
 
                 case 1:
@@ -2367,7 +2367,7 @@ public final class Sudoku {
             if (changeCounter == 0)//if no changes have been made to the puzzle with the current set of algorithms, increase the level to utilize more complex solving strategies
                 levelUpdater++;
 
-        } while (levelUpdater <= 11);//if the levelUpdater goes greater than 5, it means despite using all the algorithms available - the puzzle could not be solved
+        } while (levelUpdater <= 11);//if the levelUpdater goes greater than 11, it means despite using all the algorithms available - the puzzle could not be solved
 
         //if the solving strategies could not completely solve the puzzle, resort to brute force
         if (cellCount != 81) {//checking if the puzzle is unsolved
@@ -2391,7 +2391,8 @@ public final class Sudoku {
     public static void partiallySolve(Cell[][] puzzle, ArrayList<String> chosenStrategies) {
 
         final String[] logics = {"Naked Single", "Hidden Single", "Naked Pair", "Pointing Pair",
-                "Claiming Pair", "Hidden Pair", "Naked Triple", "X-Wing", "Swordfish", "Jellyfish", "Finned X-Wing", "Finned Swordfish", "Brute Force"};
+                "Claiming Pair", "Hidden Pair", "Naked Triple", "X-Wing", "Swordfish", "Jellyfish", 
+                "Finned X-Wing", "Finned Swordfish", "Finned Jellyfish", "Brute Force"};
 
         boolean[] strategy = new boolean[logics.length];//array that indicates which solving strategies the user wants to use
         //Order of the strategies is the same as that of the array logics[] shown above
@@ -2415,7 +2416,7 @@ public final class Sudoku {
                     if (strategy[12]) {
                         beforeUsingStrategy = changeCounter;
                         finnedJellyfish(puzzle);
-                        if (beforeUsingStrategy != changeCounter)//if they are equal, change was effected by swordfish()
+                        if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by finnedJellyfish()
                             levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
                     }
 
@@ -2423,7 +2424,7 @@ public final class Sudoku {
                     if (strategy[11]) {
                         beforeUsingStrategy = changeCounter;
                         finnedSwordfish(puzzle);
-                        if (beforeUsingStrategy != changeCounter)//if they are equal, change was effected by swordfish()
+                        if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by finnedSwordfish()
                             levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
                     }
 
@@ -2431,7 +2432,7 @@ public final class Sudoku {
                     if (strategy[10]) {
                         beforeUsingStrategy = changeCounter;
                         finnedXWing(puzzle);
-                        if (beforeUsingStrategy != changeCounter)//if they are equal, change was effected by swordfish()
+                        if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by finnedXWing()
                             levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
                     }
 
@@ -2439,7 +2440,7 @@ public final class Sudoku {
                     if (strategy[9]) {
                         beforeUsingStrategy = changeCounter;
                         jellyfish(puzzle);
-                        if (beforeUsingStrategy != changeCounter)//if they are equal, change was effected by swordfish()
+                        if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by jellyfish()
                             levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
                     }
 
@@ -2447,7 +2448,7 @@ public final class Sudoku {
                     if (strategy[8]) {
                         beforeUsingStrategy = changeCounter;
                         swordfish(puzzle);
-                        if (beforeUsingStrategy != changeCounter)//if they are equal, change was effected by swordfish()
+                        if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by swordfish()
                             levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
                     }
 
@@ -2455,7 +2456,7 @@ public final class Sudoku {
                     if (strategy[7]) {
                         beforeUsingStrategy = changeCounter;
                         xWing(puzzle);
-                        if (beforeUsingStrategy != changeCounter)//if they are equal, change was effected by xWing()
+                        if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by xWing()
                             levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
                     }
 
@@ -2463,7 +2464,7 @@ public final class Sudoku {
                     if (strategy[6]) {
                         beforeUsingStrategy = changeCounter;
                         nakedTriple(puzzle);
-                        if (beforeUsingStrategy != changeCounter)//if they are equal, change was effected by nakedTriple()
+                        if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by nakedTriple()
                             levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
                     }
 
@@ -2471,7 +2472,7 @@ public final class Sudoku {
                     if (strategy[5]) {
                         beforeUsingStrategy = changeCounter;
                         hiddenPair(puzzle);
-                        if (beforeUsingStrategy != changeCounter)//if they are equal, change was effected by hiddenPair()
+                        if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by hiddenPair()
                             levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
                     }
 
@@ -2479,7 +2480,7 @@ public final class Sudoku {
                     if (strategy[4]) {
                         beforeUsingStrategy = changeCounter;
                         claimingPair(puzzle);
-                        if (beforeUsingStrategy != changeCounter)//if they are equal, change was effected by claimingPair()
+                        if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by claimingPair()
                             levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
                     }
 
@@ -2487,7 +2488,7 @@ public final class Sudoku {
                     if (strategy[3]) {
                         beforeUsingStrategy = changeCounter;
                         pointingPair(puzzle);
-                        if (beforeUsingStrategy != changeCounter)//if they are equal, change was effected by pointingPair()
+                        if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by pointingPair()
                             levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
                     }
 
@@ -2495,7 +2496,7 @@ public final class Sudoku {
                     if (strategy[2]) {
                         beforeUsingStrategy = changeCounter;
                         nakedPair(puzzle);
-                        if (beforeUsingStrategy != changeCounter)//if they are equal, change was effected by nakedPair()
+                        if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by nakedPair()
                             levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
                     }
 
@@ -2514,7 +2515,7 @@ public final class Sudoku {
             if (changeCounter == 0)//if no changes have been made to the puzzle with the current set of algorithms, increase the level to utilize more complex solving strategies
                 levelUpdater++;
 
-        } while (levelUpdater <= 12);//if the levelUpdater goes greater than 6, it means after using the chosen algorithms - the puzzle could still not be solved
+        } while (levelUpdater <= 12);//if the levelUpdater goes greater than 12, it means after using the chosen algorithms - the puzzle could still not be solved
 
         //if the solving strategies could not completely solve the puzzle, resort to brute force
         if (cellCount != 81 && strategy[logics.length - 1]) {//checking if the puzzle is unsolved AND the user has chosen to use Brute Force
