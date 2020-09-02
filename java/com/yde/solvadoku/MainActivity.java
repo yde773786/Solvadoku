@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements View.OnFocusChang
                     for (int i = 0; i < 9; i++) {
                         for (int j = 0; j < 9; j++) {
                             if (hasValue(unit[i][j])) {
-                                Sudoku.placeNumber(puzzle, (byte) i, (byte) j, value(unit[i][j]));
+                                Sudoku.placeNumber(puzzle, i, j, value(unit[i][j]));
                             }
                         }
                     }
@@ -200,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements View.OnFocusChang
                                         for (int i = 0; i < 9; i++) {
                                             for (int j = 0; j < 9; j++) {
                                                 if (hasValue(unit[i][j])) {
-                                                    Sudoku.placeNumber(puzzle, (byte) i, (byte) j, value(unit[i][j]));
+                                                    Sudoku.placeNumber(puzzle, i, j, value(unit[i][j]));
                                                 }
                                             }
                                         }
@@ -301,12 +301,12 @@ public class MainActivity extends AppCompatActivity implements View.OnFocusChang
         editText.setCursorVisible(false);
     }
 
-    private byte value(EditText editText) {
-        return (byte) Integer.parseInt(editText.getText().toString());
+    private int value(EditText editText) {
+        return Integer.parseInt(editText.getText().toString());
     }
 
     private boolean hasValue(EditText editText) {
-        for (byte i = 1; i <= 9; i++) {
+        for (int i = 1; i <= 9; i++) {
             if (editText.getText().toString().equals(String.valueOf(i)))
                 return true;
         }
@@ -369,7 +369,7 @@ public class MainActivity extends AppCompatActivity implements View.OnFocusChang
     }
 
     private boolean duplicateInSubsquare(int sub_r, int sub_c) {
-        for (byte num = 1; num < 10; num++) {
+        for (int num = 1; num < 10; num++) {
             int cnt = 0;
             for (int r = sub_r; r < sub_r + 3; r++) {
                 for (int c = sub_c; c < sub_c + 3; c++) {
@@ -388,7 +388,7 @@ public class MainActivity extends AppCompatActivity implements View.OnFocusChang
     }
 
     private boolean duplicateInColumn(int c) {
-        for (byte num = 1; num < 10; num++) {
+        for (int num = 1; num < 10; num++) {
             int cnt = 0;
             for (int r = 0; r < 9; r++) {
                 if (hasValue(unit[r][c])) {
@@ -405,7 +405,7 @@ public class MainActivity extends AppCompatActivity implements View.OnFocusChang
     }
 
     private boolean duplicateInRow(int r) {
-        for (byte num = 1; num < 10; num++) {
+        for (int num = 1; num < 10; num++) {
             int cnt = 0;
             for (int c = 0; c < 9; c++) {
                 if (hasValue(unit[r][c])) {

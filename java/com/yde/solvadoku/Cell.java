@@ -18,7 +18,7 @@ public class Cell {
     private int noOfCandidates;
 
     /**
-     * initializes array possibilities true for all integers from 1 to 9, indicating
+     * initializes array possibilities true for all ints from 1 to 9, indicating
      * that all numbers are candidates initially.
      */
     public Cell() {
@@ -30,22 +30,22 @@ public class Cell {
         solution = 0;
     }// end of constructor
 
-    /** 
-     * returns the number of candidates for the cell 
+    /**
+     * provides the number of candidates for the cell
      */
     public int getNoOfCandidates() {
-        return (int)noOfCandidates;
+        return noOfCandidates;
     }// end of int getNoOfCandidates()
 
-    /** 
-     * checks if the input integer is a current candidate in the cell 
+    /**
+     * checks if the input int is a current candidate in the cell
      */
     public boolean isCandidate(int input) {
-        return candidates[input-1];
-    }// end of boolean isCandidate(int)
+        return candidates[input - 1];
+    }// end of boolean isCandidate
 
-    /** 
-     * returns the current Candidate at the entered position. 
+    /**
+     * returns the current Candidate at the entered position.
      */
     public int getCandidate(int position) {
         int current_pos = -1;
@@ -53,54 +53,51 @@ public class Cell {
             if (candidates[i]) {
                 current_pos++;
                 if (current_pos == position)
-                    return (int)(i + 1);           
-            }            
+                    return (i + 1);
+            }
         }
         return -1;
     }// end of int getCandidate(int)
 
-    /** 
-     * removes the corresponding candidate to the int input 
+    /**
+     * removes the corresponding candidate to the int input
      */
     public void removeCandidate(int input) {
-        candidates[input-1] = false;
+        candidates[input - 1] = false;
         noOfCandidates--;
-    }// end of void removeCandidate(int)
+    }// end of void removeCandidate
 
-    /** 
-     * checks if the input cell has the same Candidates as the current cell 
+    /**
+     * checks if the input cell has the same Candidates as the current cell
      */
     public boolean sameCandidates(Cell other) {
-        return (Arrays.equals(this.candidates, other.candidates));            
+        return (Arrays.equals(this.candidates, other.candidates));
     }// end of boolean sameCandidate(Cell)
 
-    /** 
-     * inserts the int input to the cell permanently 
+    /**
+     * inserts the int input to the cell permanently
      */
     public void placeSolution(int input) { // a final decision is made irrespective of the current number of possibilities and Candidates
         solution = input;
-    }// end of void placeSolution(int)
+    }// end of void placeSolution
 
-    /** 
-     * gets the inserted value 
+    /**
+     * gets the inserted value
      */
     public int getSolution() {
         return solution;
     }// end of int getSolution()
 
-    /** 
-     * checks if the cell has a value permanently inserted in it or not. 
+    /**
+     * checks if the cell has a value permanently inserted in it or not.
      */
     public boolean isNotSet() {
         return (solution == 0);
     }// end of boolean isNotSet()
 
-    /** 
-     * returns list of the candidates for the cell 
-     */
     public String listCandidates() {
         String s = "";
-        for (byte i = 0; i < 9; i++) {
+        for (int i = 0; i < 9; i++) {
             if (candidates[i]) {
                 s += (i + 1);
             } else
@@ -111,9 +108,8 @@ public class Cell {
                 s += " ";
         }
         return s;
-    }// end of String listCandidates()
+    }
 
     // public int pencilMarks() {
     //}
-
 }// end of class Cell
