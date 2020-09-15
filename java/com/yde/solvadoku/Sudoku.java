@@ -1,4 +1,4 @@
-package com.yde.solvadoku;
+package java.com.yde.solvadoku;
 
 import java.sql.Array;
 import java.util.ArrayList;
@@ -1286,6 +1286,272 @@ public final class Sudoku {
 
     }// end of hiddenPairCheckSteps()
 
+
+    private static void hiddenTriple(Cell[][] puzzle) {        
+        int[] triple = new int[3];//array to store the values of the triple
+
+        //checking for HIDDEN TRIPLE in Rows
+        for (int r = 0; r < 9; r++) {
+            ArrayList<Integer> eligible_columns = new ArrayList<>();//columns in the current row that could possibly contain a hidden triple
+            for (int c = 0; c < 9; c++) { //loop to find eligible cells in this row
+                if (puzzle[r][c].isNotSet() && puzzle[r][c].getNoOfCandidates() >= 2)//if cell has 2 or more candidates, it is eligible
+                    eligible_columns.add(c);
+            }//c
+    
+            if (eligible_columns.size() >= 3) {//there needs to be at least 3 eligible cells for a hidden triple to exist
+
+                for (int i = 0 ; i < eligible_columns.size()-2 ; i++) {//loop to go through combinations of the eligible cells in the rows to find valid hidden triple
+                    for (int j =  (i + 1) ; j < eligible_columns.size()-1 ; j++) {
+                        for (int k = (j + 1) ; k < eligible_columns.size() ; k++){
+                            int index_1 = eligible_columns.get(i);
+                            int index_2 = eligible_columns.get(j);
+                            int index_3 = eligible_columns.get(k);
+                            ArrayList<Integer> similarCandidates = getSimilarCandidates(puzzle[r][index_1], puzzle[r][index_2], puzzle[r][index_3]);//store the similar candidates between chosen candidates
+
+                            if (similarCandidates.size() >= 3) {//checking if there are 2 or 3 similar candidates
+
+                                for (int inc0 = 0; inc0 < similarCandidates.size()-2 ; inc0++) {
+                                    for (int inc1 =  (inc0 + 1); inc1 < similarCandidates.size()-1 ; inc1++) {
+                                        for (int inc2 = (inc1 + 1) ; inc2 < similarCandidates.size() ; inc2++) {//choose any 3 of the similar candidates
+                                            triple[0] = similarCandidates.get(inc0);
+                                            triple[1] = similarCandidates.get(inc1);
+                                            triple[2] = similarCandidates.get(inc2);
+                                        if (tripleDoesNotExistInOtherCellsInRow(puzzle, r, triple, index_1, index_2, index_3))//checking if any other cells in the same row also have triple[0], triple[1] or triple[2] as candidates
+                                            hiddenTripleCheckSteps(puzzle, r, index_1, r, index_2, r, index_3, triple,  1);
+                                        }//inc2
+                                    }//inc1
+                                }//inc0
+    
+                            }//if statement
+
+                        }//index3
+                    }//index2
+                }//index1
+
+            }//if
+        }//r
+    
+        //checking for HIDDEN TRIPLE in Columns
+        for (int c = 0; c < 9; c++) {
+            ArrayList<Integer> eligible_rows = new ArrayList<>();//rows in the current column that could possibly contain a hidden triple
+            for (int r = 0; r < 9; r++) { //loop to find eligible cells in this column
+                if (puzzle[r][c].isNotSet() && puzzle[r][c].getNoOfCandidates() >= 2)//if cell has 2 or more candidates, it is eligible
+                    eligible_rows.add(r);
+            }//r
+    
+            if (eligible_rows.size() >= 3) {//there needs to be at least 3 eligible cells for a hidden triple to exist
+
+                for (int i = 0 ; i < eligible_rows.size()-2 ; i++) {//loop to go through combinations of the eligible cells in the columns to find valid hidden triple
+                    for (int j =  (i + 1) ; j < eligible_rows.size()-1 ; j++) {
+                        for (int k = (j + 1) ; k < eligible_rows.size() ; k++){
+                            int index_1 = eligible_rows.get(i);
+                            int index_2 = eligible_rows.get(j);
+                            int index_3 = eligible_rows.get(k);
+                            ArrayList<Integer> similarCandidates = getSimilarCandidates(puzzle[index_1][c], puzzle[index_2][c], puzzle[index_3][c]);//store the similar candidates between chosen candidates
+
+                            if (similarCandidates.size() >= 3) {//checking if there are 2 or 3 similar candidates
+
+                                for (int inc0 = 0; inc0 < similarCandidates.size()-2 ; inc0++) {
+                                    for (int inc1 =  (inc0 + 1); inc1 < similarCandidates.size()-1 ; inc1++) {
+                                        for (int inc2 = (inc1 + 1) ; inc2 < similarCandidates.size() ; inc2++) {//choose any 3 of the similar candidates
+                                            triple[0] = similarCandidates.get(inc0);
+                                            triple[1] = similarCandidates.get(inc1);
+                                            triple[2] = similarCandidates.get(inc2);
+                                        if (tripleDoesNotExistInOtherCellsInColumn(puzzle, c, triple, index_1, index_2, index_3))//checking if any other cells in the same column also have triple[0], triple[1] or triple[2] as candidates
+                                            hiddenTripleCheckSteps(puzzle, index_1, c, index_2, c, index_3, c, triple,  1);
+                                        }//inc2
+                                    }//inc1
+                                }//inc0
+    
+                            }//if statement
+
+                        }//index3
+                    }//index2
+                }//index1
+
+            }//if
+        }//c
+    
+        //checking for HIDDEN TRIPLE in Block
+        for (int r1 = 0; r1 <= 6; r1 += 3) {//jumps to first row position of subsquare
+            for (int c1 = 0; c1 <= 6; c1 += 3) {//jumps to first column position of subsquare
+                ArrayList<Integer> eligible_rows = new ArrayList<>();//rows that could possibly contain a hidden triple
+                ArrayList<Integer> eligible_columns = new ArrayList<>();//columns that could possibly contain hidden triple
+                for (int r = r1; r < r1 + 3; r++) {//traversal (subsquare)
+                    for (int c = c1; c < c1 + 3; c++) {
+                        if (puzzle[r][c].isNotSet() && puzzle[r][c].getNoOfCandidates() >= 2) {//if cell has 2 or more candidates, it is eligible
+                            eligible_rows.add(r);
+                            eligible_columns.add(c);
+                        }
+                    }
+                }
+    
+                int eligibleCellsSize = eligible_columns.size();
+                if (eligibleCellsSize >= 2) {
+
+                    for (int i = 0; i < eligibleCellsSize-2 ; i++) {//loop to go through combinations of the eligible cells in the subquare to find valid hidden triple
+                        for (int j =  (i + 1); j < eligibleCellsSize-1 ; j++) {
+                            for (int k = (j + 1) ; k < eligibleCellsSize ; k++) {
+                                int index_1_r = eligible_rows.get(i);
+                                int index_1_c = eligible_columns.get(i);
+
+                                int index_2_r = eligible_rows.get(j);
+                                int index_2_c = eligible_columns.get(j);
+
+                                int index_3_r = eligible_rows.get(k);
+                                int index_3_c = eligible_columns.get(k);
+
+                                ArrayList<Integer> similarCandidates = getSimilarCandidates(puzzle[index_1_r][index_1_c], puzzle[index_2_r][index_2_c], puzzle[index_3_r][index_3_c]);//store the similar candidates between chosen candidates
+                                
+                                if (similarCandidates.size() >= 2) {//checking if there are more than or equal to 2 similar candidates
+                                    for (int inc0 = 0; inc0 < similarCandidates.size()-2 ; inc0++) {
+                                        for (int inc1 =  (inc0 + 1); inc1 < similarCandidates.size()-1 ; inc1++) {
+                                            for (int inc2 = (inc1 + 1) ; inc2 < similarCandidates.size() ; inc2++) {//choose any 2 of the similar candidates
+                                                triple[0] = similarCandidates.get(inc0);
+                                                triple[1] = similarCandidates.get(inc1);
+                                                triple[2] = similarCandidates.get(inc2);
+                                                if (tripleDoesNotExistInOtherCellsInSubsquare(puzzle, r1, c1, triple, index_1_r, index_1_c, index_2_r, index_2_c, index_3_r, index_3_c))//checking if any other cells in the same subsquare also have triple[0], triple[1] or triple[2] as candidates
+                                                    hiddenTripleCheckSteps(puzzle, index_1_r, index_1_c, index_2_r, index_2_c, index_3_r, index_3_c, triple,  3);
+                                            }//inc2
+                                        }//inc1
+                                    }//inc0
+                                }//if statement
+
+                            }//k
+                        }//j
+                    }//i
+
+                }//outer if statement
+            }//c1
+        }//r1
+    }// end of hiddenTriple()
+    
+    
+    private static ArrayList<Integer> getSimilarCandidates(Cell cell_1, Cell cell_2, Cell cell_3) {
+        ArrayList<Integer> similar_candidates = new ArrayList<>();//stores the similar candidates
+        for (int num = 1; num < 10; num++) {
+            if ( ( cell_1.isCandidate(num) && cell_2.isCandidate(num) ) || ( cell_2.isCandidate(num) && cell_3.isCandidate(num) ) || ( cell_1.isCandidate(num) && cell_3.isCandidate(num) ) ) {
+                similar_candidates.add(num);//adding similar candidates to array
+            }// if statement
+        }
+        return similar_candidates;
+    }// end of getSimilarCandidates()
+    
+    
+    private static String[] removeNonTripleCandidates(Cell cell_1, Cell cell_2, Cell cell_3, int[] triple) {
+
+        String[] removeTriple = new String[3];
+        removeTriple[0] = removeTriple[1] = removeTriple[2] = "Remove Candidates ";
+
+        boolean tmp_0, tmp_1, tmp_2;
+        tmp_0 = tmp_1 = tmp_2 = true;
+
+        for (int num = 1; num < 10; num++) {
+            if (num != triple[0] && num != triple[1] && num != triple[2]) {
+                if (cell_1.isCandidate(num)) {
+                    cell_1.removeCandidate(num);
+                    removeTriple[0] += num + ",";
+                    tmp_0 = false;
+                    changeCounter++;
+                }
+
+                if (cell_2.isCandidate(num)) {
+                    cell_2.removeCandidate(num);
+                    removeTriple[1] += num + ",";
+                    tmp_1 = false;
+                    changeCounter++;
+                }
+
+                if (cell_3.isCandidate(num)) {
+                    cell_3.removeCandidate(num);
+                    removeTriple[2] += num + ",";
+                    tmp_2 = false;
+                    changeCounter++;
+                }
+            }
+        }
+    
+        if (tmp_0)
+            removeTriple[0] = "";
+        else
+            removeTriple[0] = removeTriple[0].substring(0, removeTriple[0].length() - 1) + " from ";
+
+        if (tmp_1)
+            removeTriple[1] = "";
+        else
+            removeTriple[1] = removeTriple[1].substring(0, removeTriple[1].length() - 1) + " from ";
+
+        if (tmp_2)
+            removeTriple[2] = "";
+        else
+            removeTriple[2] = removeTriple[2].substring(0, removeTriple[2].length() - 1) + " from ";
+
+        return removeTriple;
+    }// end of removeNonTripleCandidates()
+    
+    
+    private static boolean tripleDoesNotExistInOtherCellsInRow(Cell[][] puzzle, int row, int[] triple, int index1, int index2, int index3) {
+        for (int c = 0; c < 9; c++) {
+            if ( puzzle[row][c].isNotSet() && (c != index1 && c != index2 && c != index3) )
+                if ( puzzle[row][c].isCandidate(triple[0]) || puzzle[row][c].isCandidate(triple[1]) || puzzle[row][c].isCandidate(triple[2]) )
+                    return false;                   
+        }
+        return true;
+    }// end of tripleDoesNotExistInOtherCellsInRow()
+    
+    private static boolean tripleDoesNotExistInOtherCellsInColumn(Cell[][] puzzle, int col, int[] triple, int index1, int index2, int index3) {
+        for (int r = 0; r < 9; r++) {
+            if ( puzzle[r][col].isNotSet() && (r != index1 && r != index2 && r != index3) )
+                if ( puzzle[r][col].isCandidate(triple[0]) || puzzle[r][col].isCandidate(triple[1]) || puzzle[r][col].isCandidate(triple[1]) )
+                    return false;                
+        }
+        return true;
+    }// end of tripleDoesNotExistInOtherCellsInColumn()
+    
+    private static boolean tripleDoesNotExistInOtherCellsInSubsquare(Cell[][] puzzle, int r1, int c1, int[] triple, int index_1_r, int index_1_c, int index_2_r, int index_2_c, int index_3_r, int index_3_c) {
+        for (int r = r1; r < r1 + 3; r++) {//traversal (subsquare)
+            for (int c = c1; c < c1 + 3; c++) {
+                if ( puzzle[r][c].isNotSet() && ( !(r == index_1_r && c == index_1_c) && !(r == index_2_r && c == index_2_c) && !(r == index_3_r && c == index_3_c) ) )
+                    if ( puzzle[r][c].isCandidate(triple[0]) || puzzle[r][c].isCandidate(triple[1]) || puzzle[r][c].isCandidate(triple[2]) ) 
+                        return false;                    
+            }
+        }
+        return true;
+    }//end of tripleDoesNotExistInOtherCellsInSubsquare
+
+    private static void hiddenTripleCheckSteps(Cell[][] puzzle, int row_1, int col_1, int row_2, int col_2, int row_3, int col_3, int[] triple, int house) {
+
+        int tmp = changeCounter;
+        String end_tag = "";
+    
+        switch (house) {
+            case 1://hidden triple in row
+                end_tag = " in Row " + (row_1 + 1);
+                break;
+    
+            case 2://hidden triple in column
+                end_tag = " in Column " + (col_1 + 1);
+                break;
+    
+            case 3://hidden triple in subsquare
+                end_tag = " in Block";
+                break;
+        }
+    
+        String[] removeSet = removeNonTripleCandidates(puzzle[row_1][col_1], puzzle[row_2][col_2], puzzle[row_3][col_3], triple);//contains the remove string for each cell
+        if (tmp != changeCounter) {//if tmp is != changeCounter, there has been a change caused by hiddenTriple()
+            algorithm.add("Hidden Triple" + end_tag);
+            insert.add("Candidates: " + triple[0] + ", " + triple[1] + ", " + triple[2] + " are common to cells " + "(" + (row_1 + 1) + "," + (col_1 + 1) + "), "
+                        + "(" + (row_2 + 1) + "," + (col_2 + 1) + ")" + " and " + "(" + (row_3 + 1) + "," + (col_3 + 1) + ")");
+
+            String cell_1 = removeSet[0].length() == 0 ? "" : "(" + (row_1 + 1) + "," + (col_1 + 1) + ")";//if we don't have to remove any candidates, don't print
+            String cell_2 = removeSet[1].length() == 0 ? "" : "(" + (row_2 + 1) + "," + (col_2 + 1) + ")";//if we don't have to remove any candidates, don't print
+            String cell_3 = removeSet[2].length() == 0 ? "" : "(" + (row_3 + 1) + "," + (col_3 + 1) + ")";//if we don't have to remove any candidates, don't print
+            remove.add((removeSet[0] + cell_1 + " " + removeSet[1] + cell_2 + " " + removeSet[2] + cell_3).trim());
+        }    
+    }// end of hiddenTripleCheckSteps()
+
+
     private static void xWing(Cell[][] puzzle) {
         basicFish(puzzle,  1);
     }// end of xWing()
@@ -2213,11 +2479,8 @@ public final class Sudoku {
             }
         }
         return unique_dig;
-    }// end of compareCandidatePos()
+    }// end of compareCandidatePos()      
 
-    private static void hiddenTriple(){
-
-    }
 
     /**
      * A last resort for the sudoku solver to solve puzzles if all of the previous logics do not work
@@ -2296,41 +2559,47 @@ public final class Sudoku {
 
             switch (levelUpdater) {
 
-                case 11:
+                case 12:
                     beforeUsingStrategy = changeCounter;
                     finnedJellyfish(puzzle);
                     if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by finnedJellyfish()
                         levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
 
 
-                case 10:
+                case 11:
                     beforeUsingStrategy = changeCounter;
                     finnedSwordfish(puzzle);
                     if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by finnedSwordfish()
                         levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
 
-                case 9:
+                case 10:
                     beforeUsingStrategy = changeCounter;
                     finnedXWing(puzzle);
                     if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by finnedXWing()
                         levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
 
-                case 8:
+                case 9:
                     beforeUsingStrategy = changeCounter;
                     jellyfish(puzzle);
                     if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by jellyfish()
                         levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
 
-                case 7:
+                case 8:
                     beforeUsingStrategy = changeCounter;
                     swordfish(puzzle);
                     if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by swordfish()
                         levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
 
-                case 6:
+                case 7:
                     beforeUsingStrategy = changeCounter;
                     xWing(puzzle);
                     if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by xWing()
+                        levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
+
+                case 6:
+                    beforeUsingStrategy = changeCounter;
+                    hiddenTriple(puzzle);
+                    if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by hiddenTriple()
                         levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
 
                 case 5:
@@ -2371,7 +2640,7 @@ public final class Sudoku {
             if (changeCounter == 0)//if no changes have been made to the puzzle with the current set of algorithms, increase the level to utilize more complex solving strategies
                 levelUpdater++;
 
-        } while (levelUpdater <= 11);//if the levelUpdater goes greater than 11, it means despite using all the algorithms available - the puzzle could not be solved
+        } while (levelUpdater <= 12);//if the levelUpdater goes greater than 12, it means despite using all the algorithms available - the puzzle could not be solved
 
         //if the solving strategies could not completely solve the puzzle, resort to brute force
         if (cellCount != 81) {//checking if the puzzle is unsolved
@@ -2395,7 +2664,7 @@ public final class Sudoku {
     public static void partiallySolve(Cell[][] puzzle, ArrayList<String> chosenStrategies) {
 
         final String[] logics = {"Naked Single", "Hidden Single", "Naked Pair", "Pointing Pair",
-                "Claiming Pair", "Hidden Pair", "Naked Triple", "X-Wing", "Swordfish", "Jellyfish", 
+                "Claiming Pair", "Hidden Pair", "Naked Triple", "Hidden Triple", "X-Wing", "Swordfish", "Jellyfish", 
                 "Finned X-Wing", "Finned Swordfish", "Finned Jellyfish", "Brute Force"};
 
         boolean[] strategy = new boolean[logics.length];//array that indicates which solving strategies the user wants to use
@@ -2416,54 +2685,62 @@ public final class Sudoku {
             changeCounter = 0;//reinitializing the counter to 0 before the start of every iteration
             switch (levelUpdater) {
 
-                case 12:
-                    if (strategy[12]) {
+                case 13:
+                    if (strategy[13]) {
                         beforeUsingStrategy = changeCounter;
                         finnedJellyfish(puzzle);
                         if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by finnedJellyfish()
                             levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
                     }
 
-                case 11:
-                    if (strategy[11]) {
+                case 12:
+                    if (strategy[12]) {
                         beforeUsingStrategy = changeCounter;
                         finnedSwordfish(puzzle);
                         if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by finnedSwordfish()
                             levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
                     }
 
-                case 10:
-                    if (strategy[10]) {
+                case 11:
+                    if (strategy[11]) {
                         beforeUsingStrategy = changeCounter;
                         finnedXWing(puzzle);
                         if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by finnedXWing()
                             levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
                     }
 
-                case 9:
-                    if (strategy[9]) {
+                case 10:
+                    if (strategy[10]) {
                         beforeUsingStrategy = changeCounter;
                         jellyfish(puzzle);
                         if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by jellyfish()
                             levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
                     }
 
-                case 8:
-                    if (strategy[8]) {
+                case 9:
+                    if (strategy[9]) {
                         beforeUsingStrategy = changeCounter;
                         swordfish(puzzle);
                         if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by swordfish()
                             levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
                     }
 
-                case 7:
-                    if (strategy[7]) {
+                case 8:
+                    if (strategy[8]) {
                         beforeUsingStrategy = changeCounter;
                         xWing(puzzle);
                         if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by xWing()
                             levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
                     }
 
+                case 7:
+                    if (strategy[7]) {
+                        beforeUsingStrategy = changeCounter;
+                        hiddenTriple(puzzle);
+                        if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by hiddenTriple()
+                            levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
+                    }      
+                
                 case 6:
                     if (strategy[6]) {
                         beforeUsingStrategy = changeCounter;
@@ -2519,7 +2796,7 @@ public final class Sudoku {
             if (changeCounter == 0)//if no changes have been made to the puzzle with the current set of algorithms, increase the level to utilize more complex solving strategies
                 levelUpdater++;
 
-        } while (levelUpdater <= 12);//if the levelUpdater goes greater than 12, it means after using the chosen algorithms - the puzzle could still not be solved
+        } while (levelUpdater <= 13);//if the levelUpdater goes greater than 13, it means after using the chosen algorithms - the puzzle could still not be solved
 
         //if the solving strategies could not completely solve the puzzle, resort to brute force
         if (cellCount != 81 && strategy[logics.length - 1]) {//checking if the puzzle is unsolved AND the user has chosen to use Brute Force
