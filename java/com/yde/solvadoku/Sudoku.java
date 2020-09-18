@@ -433,351 +433,8 @@ public final class Sudoku {
             remove.add((removeFirst + " " + removeSecond).trim());
         }
 
-    }// end of nakedPairCheckSteps()
+    }// end of nakedPairCheckSteps()    
 
-    /**
-     * Checks if the current cell is eligible for checking if it's a nakedTriple
-     */
-    private static boolean checkNakedTripleEligible(Cell cell) {
-        return (cell.getNoOfCandidates() == 2 || cell.getNoOfCandidates() == 3) && cell.isNotSet();
-    }// end of checkNakedTripleEligible()
-
-    /**
-     * if three cells, all in the same house,have only the same three candidates left,
-     * eliminate that candidates from all other cells in that house.
-     */
-    private static void nakedTriple(Cell[][] puzzle) {
-
-        for (int r = 0; r < 9; r++) {//find nakedTriples in each row
-            ArrayList<Integer> eligible_columns = new ArrayList<>();//an arraylist containing all columns in a row that are eligible  candidates of nakedTriple
-            for (int c = 0; c < 9; c++) {
-                if (checkNakedTripleEligible(puzzle[r][c])) {//checks if eligible
-                    eligible_columns.add(c);//if so, add it to the arrayList
-                }
-            }
-
-            int[] skip_columns = new int[3];//stores the columns of nakedTriple (if existing) , to be skipped.
-            int[] the_triplet = new int[3];//stores the candidates tn=hat are common to the nakedTriplet of existing.
-            boolean triplet_not_found = true;//checks if a triplet has been found
-            String removeFirst = "";//first naked triple candidate string
-            String removeSecond = "";//second naked triple candidate string
-            String removeThird = ""; //third naked triple candidiate string
-            boolean chkremoveFirst, chkremoveSecond, chkremoveThird;//to check if either candidate was removed anywhere in puzzle
-            chkremoveFirst = chkremoveSecond = chkremoveThird = false;
-
-            if (eligible_columns.size() >= 3) {//if the number of eligible columns is less than 3, a naked triple cannot exist.
-
-                for (int first = 0; first < eligible_columns.size() && triplet_not_found; first++) {//loop generating the first cell that 'could' be a naked triple
-
-                    ArrayList<Integer> candidateList = new ArrayList<>();//stores the list of unique candidates amongst a combination of three cells whose columns were eligible
-                    addIfAbsent(candidateList, puzzle[r][eligible_columns.get(first)]);
-
-                    for (int second = 0; second < eligible_columns.size() && triplet_not_found; second++) {//loop generating the second cell that 'could' be a naked triple
-
-                        if (first != second) {//make sure that the same cell is not the first cell as well , to create valid permutations
-
-                            int countSecondsCandidates = addIfAbsent(candidateList, puzzle[r][eligible_columns.get(second)]); // to count the candidates of second cell that are added to candidateList
-
-                            for (int third = 0; third < eligible_columns.size() && triplet_not_found; third++) {//loop generating the third cell that 'could' be a naked triple
-                                if (first != third && second != third) {//make sure that the same cell is not either first or second cell, to create valid permutations
-
-                                    int countThirdsCandidates = addIfAbsent(candidateList, puzzle[r][eligible_columns.get(third)]);
-
-                                    if (candidateList.size() == 3) {//if the list of unique candidates amongst the first, second and third cells  is 3, they must be a naked triple.
-                                        /*Store the columns and triplets to be skipped.*/
-                                        skip_columns[0] = eligible_columns.get(first);
-                                        skip_columns[1] = eligible_columns.get(second);
-                                        skip_columns[2] = eligible_columns.get(third);
-                                        the_triplet[0] = candidateList.get(0);
-                                        removeFirst = "Remove Candidate " + the_triplet[0] + " at ";
-                                        the_triplet[1] = candidateList.get(1);
-                                        removeSecond = "Remove Candidate " + the_triplet[1] + " at ";
-                                        the_triplet[2] = candidateList.get(2);
-                                        removeThird = "Remove Candidate " + the_triplet[2] + " at ";
-                                        triplet_not_found = false;//stop searching for combinations, a triplet has been found.
-                                    }
-
-                                    removeRecentAdditions(candidateList, countThirdsCandidates);//make space for addition of a new third cell
-                                }
-                            }
-
-                            removeRecentAdditions(candidateList, countSecondsCandidates);//make space for addition of a new second cell
-                        }
-                    }
-                }
-            }
-
-            if (!triplet_not_found) {//if the triplet has ben found, remove candidates from that row that aren't naked triplets or set.
-                for (int c = 0; c < 9; c++) {
-                    if (c != skip_columns[0] && c != skip_columns[1] && c != skip_columns[2] && puzzle[r][c].isNotSet()) {
-                        ArrayList<Integer> removeList = eliminateFromCell(puzzle[r][c], the_triplet);//gets the candidates removed from the particular cell
-                        if (removeList.contains(the_triplet[0])) {
-                            chkremoveFirst = true;
-                            removeFirst += "(" + (r + 1) + "," + (c + 1) + ")";
-                        }
-                        if (removeList.contains(the_triplet[1])) {
-                            chkremoveSecond = true;
-                            removeSecond += "(" + (r + 1) + "," + (c + 1) + ")";
-                        }
-                        if (removeList.contains(the_triplet[2])) {
-                            chkremoveThird = true;
-                            removeThird += "(" + (r + 1) + "," + (c + 1) + ")";
-                        }
-                    }
-                }
-            }
-
-            nakedTripleCheckSteps(chkremoveFirst, chkremoveSecond, chkremoveThird, removeFirst, removeSecond, removeThird, the_triplet
-                    , r, skip_columns[0], r, skip_columns[1], r, skip_columns[2], 1);
-
-        }
-
-        for (int c = 0; c < 9; c++) {//find nakedTriples in each column
-            ArrayList<Integer> eligible_rows = new ArrayList<>();//an arraylist containing all rows in a column that are eligible  candidates of nakedTriple
-            for (int r = 0; r < 9; r++) {
-                if (checkNakedTripleEligible(puzzle[r][c])) {//checks if eligible
-                    eligible_rows.add(r);//if so, add it to the arrayList
-                }
-            }
-
-            int[] skip_rows = new int[3];//stores the rows of nakedTriple (if existing) , to be skipped.
-            int[] the_triplet = new int[3];//stores the candidates tn=hat are common to the nakedTriplet of existing.
-            boolean triplet_not_found = true;//checks if a triplet has been found
-            String removeFirst = "";//first naked triple candidate string
-            String removeSecond = "";//second naked triple candidate string
-            String removeThird = ""; //third naked triple candidiate string
-            boolean chkremoveFirst, chkremoveSecond, chkremoveThird;//to check if either candidate was removed anywhere in puzzle
-            chkremoveFirst = chkremoveSecond = chkremoveThird = false;
-
-            if (eligible_rows.size() >= 3) {//if the number of eligible columns is less than 3, a naked triple cannot exist.
-
-                for (int first = 0; first < eligible_rows.size() && triplet_not_found; first++) {//loop generating the first cell that 'could' be a naked triple
-
-                    ArrayList<Integer> candidateList = new ArrayList<>();//stores the list of unique candidates amongst a combination of three cells whose columns were eligible
-                    addIfAbsent(candidateList, puzzle[eligible_rows.get(first)][c]);
-
-                    for (int second = 0; second < eligible_rows.size() && triplet_not_found; second++) {//loop generating the second cell that 'could' be a naked triple
-
-                        if (first != second) {//make sure that the same cell is not the first cell as well , to create valid permutations
-                            int countSecondsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(second)][c]); //to count the candidates of second cell that are added to candidateList
-
-                            for (int third = 0; third < eligible_rows.size() && triplet_not_found; third++) {//loop generating the third cell that 'could' be a naked triple
-
-                                if (first != third && second != third) {//make sure that the same cell is not either first or second cell, to create valid permutations
-                                    int countThirdsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(third)][c]);//to remove the candidates of third cell if naked triple is not found
-
-                                    if (candidateList.size() == 3) {//if the list of unique candidates amongst the first, second and third cells  is 3, they must be a naked triple.
-                                        /*Store the rows to be skipped and triplets .*/
-                                        skip_rows[0] = eligible_rows.get(first);
-                                        skip_rows[1] = eligible_rows.get(second);
-                                        skip_rows[2] = eligible_rows.get(third);
-                                        the_triplet[0] = candidateList.get(0);
-                                        removeFirst = "Remove Candidate " + the_triplet[0] + " at ";
-                                        the_triplet[1] = candidateList.get(1);
-                                        removeSecond = "Remove Candidate " + the_triplet[1] + " at ";
-                                        the_triplet[2] = candidateList.get(2);
-                                        removeThird = "Remove Candidate " + the_triplet[2] + " at ";
-                                        triplet_not_found = false;//stop searching for combinations, a triplet has been found.
-                                    }
-
-                                    removeRecentAdditions(candidateList, countThirdsCandidates);//make space for addition of a new third cell
-                                }
-                            }
-
-                            removeRecentAdditions(candidateList, countSecondsCandidates);//make space for addition of a new second cell
-                        }
-                    }
-                }
-            }
-
-            if (!triplet_not_found) {//if the triplet has ben found, remove candidates from that column that aren't naked triplets or set.
-                for (int r = 0; r < 9; r++) {
-                    if (r != skip_rows[0] && r != skip_rows[1] && r != skip_rows[2] && puzzle[r][c].isNotSet()) {
-                        ArrayList<Integer> removeList = eliminateFromCell(puzzle[r][c], the_triplet);//gets the candidates removed from the particular cell
-                        if (removeList.contains(the_triplet[0])) {
-                            chkremoveFirst = true;
-                            removeFirst += "(" + (r + 1) + "," + (c + 1) + ")";
-                        }
-                        if (removeList.contains(the_triplet[1])) {
-                            chkremoveSecond = true;
-                            removeSecond += "(" + (r + 1) + "," + (c + 1) + ")";
-                        }
-                        if (removeList.contains(the_triplet[2])) {
-                            chkremoveThird = true;
-                            removeThird += "(" + (r + 1) + "," + (c + 1) + ")";
-                        }
-                    }
-                }
-            }
-
-            nakedTripleCheckSteps(chkremoveFirst, chkremoveSecond, chkremoveThird, removeFirst, removeSecond, removeThird, the_triplet, skip_rows[0]
-                    , c, skip_rows[1], c, skip_rows[2], c, 2);
-
-        }
-
-        for (int r1 = 0; r1 <= 6; r1 += 3) {//travers subsquare
-            for (int c1 = 0; c1 <= 6; c1 += 3) {
-
-                ArrayList<Integer> eligible_columns = new ArrayList<>();//an arraylist containing all columns in a subset that are eligible  candidates of nakedTriple
-                ArrayList<Integer> eligible_rows = new ArrayList<>();//an arraylist containing all rows in a subset that are eligible  candidates of nakedTriple
-                for (int r = r1; r < r1 + 3; r++) {//in a particular subsquare
-                    for (int c = c1; c < c1 + 3; c++) {
-                        if (checkNakedTripleEligible(puzzle[r][c])) {//checks if eligible
-                            eligible_columns.add(c);//if so, add column to the arrayList
-                            eligible_rows.add(r); // add row to the arrayList
-                        }
-                    }
-
-                }
-
-                int[] skip_rows = new int[3];//stores the rows of nakedTriple (if existing) , to be skipped.
-                int[] skip_columns = new int[3];//stores the columns of nakedTriple (if existing) , to be skipped.
-                int[] the_triplet = new int[3];//stores the candidates that are common to the nakedTriplet of existing.
-                boolean triplet_not_found = true;//checks if a triplet has been found
-                int eligibleCellsLength = eligible_columns.size();
-                String removeFirst = "";//first naked triple candidate string
-                String removeSecond = "";//second naked triple candidate string
-                String removeThird = ""; //third naked triple candidiate string
-                boolean chkremoveFirst, chkremoveSecond, chkremoveThird;//to check if either candidate was removed anywhere in puzzle
-                chkremoveFirst = chkremoveSecond = chkremoveThird = false;
-
-
-                if (eligibleCellsLength >= 3) {//if the number of eligible cells in subsquare is less than 3, a naked triple cannot exist.
-
-                    for (int first = 0; first < eligibleCellsLength && triplet_not_found; first++) {
-
-                        ArrayList<Integer> candidateList = new ArrayList<>();//stores the list of unique candidates amongst a combination of three cells whose cells were eligible
-                        addIfAbsent(candidateList, puzzle[eligible_rows.get(first)][eligible_columns.get(first)]);
-
-                        for (int second = 0; second < eligibleCellsLength && triplet_not_found; second++) {//loop generating the second cell that 'could' be a naked triple
-
-                            if (first != second) {//make sure that the same cell is not the first cell as well , to create valid permutations
-                                int countSecondsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(second)][eligible_columns.get(second)]); //to count the candidates of second cell that are added to candidateList
-
-                                for (int third = 0; third < eligibleCellsLength && triplet_not_found; third++) {//loop generating the third cell that 'could' be a naked triple
-                                    if (first != third && second != third) {//make sure all cells are unique for valid permutation
-                                        int countThirdsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(third)][eligible_columns.get(third)]);
-
-                                        if (candidateList.size() == 3) {
-                                            skip_rows[0] = eligible_rows.get(first);
-                                            skip_columns[0] = eligible_columns.get(first);
-                                            skip_rows[1] = eligible_rows.get(second);
-                                            skip_columns[1] = eligible_columns.get(second);
-                                            skip_rows[2] = eligible_rows.get(third);
-                                            skip_columns[2] = eligible_columns.get(third);
-                                            the_triplet[0] = candidateList.get(0);
-                                            removeFirst = "Remove Candidate " + the_triplet[0] + " at ";
-                                            the_triplet[1] = candidateList.get(1);
-                                            removeSecond = "Remove Candidate " + the_triplet[1] + " at ";
-                                            the_triplet[2] = candidateList.get(2);
-                                            removeThird = "Remove Candidate " + the_triplet[2] + " at ";
-                                            triplet_not_found = false;//stop searching for combinations, a triplet has been found.
-                                        }
-
-                                        removeRecentAdditions(candidateList, countThirdsCandidates);//make space for addition of a new third cell
-                                    }
-                                }
-
-                                removeRecentAdditions(candidateList, countSecondsCandidates);//make space for addition of a new second cell
-                            }
-                        }
-                    }
-                }
-
-                if (!triplet_not_found) {//if the triplet has ben found, remove candidates from that column that aren't naked triplets or set.
-                    for (int r = r1; r < r1 + 3; r++) {
-                        for (int c = c1; c < c1 + 3; c++) {
-                            if (!(r == skip_rows[0] && c == skip_columns[0]) && !(r == skip_rows[1] && c == skip_columns[1]) && !(r == skip_rows[2] && c == skip_columns[2]) && puzzle[r][c].isNotSet()) {
-                                ArrayList<Integer> removeList = eliminateFromCell(puzzle[r][c], the_triplet);//gets the candidates removed from the particular cell
-                                if (removeList.contains(the_triplet[0])) {
-                                    chkremoveFirst = true;
-                                    removeFirst += "(" + (r + 1) + "," + (c + 1) + ")";
-                                }
-                                if (removeList.contains(the_triplet[1])) {
-                                    chkremoveSecond = true;
-                                    removeSecond += "(" + (r + 1) + "," + (c + 1) + ")";
-                                }
-                                if (removeList.contains(the_triplet[2])) {
-                                    chkremoveThird = true;
-                                    removeThird += "(" + (r + 1) + "," + (c + 1) + ")";
-                                }
-                            }
-                        }
-                    }
-                }
-
-                nakedTripleCheckSteps(chkremoveFirst, chkremoveSecond, chkremoveThird, removeFirst, removeSecond, removeThird, the_triplet,
-                        skip_rows[0], skip_columns[0], skip_rows[1], skip_columns[1], skip_rows[2], skip_columns[2], 3);
-
-            }
-        }
-    } // end of nakedTriple()
-
-    /**
-     * Adds a  unique candidate of cell to the candidateList arraylist used in nakedTriple. Returns the number of such
-     * unique candidates inserted.
-     */
-    private static int addIfAbsent(ArrayList<Integer> candidateList, Cell cell) {
-        int count = 0;
-        for (int position = 0; position < cell.getNoOfCandidates(); position++) {
-            if (!candidateList.contains(cell.getCandidate(position))) {
-                candidateList.add(cell.getCandidate(position));
-                count++;
-            }
-        }
-        return count;
-    }// end of addIfAbsent()
-
-    /**
-     * If a Naked Triple or Quadruple is not found, the recently added members of the candidateList needs to be removed
-     * to make another combination of 3/4 cells to check for nakedTriple or Quadruple
-     */
-    private static void removeRecentAdditions(ArrayList<Integer> candidateList, int numberOfRemovals) {
-        for (int i = 0; i < numberOfRemovals; i++) {//remove the current second cell's candidates to restart
-            candidateList.remove(candidateList.size() - 1);
-        }
-    }// end of removeRecentAdditions()
-
-    /**
-     * add changes made by naked triple to the check steps linked lists
-     */
-    private static void nakedTripleCheckSteps(boolean chkremoveFirst, boolean chkremoveSecond, boolean chkremoveThird,
-                                              String removeFirst, String removeSecond, String removeThird,
-                                              int[] the_triplet, int row_1, int column_1, int row_2, int column_2,
-                                              int row_3, int column_3, int house) {
-
-        String end_tag = "";
-
-        switch (house) {
-            case 1://naked triple in row
-                end_tag = " in Row " + (row_1 + 1);
-                break;
-
-            case 2://naked triple in column
-                end_tag = " in Column " + (column_1 + 1);
-                break;
-
-            case 3://naked triple in subsquare
-                end_tag = " in Block";
-                break;
-        }
-
-        if (chkremoveFirst || chkremoveSecond || chkremoveThird) {//naked triple changed the puzzle in some way
-
-            algorithm.add("Naked Triple" + end_tag);
-            insert.add("Candidates: " + the_triplet[0] + "," + the_triplet[1] + "," + the_triplet[2] + " are common to cells " +
-                    "(" + (row_1 + 1) + "," + (column_1 + 1) + ")" + " and " + "(" + (row_2 + 1) + "," + (column_2 + 1) + ")"
-                    + " and " + "(" + (row_3 + 1) + "," + (column_3 + 1) + ")");
-            if (!chkremoveFirst)//no removal of candidate 1
-                removeFirst = "";
-            if (!chkremoveSecond)//no removal of candidate 2
-                removeSecond = "";
-            if (!chkremoveThird)//no removal of candidate 3
-                removeThird = "";
-            remove.add((removeFirst + " " + removeSecond + " " + removeThird).trim());
-
-        }
-    }//end of nakedTripleCheckSteps()
 
     /**
      * If in a block all candidates of a certain digit are confined to a row or column, that digit cannot
@@ -1286,6 +943,351 @@ public final class Sudoku {
 
     }// end of hiddenPairCheckSteps()
 
+    /**
+     * if three cells, all in the same house,have only the same three candidates left,
+     * eliminate that candidates from all other cells in that house.
+     */
+
+    private static void nakedTriple(Cell[][] puzzle) {
+
+        for (int r = 0; r < 9; r++) {//find nakedTriples in each row
+            ArrayList<Integer> eligible_columns = new ArrayList<>();//an arraylist containing all columns in a row that are eligible  candidates of nakedTriple
+            for (int c = 0; c < 9; c++) {
+                if (checkNakedTripleEligible(puzzle[r][c])) {//checks if eligible
+                    eligible_columns.add(c);//if so, add it to the arrayList
+                }
+            }
+
+            int[] skip_columns = new int[3];//stores the columns of nakedTriple (if existing) , to be skipped.
+            int[] the_triplet = new int[3];//stores the candidates tn=hat are common to the nakedTriplet of existing.
+            boolean triplet_not_found = true;//checks if a triplet has been found
+            String removeFirst = "";//first naked triple candidate string
+            String removeSecond = "";//second naked triple candidate string
+            String removeThird = ""; //third naked triple candidiate string
+            boolean chkremoveFirst, chkremoveSecond, chkremoveThird;//to check if either candidate was removed anywhere in puzzle
+            chkremoveFirst = chkremoveSecond = chkremoveThird = false;
+
+            if (eligible_columns.size() >= 3) {//if the number of eligible columns is less than 3, a naked triple cannot exist.
+
+                for (int first = 0; first < eligible_columns.size() && triplet_not_found; first++) {//loop generating the first cell that 'could' be a naked triple
+
+                    ArrayList<Integer> candidateList = new ArrayList<>();//stores the list of unique candidates amongst a combination of three cells whose columns were eligible
+                    addIfAbsent(candidateList, puzzle[r][eligible_columns.get(first)]);
+
+                    for (int second = 0; second < eligible_columns.size() && triplet_not_found; second++) {//loop generating the second cell that 'could' be a naked triple
+
+                        if (first != second) {//make sure that the same cell is not the first cell as well , to create valid permutations
+
+                            int countSecondsCandidates = addIfAbsent(candidateList, puzzle[r][eligible_columns.get(second)]); // to count the candidates of second cell that are added to candidateList
+
+                            for (int third = 0; third < eligible_columns.size() && triplet_not_found; third++) {//loop generating the third cell that 'could' be a naked triple
+                                if (first != third && second != third) {//make sure that the same cell is not either first or second cell, to create valid permutations
+
+                                    int countThirdsCandidates = addIfAbsent(candidateList, puzzle[r][eligible_columns.get(third)]);
+
+                                    if (candidateList.size() == 3) {//if the list of unique candidates amongst the first, second and third cells  is 3, they must be a naked triple.
+                                        /*Store the columns and triplets to be skipped.*/
+                                        skip_columns[0] = eligible_columns.get(first);
+                                        skip_columns[1] = eligible_columns.get(second);
+                                        skip_columns[2] = eligible_columns.get(third);
+                                        the_triplet[0] = candidateList.get(0);
+                                        removeFirst = "Remove Candidate " + the_triplet[0] + " at ";
+                                        the_triplet[1] = candidateList.get(1);
+                                        removeSecond = "Remove Candidate " + the_triplet[1] + " at ";
+                                        the_triplet[2] = candidateList.get(2);
+                                        removeThird = "Remove Candidate " + the_triplet[2] + " at ";
+                                        triplet_not_found = false;//stop searching for combinations, a triplet has been found.
+                                    }
+
+                                    removeRecentAdditions(candidateList, countThirdsCandidates);//make space for addition of a new third cell
+                                }
+                            }
+
+                            removeRecentAdditions(candidateList, countSecondsCandidates);//make space for addition of a new second cell
+                        }
+                    }
+                }
+            }
+
+            if (!triplet_not_found) {//if the triplet has ben found, remove candidates from that row that aren't naked triplets or set.
+                for (int c = 0; c < 9; c++) {
+                    if (c != skip_columns[0] && c != skip_columns[1] && c != skip_columns[2] && puzzle[r][c].isNotSet()) {
+                        ArrayList<Integer> removeList = eliminateFromCell(puzzle[r][c], the_triplet);//gets the candidates removed from the particular cell
+                        if (removeList.contains(the_triplet[0])) {
+                            chkremoveFirst = true;
+                            removeFirst += "(" + (r + 1) + "," + (c + 1) + ")";
+                        }
+                        if (removeList.contains(the_triplet[1])) {
+                            chkremoveSecond = true;
+                            removeSecond += "(" + (r + 1) + "," + (c + 1) + ")";
+                        }
+                        if (removeList.contains(the_triplet[2])) {
+                            chkremoveThird = true;
+                            removeThird += "(" + (r + 1) + "," + (c + 1) + ")";
+                        }
+                    }
+                }
+            }
+
+            nakedTripleCheckSteps(chkremoveFirst, chkremoveSecond, chkremoveThird, removeFirst, removeSecond, removeThird, the_triplet
+                    , r, skip_columns[0], r, skip_columns[1], r, skip_columns[2], 1);
+
+        }
+
+        for (int c = 0; c < 9; c++) {//find nakedTriples in each column
+            ArrayList<Integer> eligible_rows = new ArrayList<>();//an arraylist containing all rows in a column that are eligible  candidates of nakedTriple
+            for (int r = 0; r < 9; r++) {
+                if (checkNakedTripleEligible(puzzle[r][c])) {//checks if eligible
+                    eligible_rows.add(r);//if so, add it to the arrayList
+                }
+            }
+
+            int[] skip_rows = new int[3];//stores the rows of nakedTriple (if existing) , to be skipped.
+            int[] the_triplet = new int[3];//stores the candidates tn=hat are common to the nakedTriplet of existing.
+            boolean triplet_not_found = true;//checks if a triplet has been found
+            String removeFirst = "";//first naked triple candidate string
+            String removeSecond = "";//second naked triple candidate string
+            String removeThird = ""; //third naked triple candidiate string
+            boolean chkremoveFirst, chkremoveSecond, chkremoveThird;//to check if either candidate was removed anywhere in puzzle
+            chkremoveFirst = chkremoveSecond = chkremoveThird = false;
+
+            if (eligible_rows.size() >= 3) {//if the number of eligible columns is less than 3, a naked triple cannot exist.
+
+                for (int first = 0; first < eligible_rows.size() && triplet_not_found; first++) {//loop generating the first cell that 'could' be a naked triple
+
+                    ArrayList<Integer> candidateList = new ArrayList<>();//stores the list of unique candidates amongst a combination of three cells whose columns were eligible
+                    addIfAbsent(candidateList, puzzle[eligible_rows.get(first)][c]);
+
+                    for (int second = 0; second < eligible_rows.size() && triplet_not_found; second++) {//loop generating the second cell that 'could' be a naked triple
+
+                        if (first != second) {//make sure that the same cell is not the first cell as well , to create valid permutations
+                            int countSecondsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(second)][c]); //to count the candidates of second cell that are added to candidateList
+
+                            for (int third = 0; third < eligible_rows.size() && triplet_not_found; third++) {//loop generating the third cell that 'could' be a naked triple
+
+                                if (first != third && second != third) {//make sure that the same cell is not either first or second cell, to create valid permutations
+                                    int countThirdsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(third)][c]);//to remove the candidates of third cell if naked triple is not found
+
+                                    if (candidateList.size() == 3) {//if the list of unique candidates amongst the first, second and third cells  is 3, they must be a naked triple.
+                                        /*Store the rows to be skipped and triplets .*/
+                                        skip_rows[0] = eligible_rows.get(first);
+                                        skip_rows[1] = eligible_rows.get(second);
+                                        skip_rows[2] = eligible_rows.get(third);
+                                        the_triplet[0] = candidateList.get(0);
+                                        removeFirst = "Remove Candidate " + the_triplet[0] + " at ";
+                                        the_triplet[1] = candidateList.get(1);
+                                        removeSecond = "Remove Candidate " + the_triplet[1] + " at ";
+                                        the_triplet[2] = candidateList.get(2);
+                                        removeThird = "Remove Candidate " + the_triplet[2] + " at ";
+                                        triplet_not_found = false;//stop searching for combinations, a triplet has been found.
+                                    }
+
+                                    removeRecentAdditions(candidateList, countThirdsCandidates);//make space for addition of a new third cell
+                                }
+                            }
+
+                            removeRecentAdditions(candidateList, countSecondsCandidates);//make space for addition of a new second cell
+                        }
+                    }
+                }
+            }
+
+            if (!triplet_not_found) {//if the triplet has ben found, remove candidates from that column that aren't naked triplets or set.
+                for (int r = 0; r < 9; r++) {
+                    if (r != skip_rows[0] && r != skip_rows[1] && r != skip_rows[2] && puzzle[r][c].isNotSet()) {
+                        ArrayList<Integer> removeList = eliminateFromCell(puzzle[r][c], the_triplet);//gets the candidates removed from the particular cell
+                        if (removeList.contains(the_triplet[0])) {
+                            chkremoveFirst = true;
+                            removeFirst += "(" + (r + 1) + "," + (c + 1) + ")";
+                        }
+                        if (removeList.contains(the_triplet[1])) {
+                            chkremoveSecond = true;
+                            removeSecond += "(" + (r + 1) + "," + (c + 1) + ")";
+                        }
+                        if (removeList.contains(the_triplet[2])) {
+                            chkremoveThird = true;
+                            removeThird += "(" + (r + 1) + "," + (c + 1) + ")";
+                        }
+                    }
+                }
+            }
+
+            nakedTripleCheckSteps(chkremoveFirst, chkremoveSecond, chkremoveThird, removeFirst, removeSecond, removeThird, the_triplet, skip_rows[0]
+                    , c, skip_rows[1], c, skip_rows[2], c, 2);
+
+        }
+
+        for (int r1 = 0; r1 <= 6; r1 += 3) {//travers subsquare
+            for (int c1 = 0; c1 <= 6; c1 += 3) {
+
+                ArrayList<Integer> eligible_columns = new ArrayList<>();//an arraylist containing all columns in a subset that are eligible  candidates of nakedTriple
+                ArrayList<Integer> eligible_rows = new ArrayList<>();//an arraylist containing all rows in a subset that are eligible  candidates of nakedTriple
+                for (int r = r1; r < r1 + 3; r++) {//in a particular subsquare
+                    for (int c = c1; c < c1 + 3; c++) {
+                        if (checkNakedTripleEligible(puzzle[r][c])) {//checks if eligible
+                            eligible_columns.add(c);//if so, add column to the arrayList
+                            eligible_rows.add(r); // add row to the arrayList
+                        }
+                    }
+
+                }
+
+                int[] skip_rows = new int[3];//stores the rows of nakedTriple (if existing) , to be skipped.
+                int[] skip_columns = new int[3];//stores the columns of nakedTriple (if existing) , to be skipped.
+                int[] the_triplet = new int[3];//stores the candidates that are common to the nakedTriplet of existing.
+                boolean triplet_not_found = true;//checks if a triplet has been found
+                int eligibleCellsLength = eligible_columns.size();
+                String removeFirst = "";//first naked triple candidate string
+                String removeSecond = "";//second naked triple candidate string
+                String removeThird = ""; //third naked triple candidiate string
+                boolean chkremoveFirst, chkremoveSecond, chkremoveThird;//to check if either candidate was removed anywhere in puzzle
+                chkremoveFirst = chkremoveSecond = chkremoveThird = false;
+
+
+                if (eligibleCellsLength >= 3) {//if the number of eligible cells in subsquare is less than 3, a naked triple cannot exist.
+
+                    for (int first = 0; first < eligibleCellsLength && triplet_not_found; first++) {
+
+                        ArrayList<Integer> candidateList = new ArrayList<>();//stores the list of unique candidates amongst a combination of three cells whose cells were eligible
+                        addIfAbsent(candidateList, puzzle[eligible_rows.get(first)][eligible_columns.get(first)]);
+
+                        for (int second = 0; second < eligibleCellsLength && triplet_not_found; second++) {//loop generating the second cell that 'could' be a naked triple
+
+                            if (first != second) {//make sure that the same cell is not the first cell as well , to create valid permutations
+                                int countSecondsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(second)][eligible_columns.get(second)]); //to count the candidates of second cell that are added to candidateList
+
+                                for (int third = 0; third < eligibleCellsLength && triplet_not_found; third++) {//loop generating the third cell that 'could' be a naked triple
+                                    if (first != third && second != third) {//make sure all cells are unique for valid permutation
+                                        int countThirdsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(third)][eligible_columns.get(third)]);
+
+                                        if (candidateList.size() == 3) {
+                                            skip_rows[0] = eligible_rows.get(first);
+                                            skip_columns[0] = eligible_columns.get(first);
+                                            skip_rows[1] = eligible_rows.get(second);
+                                            skip_columns[1] = eligible_columns.get(second);
+                                            skip_rows[2] = eligible_rows.get(third);
+                                            skip_columns[2] = eligible_columns.get(third);
+                                            the_triplet[0] = candidateList.get(0);
+                                            removeFirst = "Remove Candidate " + the_triplet[0] + " at ";
+                                            the_triplet[1] = candidateList.get(1);
+                                            removeSecond = "Remove Candidate " + the_triplet[1] + " at ";
+                                            the_triplet[2] = candidateList.get(2);
+                                            removeThird = "Remove Candidate " + the_triplet[2] + " at ";
+                                            triplet_not_found = false;//stop searching for combinations, a triplet has been found.
+                                        }
+
+                                        removeRecentAdditions(candidateList, countThirdsCandidates);//make space for addition of a new third cell
+                                    }
+                                }
+
+                                removeRecentAdditions(candidateList, countSecondsCandidates);//make space for addition of a new second cell
+                            }
+                        }
+                    }
+                }
+
+                if (!triplet_not_found) {//if the triplet has ben found, remove candidates from that column that aren't naked triplets or set.
+                    for (int r = r1; r < r1 + 3; r++) {
+                        for (int c = c1; c < c1 + 3; c++) {
+                            if (!(r == skip_rows[0] && c == skip_columns[0]) && !(r == skip_rows[1] && c == skip_columns[1]) && !(r == skip_rows[2] && c == skip_columns[2]) && puzzle[r][c].isNotSet()) {
+                                ArrayList<Integer> removeList = eliminateFromCell(puzzle[r][c], the_triplet);//gets the candidates removed from the particular cell
+                                if (removeList.contains(the_triplet[0])) {
+                                    chkremoveFirst = true;
+                                    removeFirst += "(" + (r + 1) + "," + (c + 1) + ")";
+                                }
+                                if (removeList.contains(the_triplet[1])) {
+                                    chkremoveSecond = true;
+                                    removeSecond += "(" + (r + 1) + "," + (c + 1) + ")";
+                                }
+                                if (removeList.contains(the_triplet[2])) {
+                                    chkremoveThird = true;
+                                    removeThird += "(" + (r + 1) + "," + (c + 1) + ")";
+                                }
+                            }
+                        }
+                    }
+                }
+
+                nakedTripleCheckSteps(chkremoveFirst, chkremoveSecond, chkremoveThird, removeFirst, removeSecond, removeThird, the_triplet,
+                        skip_rows[0], skip_columns[0], skip_rows[1], skip_columns[1], skip_rows[2], skip_columns[2], 3);
+
+            }
+        }
+    } // end of nakedTriple()
+
+    /**
+     * Checks if the current cell is eligible for checking if it's a nakedTriple
+     */
+    private static boolean checkNakedTripleEligible(Cell cell) {
+        return (cell.getNoOfCandidates() == 2 || cell.getNoOfCandidates() == 3) && cell.isNotSet();
+    }// end of checkNakedTripleEligible()
+
+    /**
+     * Adds a  unique candidate of cell to the candidateList arraylist used in nakedTriple. Returns the number of such
+     * unique candidates inserted.
+     */
+    private static int addIfAbsent(ArrayList<Integer> candidateList, Cell cell) {
+        int count = 0;
+        for (int position = 0; position < cell.getNoOfCandidates(); position++) {
+            if (!candidateList.contains(cell.getCandidate(position))) {
+                candidateList.add(cell.getCandidate(position));
+                count++;
+            }
+        }
+        return count;
+    }// end of addIfAbsent()
+
+    /**
+     * If a Naked Triple or Quadruple is not found, the recently added members of the candidateList needs to be removed
+     * to make another combination of 3/4 cells to check for nakedTriple or Quadruple
+     */
+    private static void removeRecentAdditions(ArrayList<Integer> candidateList, int numberOfRemovals) {
+        for (int i = 0; i < numberOfRemovals; i++) {//remove the current second cell's candidates to restart
+            candidateList.remove(candidateList.size() - 1);
+        }
+    }// end of removeRecentAdditions()
+
+    /**
+     * add changes made by naked triple to the check steps linked lists
+     */
+    private static void nakedTripleCheckSteps(boolean chkremoveFirst, boolean chkremoveSecond, boolean chkremoveThird,
+                                              String removeFirst, String removeSecond, String removeThird,
+                                              int[] the_triplet, int row_1, int column_1, int row_2, int column_2,
+                                              int row_3, int column_3, int house) {
+
+        String end_tag = "";
+
+        switch (house) {
+            case 1://naked triple in row
+                end_tag = " in Row " + (row_1 + 1);
+                break;
+
+            case 2://naked triple in column
+                end_tag = " in Column " + (column_1 + 1);
+                break;
+
+            case 3://naked triple in subsquare
+                end_tag = " in Block";
+                break;
+        }
+
+        if (chkremoveFirst || chkremoveSecond || chkremoveThird) {//naked triple changed the puzzle in some way
+
+            algorithm.add("Naked Triple" + end_tag);
+            insert.add("Candidates: " + the_triplet[0] + "," + the_triplet[1] + "," + the_triplet[2] + " are common to cells " +
+                    "(" + (row_1 + 1) + "," + (column_1 + 1) + ")" + " and " + "(" + (row_2 + 1) + "," + (column_2 + 1) + ")"
+                    + " and " + "(" + (row_3 + 1) + "," + (column_3 + 1) + ")");
+            if (!chkremoveFirst)//no removal of candidate 1
+                removeFirst = "";
+            if (!chkremoveSecond)//no removal of candidate 2
+                removeSecond = "";
+            if (!chkremoveThird)//no removal of candidate 3
+                removeThird = "";
+            remove.add((removeFirst + " " + removeSecond + " " + removeThird).trim());
+
+        }
+    }//end of nakedTripleCheckSteps()
+
 
     private static void hiddenTriple(Cell[][] puzzle) {        
         int[] triple = new int[3];//array to store the values of the triple
@@ -1552,6 +1554,411 @@ public final class Sudoku {
     }// end of hiddenTripleCheckSteps()
 
 
+
+    private static void nakedQuad(Cell[][] puzzle) {
+
+        //checking for NAKED QUAD in Rows
+        for (int r = 0 ; r < 9 ; r++) {
+            ArrayList<Integer> eligible_columns = new ArrayList<>();//an arraylist containing all columns in the row that are eligible to possibily contain Naked Quad
+            for (int c = 0 ; c < 9 ; c++) {
+                if (checkNakedQuadEligible(puzzle[r][c])) {//checks if eligible
+                    eligible_columns.add(c);//if so, add it to the arrayList
+                }
+            }
+
+            if (eligible_columns.size() >= 4) {//if the number of eligible columns is less than 4, a Naked Quad cannot exist.
+
+                int[] skip_columns = new int[4];//stores the columns of nakedQuad (if existing), to be skipped.
+                int[] quad = new int[4];//stores the candidates that are common to the Naked Quad if existing.
+                boolean quad_found = false;//checks if a quad has been found
+
+                String[] removeCandidateText = new String[4];//stores the text message for the check steps
+                for (int i = 0 ; i < 4 ; i++){
+                    removeCandidateText[i] = "";
+                }
+                boolean[] checkCandidateRemoved = new boolean[4];//to check if either candidate was removed anywhere in puzzle
+                for (int i = 0 ; i < 4 ; i++){
+                    checkCandidateRemoved[i] = false;
+                }
+            
+
+                for (int index1 = 0 ; index1 < eligible_columns.size()-3 && !quad_found ; index1++) {//loop generating the first cell that 'could' be a naked quad
+
+                    ArrayList<Integer> candidateList = new ArrayList<>();//stores the list of unique candidates amongst a combination of four cells whose columns were eligible
+                    addIfAbsent(candidateList, puzzle[r][eligible_columns.get(index1)]);
+
+                    for (int index2 = (index1 + 1) ; index2 < eligible_columns.size()-2 && !quad_found; index2++) {//loop generating the second cell that 'could' be a naked quad
+                        
+                        int countSecondsCandidates = addIfAbsent(candidateList, puzzle[r][eligible_columns.get(index2)]); // to count the candidates of second cell that are added to candidateList
+
+                        for (int index3 = (index2 + 1) ; index3 < eligible_columns.size()-1 && !quad_found ; index3++) {//loop generating the third cell that 'could' be a naked quad 
+
+                            int countThirdsCandidates = addIfAbsent(candidateList, puzzle[r][eligible_columns.get(index3)]);
+
+                                for (int index4 = 0 ; index4 < eligible_columns.size() && !quad_found ; index4++){//loop generating the fourth cell that 'could' be a naked quad 
+
+                                    int countFourthsCandidates = addIfAbsent(candidateList, puzzle[r][eligible_columns.get(index4)]); // to count the candidates of fourth cell that are added to candidateList
+
+                                    if (candidateList.size() == 4) {//if the number of unique candidates amongst the 4 cells is 4, they must be a naked quad.
+                                        /*Store the columns and quads to be skipped.*/
+                                        skip_columns[0] = eligible_columns.get(index1);
+                                        skip_columns[1] = eligible_columns.get(index2);
+                                        skip_columns[2] = eligible_columns.get(index3);
+                                        skip_columns[3] = eligible_columns.get(index4);
+
+                                        quad[0] = candidateList.get(0);
+                                        removeCandidateText[0] = "Remove Candidate " + quad[0] + " at ";
+
+                                        quad[1] = candidateList.get(1);
+                                        removeCandidateText[1] = "Remove Candidate " + quad[1] + " at ";
+
+                                        quad[2] = candidateList.get(2);
+                                        removeCandidateText[2] = "Remove Candidate " + quad[2] + " at ";
+
+                                        quad[3] = candidateList.get(3);
+                                        removeCandidateText[3] = "Remove Candidate " + quad[3] + " at ";
+
+                                        quad_found = true;//stop searching for combinations, a quad has been found.
+                                    }//if Statement
+
+                                    removeRecentAdditions(candidateList, countThirdsCandidates);//make space for addition of a new fourth cell
+
+                                }//index4
+
+                                removeRecentAdditions(candidateList, countThirdsCandidates);//make space for addition of a new third cell
+                                
+                        }//index3
+
+                        removeRecentAdditions(candidateList, countSecondsCandidates);//make space for addition of a new second cell
+                        
+                    }//index2
+
+                }//index1
+
+
+                if (quad_found) {//if the quad has been found, remove candidates from other cells in that row that are naked quad candidates.
+                    for (int c = 0; c < 9; c++) {
+                        if (c != skip_columns[0] && c != skip_columns[1] && c != skip_columns[2] && c != skip_columns[3] && puzzle[r][c].isNotSet()) {
+                            ArrayList<Integer> removeList = eliminateFromCell(puzzle[r][c], quad);//gets the candidates removed from the particular cell
+                            if (removeList.contains(quad[0])) {
+                                checkCandidateRemoved[0] = true;
+                                removeCandidateText[0] += "(" + (r + 1) + "," + (c + 1) + ")";
+                            }
+                            if (removeList.contains(quad[1])) {
+                                checkCandidateRemoved[1] = true;
+                                removeCandidateText[1] += "(" + (r + 1) + "," + (c + 1) + ")";
+                            }
+                            if (removeList.contains(quad[2])) {
+                                checkCandidateRemoved[2] = true;
+                                removeCandidateText[2] += "(" + (r + 1) + "," + (c + 1) + ")";
+                            }
+                            if (removeList.contains(quad[3])) {
+                                checkCandidateRemoved[3] = true;
+                                removeCandidateText[3] += "(" + (r + 1) + "," + (c + 1) + ")";
+                            }
+                        }
+                    }
+                }// if (quad_found)
+
+                nakedQuadCheckSteps(checkCandidateRemoved, removeCandidateText, quad, 
+                                    r, skip_columns[0], r, skip_columns[1], r, skip_columns[2], r, skip_columns[3], 1);
+
+            }//if (eligible columns >= 4)            
+
+        }//r (end of row checking)
+
+
+        //checking for NAKED QUAD in Columns
+        for (int c = 0 ; c < 9 ; c++) {
+            ArrayList<Integer> eligible_rows = new ArrayList<>();//an arraylist containing all rows in the column that are eligible to possibily contain Naked Quad
+            for (int r = 0 ; r < 9 ; r++) {
+                if (checkNakedQuadEligible(puzzle[r][c])) {//checks if eligible
+                    eligible_rows.add(c);//if so, add it to the arrayList
+                }
+            }
+
+            if (eligible_rows.size() >= 4) {//if the number of eligible rows is less than 4, a Naked Quad cannot exist.
+
+                int[] skip_rows = new int[4];//stores the rows of nakedQuad (if existing), to be skipped.
+                int[] quad = new int[4];//stores the candidates that are common to the Naked Quad if existing.
+                boolean quad_found = false;//checks if a quad has been found
+
+                String[] removeCandidateText = new String[4];//stores the text message for the check steps
+                for (int i = 0 ; i < 4 ; i++){
+                    removeCandidateText[i] = "";
+                }
+                boolean[] checkCandidateRemoved = new boolean[4];//to check if either candidate was removed anywhere in puzzle
+                for (int i = 0 ; i < 4 ; i++){
+                    checkCandidateRemoved[i] = false;
+                }
+            
+
+                for (int index1 = 0 ; index1 < eligible_rows.size()-3 && !quad_found ; index1++) {//loop generating the first cell that 'could' be a naked quad
+
+                    ArrayList<Integer> candidateList = new ArrayList<>();//stores the list of unique candidates amongst a combination of four cells whose rows were eligible
+                    addIfAbsent(candidateList, puzzle[eligible_rows.get(index1)][c]);
+
+                    for (int index2 = (index1 + 1) ; index2 < eligible_rows.size()-2 && !quad_found; index2++) {//loop generating the second cell that 'could' be a naked quad
+                        
+                        int countSecondsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(index2)][c]); // to count the candidates of second cell that are added to candidateList
+
+                        for (int index3 = (index2 + 1) ; index3 < eligible_rows.size()-1 && !quad_found ; index3++) {//loop generating the third cell that 'could' be a naked quad
+
+                            int countThirdsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(index3)][c]); // to count the candidates of third cell that are added to candidateList
+
+                                for (int index4 = 0 ; index4 < eligible_rows.size() && !quad_found ; index4++){//loop generating the third cell that 'could' be a naked quad
+
+                                    int countFourthsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(index4)][c]); // to count the candidates of fourth cell that are added to candidateList
+
+                                    if (candidateList.size() == 4) {//if the number of unique candidates amongst the 4 cells is 4, they must be a naked quad.
+                                        /*Store the rows and quads to be skipped.*/
+                                        skip_rows[0] = eligible_rows.get(index1);
+                                        skip_rows[1] = eligible_rows.get(index2);
+                                        skip_rows[2] = eligible_rows.get(index3);
+                                        skip_rows[3] = eligible_rows.get(index4);
+
+                                        quad[0] = candidateList.get(0);
+                                        removeCandidateText[0] = "Remove Candidate " + quad[0] + " at ";
+
+                                        quad[1] = candidateList.get(1);
+                                        removeCandidateText[1] = "Remove Candidate " + quad[1] + " at ";
+
+                                        quad[2] = candidateList.get(2);
+                                        removeCandidateText[2] = "Remove Candidate " + quad[2] + " at ";
+
+                                        quad[3] = candidateList.get(3);
+                                        removeCandidateText[3] = "Remove Candidate " + quad[3] + " at ";
+
+                                        quad_found = true;//stop searching for combinations, a quad has been found.
+                                    }//if Statement
+
+                                    removeRecentAdditions(candidateList, countThirdsCandidates);//make space for addition of a new fourth cell
+
+                                }//index4
+
+                                removeRecentAdditions(candidateList, countThirdsCandidates);//make space for addition of a new third cell
+                                
+                        }//index3
+
+                        removeRecentAdditions(candidateList, countSecondsCandidates);//make space for addition of a new second cell
+                        
+                    }//index2
+
+                }//index1
+
+
+                if (quad_found) {//if the quad has been found, remove candidates from other cells in that row that are naked quad candidates.
+                    for (int r = 0; r < 9; r++) {
+                        if (r != skip_rows[0] && r != skip_rows[1] && r != skip_rows[2] && r != skip_rows[3] && puzzle[r][c].isNotSet()) {
+                            ArrayList<Integer> removeList = eliminateFromCell(puzzle[r][c], quad);//gets the candidates removed from the particular cell
+                            if (removeList.contains(quad[0])) {
+                                checkCandidateRemoved[0] = true;
+                                removeCandidateText[0] += "(" + (r + 1) + "," + (c + 1) + ")";
+                            }
+                            if (removeList.contains(quad[1])) {
+                                checkCandidateRemoved[1] = true;
+                                removeCandidateText[1] += "(" + (r + 1) + "," + (c + 1) + ")";
+                            }
+                            if (removeList.contains(quad[2])) {
+                                checkCandidateRemoved[2] = true;
+                                removeCandidateText[2] += "(" + (r + 1) + "," + (c + 1) + ")";
+                            }
+                            if (removeList.contains(quad[3])) {
+                                checkCandidateRemoved[3] = true;
+                                removeCandidateText[3] += "(" + (r + 1) + "," + (c + 1) + ")";
+                            }
+                        }
+                    }
+                }// if (quad_found)
+
+                nakedQuadCheckSteps(checkCandidateRemoved, removeCandidateText, quad, 
+                                    skip_rows[0], c, skip_rows[1], c, skip_rows[2], c, skip_rows[3], c, 1);
+
+            }//if (eligible rows >= 4)  
+
+        }//c (end of column checking)
+
+
+        //checking for NAKED QUADS in Block                     
+        for (int r1 = 0; r1 <= 6; r1 += 3) {
+            for (int c1 = 0; c1 <= 6; c1 += 3) {
+
+                ArrayList<Integer> eligible_columns = new ArrayList<>();//an arraylist containing all columns in a subset that are eligible candidates of nakedQuad
+                ArrayList<Integer> eligible_rows = new ArrayList<>();//an arraylist containing all rows in a subset that are eligible candidates of nakedQuad
+                for (int r = r1; r < r1 + 3; r++) {//in a particular subsquare
+                    for (int c = c1; c < c1 + 3; c++) {
+                        if (checkNakedQuadEligible(puzzle[r][c])) {//checks if eligible
+                            eligible_columns.add(c);// if so, add column to the arrayList
+                            eligible_rows.add(r); // add row to the arrayList
+                        }
+                    }
+                }
+
+                int eligibleCellsLength = eligible_columns.size();
+                
+                if (eligibleCellsLength >= 4) {//if the number of eligible cells in the block is less than 4, a naked quad cannot exist.
+
+                    int[] skip_rows = new int[4];//stores the rows of nakedQuad (if existing) , to be skipped.
+                    int[] skip_columns = new int[4];//stores the columns of nakedQuad (if existing) , to be skipped.
+                    int[] quad = new int[4];//stores the candidates that are common to the nakedQuad of existing.
+                    boolean quad_found = false;//checks if a quad has been found
+                
+                    String[] removeCandidateText = new String[4];//stores the text message for the check steps
+                    for (int i = 0 ; i < 4 ; i++){
+                        removeCandidateText[i] = "";
+                    }
+                    boolean[] checkCandidateRemoved = new boolean[4];//to check if either candidate was removed anywhere in puzzle
+                    for (int i = 0 ; i < 4 ; i++){
+                        checkCandidateRemoved[i] = false;
+                    }                
+                
+
+                    for (int index1 = 0; index1 < eligibleCellsLength-3 && !quad_found ; index1++) {
+
+                        ArrayList<Integer> candidateList = new ArrayList<>();//stores the list of unique candidates amongst a combination of four cells whose cells were eligible
+                        addIfAbsent(candidateList, puzzle[eligible_rows.get(index1)][eligible_columns.get(index1)]);
+
+                        for (int index2 = (index1 + 1) ; index2 < eligibleCellsLength-2 && !quad_found ; index2++) {//loop generating the second cell that 'could' be a naked quad
+                            
+                            int countSecondsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(index2)][eligible_columns.get(index2)]); //to count the candidates of second cell that are added to candidateList
+
+                                for (int index3 = (index2 + 1) ; index3 < eligibleCellsLength-1 && !quad_found ; index3++) {//loop generating the third cell that 'could' be a naked quad
+                                    
+                                    int countThirdsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(index3)][eligible_columns.get(index3)]); //to count the candidates of third cell that are added to candidateList
+
+                                        for (int index4 = (index3 + 1) ; index4 < eligibleCellsLength && !quad_found ; index4++){//loop generating the fourth cell that 'could' be a naked quad
+
+                                            int countFourthsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(index4)][eligible_columns.get(index4)]); //to count the candidates of fourth cell that are added to candidateList
+
+                                            if (candidateList.size() == 4) {//there need to be exactly 4 unique candidates in the set of candidates of these 4 cells for a quad to exist
+                                                skip_rows[0] = eligible_rows.get(index1);
+                                                skip_columns[0] = eligible_columns.get(index1);
+
+                                                skip_rows[1] = eligible_rows.get(index2);
+                                                skip_columns[1] = eligible_columns.get(index2);
+
+                                                skip_rows[2] = eligible_rows.get(index3);
+                                                skip_columns[2] = eligible_columns.get(index3);
+
+                                                skip_rows[3] = eligible_rows.get(index4);
+                                                skip_columns[3] = eligible_columns.get(index4);
+
+                                                quad[0] = candidateList.get(0);
+                                                removeCandidateText[0] = "Remove Candidate " + quad[0] + " at ";
+
+                                                quad[1] = candidateList.get(1);
+                                                removeCandidateText[1] = "Remove Candidate " + quad[1] + " at ";
+
+                                                quad[2] = candidateList.get(2);
+                                                removeCandidateText[2] = "Remove Candidate " + quad[2] + " at ";
+
+                                                quad[3] = candidateList.get(3);
+                                                removeCandidateText[3] = "Remove Candidate " + quad[3] + " at ";
+
+                                                quad_found = true;//stop searching for combinations, a triplet has been found.
+                                        }
+                                        removeRecentAdditions(candidateList, countFourthsCandidates);//make space for addition of a new fourth cell
+                                    }
+
+                                    removeRecentAdditions(candidateList, countThirdsCandidates);//make space for addition of a new third cell
+                                    
+                                }
+
+                                removeRecentAdditions(candidateList, countSecondsCandidates);//make space for addition of a new second cell
+                            
+                        }
+                    }
+
+                    if (!quad_found) {//if the quad has been found, remove candidates from the other cells in the block that are naked quad candidates.
+                        for (int r = r1; r < r1 + 3; r++) {
+                            for (int c = c1; c < c1 + 3; c++) {
+                                if (!(r == skip_rows[0] && c == skip_columns[0]) && !(r == skip_rows[1] && c == skip_columns[1]) && !(r == skip_rows[2] && c == skip_columns[2]) && !(r == skip_rows[3] && c == skip_columns[3]) && puzzle[r][c].isNotSet()) {
+                                    ArrayList<Integer> removeList = eliminateFromCell(puzzle[r][c], quad);//gets the candidates removed from the particular cell
+                                    if (removeList.contains(quad[0])) {
+                                        checkCandidateRemoved[0] = true;
+                                        removeCandidateText[0] += "(" + (r + 1) + "," + (c + 1) + ")";
+                                    }
+                                    if (removeList.contains(quad[1])) {
+                                        checkCandidateRemoved[1] = true;
+                                        removeCandidateText[1] += "(" + (r + 1) + "," + (c + 1) + ")";
+                                    }
+                                    if (removeList.contains(quad[2])) {
+                                        checkCandidateRemoved[2] = true;
+                                        removeCandidateText[2] += "(" + (r + 1) + "," + (c + 1) + ")";
+                                    }
+                                    if (removeList.contains(quad[3])) {
+                                        checkCandidateRemoved[3] = true;
+                                        removeCandidateText[3] += "(" + (r + 1) + "," + (c + 1) + ")";
+                                    }
+                                }
+                            }
+                        }
+                    }// if(!quad_found)
+
+                    nakedQuadCheckSteps(checkCandidateRemoved, removeCandidateText, quad, skip_rows[0], skip_columns[0], 
+                                        skip_rows[1], skip_columns[1], skip_rows[2], skip_columns[2], skip_rows[3], skip_columns[3], 3);
+
+                }// if( eligibleCellSize >= 4)      
+
+            }//c1
+        }//r1  (end of block checking)
+    } // end of nakedTriple()
+
+    /**
+     * Checks if the current cell is eligible for checking if it's a nakedTriple
+     */
+    private static boolean checkNakedQuadEligible(Cell cell) {
+        return (cell.getNoOfCandidates() >= 2 && cell.getNoOfCandidates() <= 4) && cell.isNotSet();
+    }// end of checkNakedTripleEligible()
+
+    /**
+     * add changes made by naked triple to the check steps linked lists
+     */
+    private static void nakedQuadCheckSteps(boolean[] checkCandidateRemoved, String[] removeCandidateText, 
+                                            int[] quad, int row_1, int column_1, int row_2, int column_2,
+                                            int row_3, int column_3, int row_4, int column_4, int house) {
+
+        String end_tag = "";
+
+        switch (house) {
+            case 1://naked quad in row
+                end_tag = " in Row " + (row_1 + 1);
+                break;
+
+            case 2://naked quad in column
+                end_tag = " in Column " + (column_1 + 1);
+                break;
+
+            case 3://naked quad in subsquare
+                end_tag = " in Block";
+                break;
+        }
+
+        if (checkCandidateRemoved[0] || checkCandidateRemoved[1] || checkCandidateRemoved[2] || checkCandidateRemoved[3]) {//checking if nakedQuad() changed the puzzle in some way
+
+            algorithm.add("Naked Quad" + end_tag);
+            insert.add("Candidates: " + quad[0] + ", " + quad[1] + ", " + quad[2] + " and " + quad[3] +" are common to cells " +
+                    "(" + (row_1 + 1) + "," + (column_1 + 1) + "), (" + (row_2 + 1) + "," + (column_2 + 1) + "), ("
+                    + (row_3 + 1) + "," + (column_3 + 1) + ") and (" + (row_4 + 1) + "," + (column_4 + 1) + ")");
+
+            if (!checkCandidateRemoved[0])//no removal of candidate 1
+                removeCandidateText[0] = "";
+
+            if (!checkCandidateRemoved[1])//no removal of candidate 2
+                removeCandidateText[1] = "";
+
+            if (!checkCandidateRemoved[2])//no removal of candidate 3
+                removeCandidateText[2] = "";
+
+            if (!checkCandidateRemoved[3])//no removal of candidate 4
+                removeCandidateText[3] = "";
+
+            remove.add((removeCandidateText[0] + " " + removeCandidateText[1] + " " + removeCandidateText[2] + " " + removeCandidateText[3]).trim());
+        }//if
+    }//end of nakedQuadCheckSteps()
+
+
+    
     private static void xWing(Cell[][] puzzle) {
         basicFish(puzzle,  1);
     }// end of xWing()
@@ -2559,41 +2966,47 @@ public final class Sudoku {
 
             switch (levelUpdater) {
 
-                case 12:
+                case 13:
                     beforeUsingStrategy = changeCounter;
                     finnedJellyfish(puzzle);
                     if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by finnedJellyfish()
                         levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
 
 
-                case 11:
+                case 12:
                     beforeUsingStrategy = changeCounter;
                     finnedSwordfish(puzzle);
                     if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by finnedSwordfish()
                         levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
 
-                case 10:
+                case 11:
                     beforeUsingStrategy = changeCounter;
                     finnedXWing(puzzle);
                     if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by finnedXWing()
                         levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
 
-                case 9:
+                case 10:
                     beforeUsingStrategy = changeCounter;
                     jellyfish(puzzle);
                     if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by jellyfish()
                         levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
 
-                case 8:
+                case 9:
                     beforeUsingStrategy = changeCounter;
                     swordfish(puzzle);
                     if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by swordfish()
                         levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
 
-                case 7:
+                case 8:
                     beforeUsingStrategy = changeCounter;
                     xWing(puzzle);
                     if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by xWing()
+                        levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
+
+                case 7:
+                    beforeUsingStrategy = changeCounter;
+                    nakedQuad(puzzle);
+                    if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by nakedQuad()
                         levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
 
                 case 6:
@@ -2640,7 +3053,7 @@ public final class Sudoku {
             if (changeCounter == 0)//if no changes have been made to the puzzle with the current set of algorithms, increase the level to utilize more complex solving strategies
                 levelUpdater++;
 
-        } while (levelUpdater <= 12);//if the levelUpdater goes greater than 12, it means despite using all the algorithms available - the puzzle could not be solved
+        } while (levelUpdater <= 13);//if the levelUpdater goes greater than 13, it means despite using all the algorithms available - the puzzle could not be solved
 
         //if the solving strategies could not completely solve the puzzle, resort to brute force
         if (cellCount != 81) {//checking if the puzzle is unsolved
@@ -2664,7 +3077,7 @@ public final class Sudoku {
     public static void partiallySolve(Cell[][] puzzle, ArrayList<String> chosenStrategies) {
 
         final String[] logics = {"Naked Single", "Hidden Single", "Naked Pair", "Pointing Pair",
-                "Claiming Pair", "Hidden Pair", "Naked Triple", "Hidden Triple", "X-Wing", "Swordfish", "Jellyfish", 
+                "Claiming Pair", "Hidden Pair", "Naked Triple", "Hidden Triple", "Naked Quad", "X-Wing", "Swordfish", "Jellyfish", 
                 "Finned X-Wing", "Finned Swordfish", "Finned Jellyfish", "Brute Force"};
 
         boolean[] strategy = new boolean[logics.length];//array that indicates which solving strategies the user wants to use
@@ -2684,53 +3097,61 @@ public final class Sudoku {
         do {//loop to call the functions to solve the puzzle
             changeCounter = 0;//reinitializing the counter to 0 before the start of every iteration
             switch (levelUpdater) {
-
-                case 13:
-                    if (strategy[13]) {
+                
+                case 14:
+                    if (strategy[14]) {
                         beforeUsingStrategy = changeCounter;
                         finnedJellyfish(puzzle);
                         if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by finnedJellyfish()
                             levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
                     }
 
-                case 12:
-                    if (strategy[12]) {
+                case 13:
+                    if (strategy[13]) {
                         beforeUsingStrategy = changeCounter;
                         finnedSwordfish(puzzle);
                         if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by finnedSwordfish()
                             levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
                     }
 
-                case 11:
-                    if (strategy[11]) {
+                case 12:
+                    if (strategy[12]) {
                         beforeUsingStrategy = changeCounter;
                         finnedXWing(puzzle);
                         if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by finnedXWing()
                             levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
                     }
 
-                case 10:
-                    if (strategy[10]) {
+                case 11:
+                    if (strategy[11]) {
                         beforeUsingStrategy = changeCounter;
                         jellyfish(puzzle);
                         if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by jellyfish()
                             levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
                     }
 
-                case 9:
-                    if (strategy[9]) {
+                case 10:
+                    if (strategy[10]) {
                         beforeUsingStrategy = changeCounter;
                         swordfish(puzzle);
                         if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by swordfish()
                             levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
                     }
 
-                case 8:
-                    if (strategy[8]) {
+                case 9:
+                    if (strategy[9]) {
                         beforeUsingStrategy = changeCounter;
                         xWing(puzzle);
                         if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by xWing()
                             levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
+                    }
+
+                case 8:
+                    if (strategy[8]) {
+                        beforeUsingStrategy = changeCounter;
+                        nakedQuad(puzzle);
+                        if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by nakedQuad()
+                        levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
                     }
 
                 case 7:
@@ -2796,7 +3217,7 @@ public final class Sudoku {
             if (changeCounter == 0)//if no changes have been made to the puzzle with the current set of algorithms, increase the level to utilize more complex solving strategies
                 levelUpdater++;
 
-        } while (levelUpdater <= 13);//if the levelUpdater goes greater than 13, it means after using the chosen algorithms - the puzzle could still not be solved
+        } while (levelUpdater <= 14);//if the levelUpdater goes greater than 14, it means after using the chosen algorithms - the puzzle could still not be solved
 
         //if the solving strategies could not completely solve the puzzle, resort to brute force
         if (cellCount != 81 && strategy[logics.length - 1]) {//checking if the puzzle is unsolved AND the user has chosen to use Brute Force
