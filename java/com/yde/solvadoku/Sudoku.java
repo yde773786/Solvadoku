@@ -1621,7 +1621,7 @@ public final class Sudoku {
                                         quad_found = true;//stop searching for combinations, a quad has been found.
                                     }//if Statement
 
-                                    removeRecentAdditions(candidateList, countThirdsCandidates);//make space for addition of a new fourth cell
+                                    removeRecentAdditions(candidateList, countFourthsCandidates);//make space for addition of a new fourth cell
 
                                 }//index4
 
@@ -1732,7 +1732,7 @@ public final class Sudoku {
                                         quad_found = true;//stop searching for combinations, a quad has been found.
                                     }//if Statement
 
-                                    removeRecentAdditions(candidateList, countThirdsCandidates);//make space for addition of a new fourth cell
+                                    removeRecentAdditions(candidateList, countFourthsCandidates);//make space for addition of a new fourth cell
 
                                 }//index4
 
