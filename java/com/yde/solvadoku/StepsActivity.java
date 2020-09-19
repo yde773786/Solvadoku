@@ -71,6 +71,9 @@ public class StepsActivity extends AppCompatActivity {
             algorithmDetail.put("Brute Force", R.string.brute_force);
             algorithmDetail.put("Finned Swordfish", R.string.finned_swordfish);
             algorithmDetail.put("Finned Jellyfish", R.string.finned_jellyfish);
+            algorithmDetail.put("Hidden Quad", R.string.hidden_quad);
+            algorithmDetail.put("Hidden Triple", R.string.hidden_triple);
+            algorithmDetail.put("Naked Quad", R.string.naked_quad);
             about.setOnClickListener(this);
         }
 

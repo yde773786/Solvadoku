@@ -32,5 +32,8 @@
     <string name="finned_x_wing">HEY HEY HEY</string>
     <string name="finned_swordfish">temp</string>
     <string name="finned_jellyfish">here</string>
+    <string name="hidden_quad">Hidden Quad</string>
+    <string name="hidden_triple">Hidden Triple</string>
+    <string name="naked_quad">Naked Quad</string>
 
 </resources>

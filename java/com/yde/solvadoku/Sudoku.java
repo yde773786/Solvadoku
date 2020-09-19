@@ -1,4 +1,4 @@
-package java.com.yde.solvadoku;
+package com.yde.solvadoku;
 
 import java.sql.Array;
 import java.util.ArrayList;
