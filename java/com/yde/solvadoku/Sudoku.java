@@ -1,4 +1,4 @@
-package com.yde.solvadoku;
+package java.com.yde.solvadoku;
 
 import java.sql.Array;
 import java.util.ArrayList;
@@ -1436,13 +1436,20 @@ public final class Sudoku {
     
     private static ArrayList<Integer> getSimilarCandidates(Cell cell_1, Cell cell_2, Cell cell_3) {
         Cell[] cellArray = { cell_1, cell_2, cell_3};
+        boolean flag;//to exist the inner nested loops and jump straight to the next iteration of outermost loop
         ArrayList<Integer> similar_candidates = new ArrayList<>();// stores the similar candidates
         for (int num = 1; num < 10; num++) {
+            flag = false;
             for (int index1 = 0; index1 < cellArray.length - 1; index1++) {
                 for (int index2 = (index1 + 1); index2 < cellArray.length; index2++) {
-                    if (cellArray[index1].isCandidate(num) && cellArray[index2].isCandidate(num))                        
+                    if (cellArray[index1].isCandidate(num) && cellArray[index2].isCandidate(num)){                     
                         similar_candidates.add(num);// adding the similar candidate to the array list
+                        flag = true;
+                        break;
+                    }
                 } // index2
+                if(flag)
+                    break;
             } // index1
         } // num
         return similar_candidates;
@@ -1473,7 +1480,7 @@ public final class Sudoku {
             }
         }//num
     
-        for (int i = 0 ; i < 4 ; i++){
+        for (int i = 0 ; i < 3 ; i++){
             if (tmp[i])
                 removeTriple[i] = "";
             else
@@ -1860,11 +1867,12 @@ public final class Sudoku {
                         }
                     }
 
-                    if (!quad_found) {//if the quad has been found, remove candidates from the other cells in the block that are naked quad candidates.
+                    if (quad_found) {//if the quad has been found, remove candidates from the other cells in the block that are naked quad candidates.
                         for (int r = r1; r < r1 + 3; r++) {
                             for (int c = c1; c < c1 + 3; c++) {
                                 if (!(r == skip_rows[0] && c == skip_columns[0]) && !(r == skip_rows[1] && c == skip_columns[1]) && !(r == skip_rows[2] && c == skip_columns[2]) && !(r == skip_rows[3] && c == skip_columns[3]) && puzzle[r][c].isNotSet()) {
                                     ArrayList<Integer> removeList = eliminateFromCell(puzzle[r][c], quad);//gets the candidates removed from the particular cell
+                                    
                                     if (removeList.contains(quad[0])) {
                                         checkCandidateRemoved[0] = true;
                                         removeCandidateText[0] += "(" + (r + 1) + "," + (c + 1) + ")";
@@ -2055,7 +2063,7 @@ public final class Sudoku {
             for (int c1 = 0; c1 <= 6; c1 += 3) {//jumps to first column position of block
                 ArrayList<Integer> eligible_rows = new ArrayList<>();//rows that could possibly contain a hidden block
                 ArrayList<Integer> eligible_columns = new ArrayList<>();//columns that could possibly contain hidden block
-                for (int r = r1; r < r1 + 3; r++) {//traversal og block
+                for (int r = r1; r < r1 + 3; r++) {//traversal of block
                     for (int c = c1; c < c1 + 3; c++) {
                         if (puzzle[r][c].isNotSet() && puzzle[r][c].getNoOfCandidates() >= 2) {//if cell has 2 or more candidates, it is eligible
                             eligible_rows.add(r);
@@ -2116,13 +2124,20 @@ public final class Sudoku {
 
     private static ArrayList<Integer> getSimilarCandidates(Cell cell_1, Cell cell_2, Cell cell_3, Cell cell_4) {
         Cell[] cellArray = { cell_1, cell_2, cell_3, cell_4 };
+        boolean flag;
         ArrayList<Integer> similar_candidates = new ArrayList<>();// stores the similar candidates
         for (int num = 1 ; num < 10; num++) {
-            for (int index1 = 0 ; index1 < cellArray.length - 1; index1++) {
-                for (int index2 = (index1 + 1) ; index2 < cellArray.length; index2++) {
-                    if (cellArray[index1].isCandidate(num) && cellArray[index2].isCandidate(num))                        
+            flag = false;
+            for (int index1 = 0 ; index1 < cellArray.length-1 ; index1++) {
+                for (int index2 = (index1 + 1) ; index2 < cellArray.length ; index2++) {
+                    if (cellArray[index1].isCandidate(num) && cellArray[index2].isCandidate(num)){                        
                         similar_candidates.add(num);// adding the similar candidate to the array list
+                        flag = true;
+                        break;
+                    }
                 } // index2
+                if(flag)
+                    break;
             } // index1
         } // num
         return similar_candidates;
