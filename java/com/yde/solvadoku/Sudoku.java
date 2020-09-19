@@ -1,4 +1,4 @@
-package java.com.yde.solvadoku;
+package com.yde.solvadoku;
 
 import java.sql.Array;
 import java.util.ArrayList;
@@ -1635,7 +1635,7 @@ public final class Sudoku {
 
 
                 if (quad_found) {//if the quad has been found, remove candidates from other cells in that row that are naked quad candidates.
-                    for (int c = 0; c < 9; c++) {
+                    for (int c = 0 ; c < 9 ; c++) {
                         if (c != skip_columns[0] && c != skip_columns[1] && c != skip_columns[2] && c != skip_columns[3] && puzzle[r][c].isNotSet()) {
                             ArrayList<Integer> removeList = eliminateFromCell(puzzle[r][c], quad);//gets the candidates removed from the particular cell
                             if (removeList.contains(quad[0])) {
@@ -1770,7 +1770,7 @@ public final class Sudoku {
                 }// if (quad_found)
 
                 nakedQuadCheckSteps(checkCandidateRemoved, removeCandidateText, quad, 
-                                    skip_rows[0], c, skip_rows[1], c, skip_rows[2], c, skip_rows[3], c, 1);
+                                    skip_rows[0], c, skip_rows[1], c, skip_rows[2], c, skip_rows[3], c, 2);
 
             }//if (eligible rows >= 4)  
 
@@ -1872,7 +1872,7 @@ public final class Sudoku {
                             for (int c = c1; c < c1 + 3; c++) {
                                 if (!(r == skip_rows[0] && c == skip_columns[0]) && !(r == skip_rows[1] && c == skip_columns[1]) && !(r == skip_rows[2] && c == skip_columns[2]) && !(r == skip_rows[3] && c == skip_columns[3]) && puzzle[r][c].isNotSet()) {
                                     ArrayList<Integer> removeList = eliminateFromCell(puzzle[r][c], quad);//gets the candidates removed from the particular cell
-                                    
+
                                     if (removeList.contains(quad[0])) {
                                         checkCandidateRemoved[0] = true;
                                         removeCandidateText[0] += "(" + (r + 1) + "," + (c + 1) + ")";
