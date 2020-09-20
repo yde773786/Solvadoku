@@ -1593,37 +1593,37 @@ public final class Sudoku {
 
                             int countThirdsCandidates = addIfAbsent(candidateList, puzzle[r][eligible_columns.get(index3)]);
 
-                                for (int index4 = (index3 + 1) ; index4 < eligible_columns.size() && !quad_found ; index4++){//loop generating the fourth cell that 'could' be a naked quad 
+                            for (int index4 = (index3 + 1) ; index4 < eligible_columns.size() && !quad_found ; index4++){//loop generating the fourth cell that 'could' be a naked quad 
 
-                                    int countFourthsCandidates = addIfAbsent(candidateList, puzzle[r][eligible_columns.get(index4)]); // to count the candidates of fourth cell that are added to candidateList
+                                int countFourthsCandidates = addIfAbsent(candidateList, puzzle[r][eligible_columns.get(index4)]); // to count the candidates of fourth cell that are added to candidateList
 
-                                    if (candidateList.size() == 4) {//if the number of unique candidates amongst the 4 cells is 4, they must be a naked quad.
-                                        /*Store the columns and quads to be skipped.*/
-                                        skip_columns[0] = eligible_columns.get(index1);
-                                        skip_columns[1] = eligible_columns.get(index2);
-                                        skip_columns[2] = eligible_columns.get(index3);
-                                        skip_columns[3] = eligible_columns.get(index4);
+                                if (candidateList.size() == 4) {//if the number of unique candidates amongst the 4 cells is 4, they must be a naked quad.
+                                    /*Store the columns and quads to be skipped.*/
+                                    skip_columns[0] = eligible_columns.get(index1);
+                                    skip_columns[1] = eligible_columns.get(index2);
+                                    skip_columns[2] = eligible_columns.get(index3);
+                                    skip_columns[3] = eligible_columns.get(index4);
 
-                                        quad[0] = candidateList.get(0);
-                                        removeCandidateText[0] = "Remove Candidate " + quad[0] + " at ";
+                                    quad[0] = candidateList.get(0);
+                                    removeCandidateText[0] = "Remove Candidate " + quad[0] + " at ";
 
-                                        quad[1] = candidateList.get(1);
-                                        removeCandidateText[1] = "Remove Candidate " + quad[1] + " at ";
+                                    quad[1] = candidateList.get(1);
+                                    removeCandidateText[1] = "Remove Candidate " + quad[1] + " at ";
 
-                                        quad[2] = candidateList.get(2);
-                                        removeCandidateText[2] = "Remove Candidate " + quad[2] + " at ";
+                                    quad[2] = candidateList.get(2);
+                                    removeCandidateText[2] = "Remove Candidate " + quad[2] + " at ";
 
-                                        quad[3] = candidateList.get(3);
-                                        removeCandidateText[3] = "Remove Candidate " + quad[3] + " at ";
+                                    quad[3] = candidateList.get(3);
+                                    removeCandidateText[3] = "Remove Candidate " + quad[3] + " at ";
 
-                                        quad_found = true;//stop searching for combinations, a quad has been found.
-                                    }//if Statement
+                                    quad_found = true;//stop searching for combinations, a quad has been found.
+                                }//if Statement
 
-                                    removeRecentAdditions(candidateList, countFourthsCandidates);//make space for addition of a new fourth cell
+                                removeRecentAdditions(candidateList, countFourthsCandidates);//make space for addition of a new fourth cell
 
-                                }//index4
+                            }//index4
 
-                                removeRecentAdditions(candidateList, countThirdsCandidates);//make space for addition of a new third cell
+                            removeRecentAdditions(candidateList, countThirdsCandidates);//make space for addition of a new third cell
                                 
                         }//index3
 
@@ -1671,7 +1671,7 @@ public final class Sudoku {
             ArrayList<Integer> eligible_rows = new ArrayList<>();//an arraylist containing all rows in the column that are eligible to possibily contain Naked Quad
             for (int r = 0 ; r < 9 ; r++) {
                 if (checkNakedQuadEligible(puzzle[r][c])) {//checks if eligible
-                    eligible_rows.add(c);//if so, add it to the arrayList
+                    eligible_rows.add(r);//if so, add it to the arrayList
                 }
             }
 
@@ -1704,37 +1704,37 @@ public final class Sudoku {
 
                             int countThirdsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(index3)][c]); // to count the candidates of third cell that are added to candidateList
 
-                                for (int index4 = (index3 + 1) ; index4 < eligible_rows.size() && !quad_found ; index4++){//loop generating the third cell that 'could' be a naked quad
+                            for (int index4 = (index3 + 1) ; index4 < eligible_rows.size() && !quad_found ; index4++){//loop generating the third cell that 'could' be a naked quad
 
-                                    int countFourthsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(index4)][c]); // to count the candidates of fourth cell that are added to candidateList
+                                int countFourthsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(index4)][c]); // to count the candidates of fourth cell that are added to candidateList
 
-                                    if (candidateList.size() == 4) {//if the number of unique candidates amongst the 4 cells is 4, they must be a naked quad.
-                                        /*Store the rows and quads to be skipped.*/
-                                        skip_rows[0] = eligible_rows.get(index1);
-                                        skip_rows[1] = eligible_rows.get(index2);
-                                        skip_rows[2] = eligible_rows.get(index3);
-                                        skip_rows[3] = eligible_rows.get(index4);
+                                if (candidateList.size() == 4) {//if the number of unique candidates amongst the 4 cells is 4, they must be a naked quad.
+                                    /*Store the rows and quads to be skipped.*/
+                                    skip_rows[0] = eligible_rows.get(index1);
+                                    skip_rows[1] = eligible_rows.get(index2);
+                                    skip_rows[2] = eligible_rows.get(index3);
+                                    skip_rows[3] = eligible_rows.get(index4);
 
-                                        quad[0] = candidateList.get(0);
-                                        removeCandidateText[0] = "Remove Candidate " + quad[0] + " at ";
+                                    quad[0] = candidateList.get(0);
+                                    removeCandidateText[0] = "Remove Candidate " + quad[0] + " at ";
 
-                                        quad[1] = candidateList.get(1);
-                                        removeCandidateText[1] = "Remove Candidate " + quad[1] + " at ";
+                                    quad[1] = candidateList.get(1);
+                                    removeCandidateText[1] = "Remove Candidate " + quad[1] + " at ";
 
-                                        quad[2] = candidateList.get(2);
-                                        removeCandidateText[2] = "Remove Candidate " + quad[2] + " at ";
+                                    quad[2] = candidateList.get(2);
+                                    removeCandidateText[2] = "Remove Candidate " + quad[2] + " at ";
 
-                                        quad[3] = candidateList.get(3);
-                                        removeCandidateText[3] = "Remove Candidate " + quad[3] + " at ";
+                                    quad[3] = candidateList.get(3);
+                                    removeCandidateText[3] = "Remove Candidate " + quad[3] + " at ";
 
-                                        quad_found = true;//stop searching for combinations, a quad has been found.
-                                    }//if Statement
+                                    quad_found = true;//stop searching for combinations, a quad has been found.
+                                }//if Statement
 
-                                    removeRecentAdditions(candidateList, countFourthsCandidates);//make space for addition of a new fourth cell
+                                removeRecentAdditions(candidateList, countFourthsCandidates);//make space for addition of a new fourth cell
 
-                                }//index4
+                            }//index4
 
-                                removeRecentAdditions(candidateList, countThirdsCandidates);//make space for addition of a new third cell
+                            removeRecentAdditions(candidateList, countThirdsCandidates);//make space for addition of a new third cell
                                 
                         }//index3
 
@@ -1820,49 +1820,49 @@ public final class Sudoku {
                             
                             int countSecondsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(index2)][eligible_columns.get(index2)]); //to count the candidates of second cell that are added to candidateList
 
-                                for (int index3 = (index2 + 1) ; index3 < eligibleCellsLength-1 && !quad_found ; index3++) {//loop generating the third cell that 'could' be a naked quad
+                            for (int index3 = (index2 + 1) ; index3 < eligibleCellsLength-1 && !quad_found ; index3++) {//loop generating the third cell that 'could' be a naked quad
                                     
-                                    int countThirdsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(index3)][eligible_columns.get(index3)]); //to count the candidates of third cell that are added to candidateList
+                                int countThirdsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(index3)][eligible_columns.get(index3)]); //to count the candidates of third cell that are added to candidateList
 
-                                        for (int index4 = (index3 + 1) ; index4 < eligibleCellsLength && !quad_found ; index4++){//loop generating the fourth cell that 'could' be a naked quad
+                                for (int index4 = (index3 + 1) ; index4 < eligibleCellsLength && !quad_found ; index4++){//loop generating the fourth cell that 'could' be a naked quad
 
-                                            int countFourthsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(index4)][eligible_columns.get(index4)]); //to count the candidates of fourth cell that are added to candidateList
+                                    int countFourthsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(index4)][eligible_columns.get(index4)]); //to count the candidates of fourth cell that are added to candidateList
 
-                                            if (candidateList.size() == 4) {//there need to be exactly 4 unique candidates in the set of candidates of these 4 cells for a quad to exist
-                                                skip_rows[0] = eligible_rows.get(index1);
-                                                skip_columns[0] = eligible_columns.get(index1);
+                                    if (candidateList.size() == 4) {//there need to be exactly 4 unique candidates in the set of candidates of these 4 cells for a quad to exist
+                                        skip_rows[0] = eligible_rows.get(index1);
+                                        skip_columns[0] = eligible_columns.get(index1);
 
-                                                skip_rows[1] = eligible_rows.get(index2);
-                                                skip_columns[1] = eligible_columns.get(index2);
+                                        skip_rows[1] = eligible_rows.get(index2);
+                                        skip_columns[1] = eligible_columns.get(index2);
 
-                                                skip_rows[2] = eligible_rows.get(index3);
-                                                skip_columns[2] = eligible_columns.get(index3);
+                                        skip_rows[2] = eligible_rows.get(index3);
+                                        skip_columns[2] = eligible_columns.get(index3);
 
-                                                skip_rows[3] = eligible_rows.get(index4);
-                                                skip_columns[3] = eligible_columns.get(index4);
-
-                                                quad[0] = candidateList.get(0);
-                                                removeCandidateText[0] = "Remove Candidate " + quad[0] + " at ";
-
-                                                quad[1] = candidateList.get(1);
-                                                removeCandidateText[1] = "Remove Candidate " + quad[1] + " at ";
-
-                                                quad[2] = candidateList.get(2);
-                                                removeCandidateText[2] = "Remove Candidate " + quad[2] + " at ";
-
-                                                quad[3] = candidateList.get(3);
-                                                removeCandidateText[3] = "Remove Candidate " + quad[3] + " at ";
-
-                                                quad_found = true;//stop searching for combinations, a triplet has been found.
-                                        }
-                                        removeRecentAdditions(candidateList, countFourthsCandidates);//make space for addition of a new fourth cell
+                                        skip_rows[3] = eligible_rows.get(index4);
+                                        skip_columns[3] = eligible_columns.get(index4);
+                                                
+                                        quad[0] = candidateList.get(0);
+                                        removeCandidateText[0] = "Remove Candidate " + quad[0] + " at ";
+                                     
+                                        quad[1] = candidateList.get(1);
+                                        removeCandidateText[1] = "Remove Candidate " + quad[1] + " at ";
+                                       
+                                        quad[2] = candidateList.get(2);
+                                        removeCandidateText[2] = "Remove Candidate " + quad[2] + " at ";
+                                          
+                                        quad[3] = candidateList.get(3);
+                                        removeCandidateText[3] = "Remove Candidate " + quad[3] + " at ";
+                                         
+                                        quad_found = true;//stop searching for combinations, a triplet has been found.
                                     }
+                                    removeRecentAdditions(candidateList, countFourthsCandidates);//make space for addition of a new fourth cell
+                                }
 
                                     removeRecentAdditions(candidateList, countThirdsCandidates);//make space for addition of a new third cell
                                     
-                                }
+                            }
 
-                                removeRecentAdditions(candidateList, countSecondsCandidates);//make space for addition of a new second cell
+                            removeRecentAdditions(candidateList, countSecondsCandidates);//make space for addition of a new second cell
                             
                         }
                     }
@@ -2323,7 +2323,7 @@ public final class Sudoku {
                         ArrayList<Integer> other_house = compareCandidatePos(candidate_pos.get(i), candidate_pos.get(j), null, null);//find the unique set of houses from where candidates need to be removed
                         if (other_house.size() == 2) {//two unique houses from where candidates are to be removed (xwing)
                             if (which == 1) {
-                                String title = "X-wing in " + " Row " + (house_in.get(i) + 1) + " and " + (house_in.get(j) + 1);
+                                String title = "X-wing in Row " + (house_in.get(i) + 1) + " and " + (house_in.get(j) + 1);
                                 String insert_s = "Candidate " + num + " is common to cells ";
                                 for (int tmp = 0; tmp < other_house.size(); tmp++) {//list all xwing cells
                                     if (puzzle[house_in.get(i)][other_house.get(tmp)].isCandidate(num)
@@ -2359,7 +2359,7 @@ public final class Sudoku {
 
                             } else {
 
-                                String title = "X-Wing in " + " Column " + (house_in.get(i) + 1) + " and " + (house_in.get(j) + 1);
+                                String title = "X-Wing in Column " + (house_in.get(i) + 1) + " and " + (house_in.get(j) + 1);
                                 String insert_s = "Candidate " + num + " is common to cells ";
                                 for (int tmp = 0; tmp < other_house.size(); tmp++) {
                                     if (puzzle[other_house.get(tmp)][house_in.get(i)].isCandidate(num)
@@ -2407,7 +2407,7 @@ public final class Sudoku {
                             ArrayList<Integer> other_house = compareCandidatePos(candidate_pos.get(i), candidate_pos.get(j), candidate_pos.get(k), null);//find the unique set of houses from where candidates need to be removed
                             if (other_house.size() == 3) {//three unique houses from where candidates are to be removed (swordfish)
                                 if (which == 1) {
-                                    String title = "Swordfish in " + " Row " + (house_in.get(i) + 1) + "," + (house_in.get(j) + 1) +
+                                    String title = "Swordfish in Row " + (house_in.get(i) + 1) + "," + (house_in.get(j) + 1) +
                                             " and " + (house_in.get(k) + 1);
                                     String insert_s = "Candidate " + num + " is common to cells ";
                                     for (int tmp = 0; tmp < other_house.size(); tmp++) {//list all swordfish cells
@@ -2452,7 +2452,7 @@ public final class Sudoku {
 
                                 } else {
 
-                                    String title = "Swordfish in " + " Column " + (house_in.get(i) + 1) + "," + (house_in.get(j) + 1) +
+                                    String title = "Swordfish in Column " + (house_in.get(i) + 1) + "," + (house_in.get(j) + 1) +
                                             " and " + (house_in.get(k) + 1);
                                     String insert_s = "Candidate " + num + " is common to cells ";
                                     for (int tmp = 0; tmp < other_house.size(); tmp++) {
@@ -2508,7 +2508,7 @@ public final class Sudoku {
                                 ArrayList<Integer> other_house = compareCandidatePos(candidate_pos.get(i), candidate_pos.get(j), candidate_pos.get(k), candidate_pos.get(l));
                                 if (other_house.size() == 4) {//four unique houses from where candidates are to be removed (jellyfish)
                                     if (which == 1) {
-                                        String title = "Jellyfish in " + " Row " + (house_in.get(i) + 1) + "," + (house_in.get(j) + 1) +
+                                        String title = "Jellyfish in Row " + (house_in.get(i) + 1) + "," + (house_in.get(j) + 1) +
                                                 "," + (house_in.get(k) + 1) + " and " + (house_in.get(l) + 1);
                                         String insert_s = "Candidate " + num + " is common to cells ";
                                         for (int tmp = 0; tmp < other_house.size(); tmp++) {//list all swordfish cells
@@ -2560,7 +2560,7 @@ public final class Sudoku {
                                         }
 
                                     } else {
-                                        String title = "JellyFish in " + " Column " + (house_in.get(i) + 1) + "," + (house_in.get(j) + 1) +
+                                        String title = "JellyFish in Column " + (house_in.get(i) + 1) + "," + (house_in.get(j) + 1) +
                                                 "," + (house_in.get(k) + 1) + " and " + (house_in.get(l) + 1);
                                         String insert_s = "Candidate " + num + " is common to cells ";
                                         for (int tmp = 0; tmp < other_house.size(); tmp++) {
@@ -2722,7 +2722,7 @@ public final class Sudoku {
                                         if ((subsquare_markers = commonSubsquare(fin_coordinates)) != null) {//all the fins are in the same subsquare
                                             int sample_house_1 = sample_other_house.get(sample_1);
                                             int sample_house_2 = sample_other_house.get(sample_2);
-                                            String title = "Finned X-Wing in " + " Row " + (houseFin_in.get(i) + 1) + " and " + (houseFin_in.get(j) + 1);
+                                            String title = "Finned X-Wing in Row " + (houseFin_in.get(i) + 1) + " and " + (houseFin_in.get(j) + 1);
                                             String insert_s = "Candidate " + num + " is common to X-Wing cells : ";
                                             String remove_s = "Remove Candidate " + num + " from ";
                                             String fins_s = ", with fin(s) : ";
@@ -2755,7 +2755,7 @@ public final class Sudoku {
                                         if ((subsquare_markers = commonSubsquare(fin_coordinates)) != null) {
                                             int sample_house_1 = sample_other_house.get(sample_1);
                                             int sample_house_2 = sample_other_house.get(sample_2);
-                                            String title = "Finned X-Wing in " + " Column " + (houseFin_in.get(i) + 1) + " and " + (houseFin_in.get(j) + 1);
+                                            String title = "Finned X-Wing in Column " + (houseFin_in.get(i) + 1) + " and " + (houseFin_in.get(j) + 1);
                                             String insert_s = "Candidate " + num + " is common to X-Wing cells : ";
                                             String remove_s = "Remove Candidate " + num + " from ";
                                             String fins_s = ", with fin(s) : ";
@@ -2814,7 +2814,7 @@ public final class Sudoku {
                                                     int sample_house_1 = sample_other_house.get(sample_1);
                                                     int sample_house_2 = sample_other_house.get(sample_2);
                                                     int sample_house_3 = sample_other_house.get(sample_3);
-                                                    String title = "Finned Swordfish in " + " Row " + (houseFin_in.get(i) + 1) + ", " + (houseFin_in.get(j) + 1) + " and " + (houseFin_in.get(k) + 1);
+                                                    String title = "Finned Swordfish in Row " + (houseFin_in.get(i) + 1) + ", " + (houseFin_in.get(j) + 1) + " and " + (houseFin_in.get(k) + 1);
                                                     String insert_s = "Candidate " + num + " is common to Swordfish cells : ";
                                                     String remove_s = "Remove Candidate " + num + " from ";
                                                     String fins_s = ", with fin(s) : ";
@@ -2854,7 +2854,7 @@ public final class Sudoku {
                                                     int sample_house_1 = sample_other_house.get(sample_1);
                                                     int sample_house_2 = sample_other_house.get(sample_2);
                                                     int sample_house_3 = sample_other_house.get(sample_3);
-                                                    String title = "Finned Swordfish in " + " Columns " + (houseFin_in.get(i) + 1) + ", " + (houseFin_in.get(j) + 1) + " and " + (houseFin_in.get(k) + 1);
+                                                    String title = "Finned Swordfish in Columns " + (houseFin_in.get(i) + 1) + ", " + (houseFin_in.get(j) + 1) + " and " + (houseFin_in.get(k) + 1);
                                                     String insert_s = "Candidate " + num + " is common to Swordfish cells : ";
                                                     String remove_s = "Remove Candidate " + num + " from ";
                                                     String fins_s = ", with fin(s) : ";
@@ -2927,7 +2927,7 @@ public final class Sudoku {
                                                             int sample_house_2 = sample_other_house.get(sample_2);
                                                             int sample_house_3 = sample_other_house.get(sample_3);
                                                             int sample_house_4 = sample_other_house.get(sample_4);
-                                                            String title = "Finned Jellyfish in " + " Row " + (houseFin_in.get(i) + 1) + ", " + (houseFin_in.get(j) + 1) + " , " + (houseFin_in.get(k) + 1) +
+                                                            String title = "Finned Jellyfish in Row " + (houseFin_in.get(i) + 1) + ", " + (houseFin_in.get(j) + 1) + " , " + (houseFin_in.get(k) + 1) +
                                                                     " and " + (houseFin_in.get(l) + 1);
                                                             String insert_s = "Candidate " + num + " is common to Jellyfish cells : ";
                                                             String remove_s = "Remove Candidate " + num + " from ";
@@ -2976,7 +2976,7 @@ public final class Sudoku {
                                                             int sample_house_2 = sample_other_house.get(sample_2);
                                                             int sample_house_3 = sample_other_house.get(sample_3);
                                                             int sample_house_4 = sample_other_house.get(sample_4);
-                                                            String title = "Finned Jellyfish in " + " Columns " + (houseFin_in.get(i) + 1) + ", " + (houseFin_in.get(j) + 1) + " , " + (houseFin_in.get(k) + 1) +
+                                                            String title = "Finned Jellyfish in Columns " + (houseFin_in.get(i) + 1) + ", " + (houseFin_in.get(j) + 1) + " , " + (houseFin_in.get(k) + 1) +
                                                                     " and " + (houseFin_in.get(l) + 1);
                                                             String insert_s = "Candidate " + num + " is common to Jellyfish cells : ";
                                                             String remove_s = "Remove Candidate " + num + " from ";
