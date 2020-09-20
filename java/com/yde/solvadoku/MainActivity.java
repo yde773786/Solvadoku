@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity implements View.OnFocusChang
     private Button partial;
     private Button solve;
     private Button checkSteps;
-    private static boolean currentlySolving = false;
     Cell[][] puzzle = new Cell[9][9];
     private static final float actualFontSize = 25;
     private static boolean putPencilMarks = true;
@@ -141,7 +140,6 @@ public class MainActivity extends AppCompatActivity implements View.OnFocusChang
                         solve.setEnabled(false);
                         partial.setEnabled(false);
                     }
-                    currentlySolving = true;
                 } else {
                     Toast.makeText(MainActivity.this, R.string.invalid_input, Toast.LENGTH_LONG).show();
                 }
@@ -179,7 +177,6 @@ public class MainActivity extends AppCompatActivity implements View.OnFocusChang
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int x) {
                                     if (checkedItems.size() != 0) {
-                                        currentlySolving = true;
                                         checkSteps.setEnabled(true);
                                         puzzle = new Cell[9][9];
                                         Sudoku.cellCount = 0;
@@ -213,28 +210,7 @@ public class MainActivity extends AppCompatActivity implements View.OnFocusChang
 
                                         Sudoku.partiallySolve(puzzle, checkedItems);
 
-                                        for (int i = 0; i < 9; i++) {
-                                            for (int j = 0; j < 9; j++) {
-                                                if (!hasValue(unit[i][j]) && puzzle[i][j].getSolution() != 0) {
-                                                    unit[i][j].setTextSize(actualFontSize);
-                                                    unit[i][j].setGravity(Gravity.CENTER);
-                                                    unit[i][j].setFilters(new InputFilter[]{new InputFilter.LengthFilter(1)});
-                                                    unit[i][j].setTextColor(getResources().getColor(R.color.colorDeepBlue));
-                                                    unit[i][j].setText(String.valueOf(puzzle[i][j].getSolution()));
-                                                } else if (!hasValue(unit[i][j]) && putPencilMarks) {
-                                                    unit[i][j].setTextSize(actualFontSize / 2.5f);
-                                                    unit[i][j].setGravity(Gravity.TOP);
-
-                                                    unit[i][j].setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)});
-                                                    unit[i][j].setTextColor(getResources().getColor(R.color.colorBlack));
-                                                    unit[i][j].setText(puzzle[i][j].listCandidates());
-                                                } else if (!hasValue(unit[i][j]) && !putPencilMarks) {
-                                                    unit[i][j].setText("");
-                                                }
-                                                makeNotEditable(unit[i][j], unit[i][j].getCurrentTextColor());
-                                                clearBackground(unit[i][j], i, j);
-                                            }
-                                        }
+                                        gridAsNecessary();
 
                                         for (int i = 0; i < 9; i++) {
                                             for (int j = 0; j < 9; j++) {
@@ -599,27 +575,10 @@ public class MainActivity extends AppCompatActivity implements View.OnFocusChang
     }
 
     @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        MenuItem item1 = menu.findItem(R.id.action_clear_all);
-        MenuItem item2 = menu.findItem(R.id.settings);
-
-        if (!currentlySolving) {
-            item1.setVisible(true);
-            item2.setVisible(true);
-        } else {
-            item1.setVisible(true);
-            item2.setVisible(false);
-        }
-
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()) {
             case R.id.action_clear_all:
-                currentlySolving = false;
                 for (int i = 0; i < 9; i++) {
                     for (int j = 0; j < 9; j++) {
                         unit[i][j].setGravity(Gravity.CENTER);
@@ -655,7 +614,34 @@ public class MainActivity extends AppCompatActivity implements View.OnFocusChang
             if (resultCode == RESULT_OK) {
                 assert data != null;
                 putPencilMarks = data.getBooleanExtra("key", true);
+                gridAsNecessary();
             }
         }
     }
+
+    private void gridAsNecessary() {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if (!hasValue(unit[i][j]) && puzzle[i][j].getSolution() != 0) {
+                    unit[i][j].setTextSize(actualFontSize);
+                    unit[i][j].setGravity(Gravity.CENTER);
+                    unit[i][j].setFilters(new InputFilter[]{new InputFilter.LengthFilter(1)});
+                    unit[i][j].setTextColor(getResources().getColor(R.color.colorDeepBlue));
+                    unit[i][j].setText(String.valueOf(puzzle[i][j].getSolution()));
+                } else if (!hasValue(unit[i][j]) && putPencilMarks) {
+                    unit[i][j].setTextSize(actualFontSize / 2.5f);
+                    unit[i][j].setGravity(Gravity.TOP);
+
+                    unit[i][j].setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)});
+                    unit[i][j].setTextColor(getResources().getColor(R.color.colorBlack));
+                    unit[i][j].setText(puzzle[i][j].listCandidates());
+                } else if (!hasValue(unit[i][j]) && !putPencilMarks) {
+                    unit[i][j].setText("");
+                }
+                makeNotEditable(unit[i][j], unit[i][j].getCurrentTextColor());
+                clearBackground(unit[i][j], i, j);
+            }
+        }
+    }
+
 }
