@@ -2042,7 +2042,7 @@ public final class Sudoku {
                                                     quad[3] = similarCandidates.get(inc3);
 
                                                     if (quadDoesNotExistInOtherCellsInColumn(puzzle, c, quad, index_1, index_2, index_3, index_4))//checking if any other cells in the same column also have quad[0], quad[1], quad[2] or quad[3] as candidates
-                                                        hiddenQuadCheckSteps(puzzle, index_1, c, index_2, c, index_3, c, index_4, c, quad, 1);
+                                                        hiddenQuadCheckSteps(puzzle, index_1, c, index_2, c, index_3, c, index_4, c, quad, 2);
                                                 }//inc3
                                             }//inc2
                                         }//inc1
