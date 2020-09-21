@@ -1262,7 +1262,7 @@
             android:fontFamily="@font/raleway"
             android:text="@string/title"
             android:textSize="35sp"
-            android:textColor="@color/colorGrey" />
+            android:textColor="@color/colortitle" />
 
 
     </androidx.appcompat.widget.Toolbar>
@@ -1288,8 +1288,15 @@
             android:layout_marginBottom="16dp"
             android:layout_weight="0.5"
             android:background="@drawable/rounder"
-            android:backgroundTint="@color/solve"
+            android:backgroundTint="@color/steps"
             android:fontFamily="@font/ralewaymed"
+            android:padding="15dp"
+            android:paddingStart="10dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
             android:text="@string/solve"
             android:textSize="20sp" />
 
@@ -1312,6 +1319,7 @@
                 android:background="@drawable/rounder"
                 android:backgroundTint="@color/steps"
                 android:fontFamily="@font/ralewaymed"
+                android:padding="15dp"
                 android:text="@string/steps"
                 android:textSize="16sp" />
 
@@ -1326,6 +1334,7 @@
                 android:background="@drawable/rounder"
                 android:backgroundTint="@color/steps"
                 android:fontFamily="@font/ralewaymed"
+                android:padding="15dp"
                 android:text="@string/partial"
                 android:textSize="16sp" />
 

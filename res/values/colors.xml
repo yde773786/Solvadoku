@@ -8,9 +8,9 @@
     <color name="colorBlack">#000000</color>
     <color name="colorRed">#FF0000</color>
     <color name="lightBlue">#ADD8E6</color>
+    <color name="colortitle">#494949</color>
     <color name="lightRed">#FFCCCB</color>
     <color name="colorDeepBlue">#186CB3</color>
-    <color name="solve">#53D45D</color>
     <color name="steps">#3CE28C</color>
     <color name="partial">#E6E053</color>
 
