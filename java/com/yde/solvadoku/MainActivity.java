@@ -212,13 +212,6 @@ public class MainActivity extends AppCompatActivity implements View.OnFocusChang
 
                                         gridAsNecessary();
 
-                                        for (int i = 0; i < 9; i++) {
-                                            for (int j = 0; j < 9; j++) {
-                                                if ((unit[i][j].getCurrentTextColor() == getResources().getColor(R.color.colorDeepBlue) && hasValue(unit[i][j])))
-                                                    disableBackground(unit[i][j], i, j);
-                                            }
-                                        }
-
                                         if (Sudoku.cellCount == 81) {
                                             solve.setEnabled(false);
                                             partial.setEnabled(false);
@@ -640,6 +633,13 @@ public class MainActivity extends AppCompatActivity implements View.OnFocusChang
                 }
                 makeNotEditable(unit[i][j], unit[i][j].getCurrentTextColor());
                 clearBackground(unit[i][j], i, j);
+            }
+        }
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                if ((unit[i][j].getCurrentTextColor() == getResources().getColor(R.color.colorDeepBlue) && hasValue(unit[i][j])))
+                    disableBackground(unit[i][j], i, j);
             }
         }
     }
