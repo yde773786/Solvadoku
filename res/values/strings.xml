@@ -33,7 +33,7 @@
     <string name="no_pencil_marks">Partial solve without pencil marks</string>
     <string name="settings">Settings and Information</string>
     <string name="title_activity_settings">SettingsActivity</string>
-    <string name="switcher">Show Pencil Marks for unsolved cells when partially solved </string>
+    <string name="switcher">Show pencil marks for unsolved cells in Partial Solve</string>
     <string name="about">Solvadoku Version 1.2</string>
 
 
