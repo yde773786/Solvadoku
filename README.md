@@ -44,3 +44,5 @@ The Sudoku solving strategies we use:
 
 Available on Play Store as Version(1.1)
 https://play.google.com/store/apps/details?id=com.yde.solvadoku
+
+Contributors: CookieCrumbs19212 and yde773786
