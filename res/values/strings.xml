@@ -34,7 +34,7 @@
     <string name="settings">Settings and Information</string>
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="switcher">Show pencil marks for unsolved cells in Partial Solve</string>
-    <string name="about">Solvadoku Version 1.2</string>
+    <string name="about">Solvadoku Version 1.1</string>
 
 
 </resources>

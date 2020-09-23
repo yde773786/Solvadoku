@@ -1,7 +1,5 @@
 package com.yde.solvadoku;
 
-import android.util.Log;
-
 import java.util.Arrays;
 
 /**
