@@ -15,13 +15,25 @@
         app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@mipmap/ic_launcher" />
+        app:srcCompat="@drawable/ic_settingsicon" />
+
+    <ImageView
+        android:id="@+id/github"
+        android:layout_width="124dp"
+        android:layout_height="87dp"
+        android:layout_marginStart="16dp"
+        android:tag="https://github.com/yde773786/Solvadoku"
+        app:layout_constraintBottom_toBottomOf="@+id/textView5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView5"
+        app:layout_constraintTop_toTopOf="@+id/textView5"
+        app:srcCompat="@mipmap/github" />
 
     <Switch
         android:id="@+id/switcher"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="24dp"
         android:checked="true"
         android:fontFamily="@font/ralewaymed"
         android:textColor="@color/colorGrey"
@@ -72,12 +84,12 @@
         android:id="@+id/textView2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="64dp"
         android:layout_marginEnd="30dp"
         android:background="@drawable/lined_border_side"
         android:fontFamily="@font/raleway"
-        android:paddingRight="10dp"
+        android:paddingEnd="20dp"
         android:text="@string/switcher"
         android:textColor="@color/colorGrey"
         android:textSize="22sp"
@@ -86,11 +98,26 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <TextView
+        android:id="@+id/textView5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/raleway"
+        android:text="@string/github"
+        android:textColor="@color/colorGrey"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+    <TextView
         android:id="@+id/textView4"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/lined_border_top"
         app:layout_constraintEnd_toEndOf="parent"
