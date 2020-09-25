@@ -2559,7 +2559,7 @@ public final class Sudoku {
                                         }
 
                                     } else {
-                                        String title = "JellyFish in Column " + (house_in.get(i) + 1) + "," + (house_in.get(j) + 1) +
+                                        String title = "Jellyfish in Column " + (house_in.get(i) + 1) + "," + (house_in.get(j) + 1) +
                                                 "," + (house_in.get(k) + 1) + " and " + (house_in.get(l) + 1);
                                         String insert_s = "Candidate " + num + " is common to cells ";
                                         for (int tmp = 0; tmp < other_house.size(); tmp++) {
