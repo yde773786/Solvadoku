@@ -613,34 +613,38 @@ public class MainActivity extends AppCompatActivity implements View.OnFocusChang
     }
 
     private void gridAsNecessary() {
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                if (!hasValue(unit[i][j]) && puzzle[i][j].getSolution() != 0) {
-                    unit[i][j].setTextSize(actualFontSize);
-                    unit[i][j].setGravity(Gravity.CENTER);
-                    unit[i][j].setFilters(new InputFilter[]{new InputFilter.LengthFilter(1)});
-                    unit[i][j].setTextColor(getResources().getColor(R.color.colorDeepBlue));
-                    unit[i][j].setText(String.valueOf(puzzle[i][j].getSolution()));
-                } else if (!hasValue(unit[i][j]) && putPencilMarks) {
-                    unit[i][j].setTextSize(actualFontSize / 2.5f);
-                    unit[i][j].setGravity(Gravity.TOP);
+        try {
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    if (!hasValue(unit[i][j]) && puzzle[i][j].getSolution() != 0) {
+                        unit[i][j].setTextSize(actualFontSize);
+                        unit[i][j].setGravity(Gravity.CENTER);
+                        unit[i][j].setFilters(new InputFilter[]{new InputFilter.LengthFilter(1)});
+                        unit[i][j].setTextColor(getResources().getColor(R.color.colorDeepBlue));
+                        unit[i][j].setText(String.valueOf(puzzle[i][j].getSolution()));
+                    } else if (!hasValue(unit[i][j]) && putPencilMarks) {
+                        unit[i][j].setTextSize(actualFontSize / 2.5f);
+                        unit[i][j].setGravity(Gravity.TOP);
 
-                    unit[i][j].setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)});
-                    unit[i][j].setTextColor(getResources().getColor(R.color.colorBlack));
-                    unit[i][j].setText(puzzle[i][j].listCandidates());
-                } else if (!hasValue(unit[i][j]) && !putPencilMarks) {
-                    unit[i][j].setText("");
+                        unit[i][j].setFilters(new InputFilter[]{new InputFilter.LengthFilter(20)});
+                        unit[i][j].setTextColor(getResources().getColor(R.color.colorBlack));
+                        unit[i][j].setText(puzzle[i][j].listCandidates());
+                    } else if (!hasValue(unit[i][j]) && !putPencilMarks) {
+                        unit[i][j].setText("");
+                    }
+                    makeNotEditable(unit[i][j], unit[i][j].getCurrentTextColor());
+                    clearBackground(unit[i][j], i, j);
                 }
-                makeNotEditable(unit[i][j], unit[i][j].getCurrentTextColor());
-                clearBackground(unit[i][j], i, j);
             }
-        }
 
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                if ((unit[i][j].getCurrentTextColor() == getResources().getColor(R.color.colorDeepBlue) && hasValue(unit[i][j])))
-                    disableBackground(unit[i][j], i, j);
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    if ((unit[i][j].getCurrentTextColor() == getResources().getColor(R.color.colorDeepBlue) && hasValue(unit[i][j])))
+                        disableBackground(unit[i][j], i, j);
+                }
             }
+        } catch (NullPointerException ignored) {
+
         }
     }
 
