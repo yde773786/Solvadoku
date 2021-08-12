@@ -36,6 +36,8 @@
     <string name="switcher">Show pencil marks for unsolved cells in Partial Solve</string>
     <string name="about">Solvadoku Version 1.1</string>
     <string name="github">Check out the Github Repository for our app!</string>
+    <string name="db_key">settings</string>
+    <string name="pencil_settings">pencil settings</string>
 
 
 </resources>
