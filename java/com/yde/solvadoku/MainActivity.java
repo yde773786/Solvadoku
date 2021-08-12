@@ -9,10 +9,10 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.method.DigitsKeyListener;
 import android.view.ContextThemeWrapper;
@@ -38,8 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnFocusChang
     private Button checkSteps;
     Cell[][] puzzle = new Cell[9][9];
     private static final float actualFontSize = 25;
-    private static boolean putPencilMarks = true;
-    private int[][] storeId;
+    private static boolean putPencilMarks;
     final ArrayList<String> checkedItems = new ArrayList<>();
 
     @Override
@@ -53,8 +52,11 @@ public class MainActivity extends AppCompatActivity implements View.OnFocusChang
         } catch (NullPointerException ignored) {
         }
 
+        SharedPreferences sharedPreferences = this.getSharedPreferences(getString(R.string.db_key), Context.MODE_PRIVATE);
+        putPencilMarks = sharedPreferences.getBoolean(getString(R.string.pencil_settings), true);
+
         unit = new EditText[9][9];
-        storeId = new int[][]{{R.id.et00, R.id.et01, R.id.et02, R.id.et03, R.id.et04, R.id.et05, R.id.et06, R.id.et07, R.id.et08},
+        int[][] storeId = new int[][]{{R.id.et00, R.id.et01, R.id.et02, R.id.et03, R.id.et04, R.id.et05, R.id.et06, R.id.et07, R.id.et08},
                 {R.id.et10, R.id.et11, R.id.et12, R.id.et13, R.id.et14, R.id.et15, R.id.et16, R.id.et17, R.id.et18},
                 {R.id.et20, R.id.et21, R.id.et22, R.id.et23, R.id.et24, R.id.et25, R.id.et26, R.id.et27, R.id.et28},
                 {R.id.et30, R.id.et31, R.id.et32, R.id.et33, R.id.et34, R.id.et35, R.id.et36, R.id.et37, R.id.et38},

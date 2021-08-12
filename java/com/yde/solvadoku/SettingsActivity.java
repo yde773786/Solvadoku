@@ -2,7 +2,9 @@ package com.yde.solvadoku;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -45,4 +47,12 @@ public class SettingsActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SharedPreferences sharedPreferences = this.getSharedPreferences(getString(R.string.db_key), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(getString(R.string.pencil_settings), isChecked);
+        editor.apply();
+    }
 }
