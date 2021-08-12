@@ -42,7 +42,7 @@ The Sudoku solving strategies we use:
 * Brute Force
 
 
-Available on Play Store as Version(1.1)
+Available on Play Store as Version(1.1.3)
 https://play.google.com/store/apps/details?id=com.yde.solvadoku
 
 Contributors: CookieCrumbs19212 and yde773786
