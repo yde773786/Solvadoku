@@ -1,4 +1,6 @@
-package com.yde.solvadoku;
+package com.yde.solvadoku.Logic;
+
+import com.yde.solvadoku.Logic.Cell;
 
 import java.util.ArrayList;
 import java.util.Arrays;

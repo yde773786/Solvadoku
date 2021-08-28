@@ -1,4 +1,4 @@
-package com.yde.solvadoku.Grids;
+package com.yde.solvadoku.UI.Grids;
 
 import android.content.Context;
 import android.util.AttributeSet;

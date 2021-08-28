@@ -1,4 +1,4 @@
-package com.yde.solvadoku;
+package com.yde.solvadoku.UI;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
+
+import com.yde.solvadoku.R;
 
 public class SettingsActivity extends AppCompatActivity {
 

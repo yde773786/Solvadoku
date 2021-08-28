@@ -1,4 +1,4 @@
-package com.yde.solvadoku;
+package com.yde.solvadoku.UI;
 
 import android.content.Context;
 import android.util.AttributeSet;

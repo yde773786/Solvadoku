@@ -9,10 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".SettingsActivity"></activity>
-        <activity android:name=".StepsActivity" />
+        <activity android:name=".UI.SettingsActivity"></activity>
+        <activity android:name=".UI.StepsActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name=".UI.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,4 +1,4 @@
-package com.yde.solvadoku;
+package com.yde.solvadoku.Logic;
 
 import java.util.Arrays;
 

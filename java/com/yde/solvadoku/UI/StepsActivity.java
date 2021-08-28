@@ -1,4 +1,4 @@
-package com.yde.solvadoku;
+package com.yde.solvadoku.UI;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.yde.solvadoku.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

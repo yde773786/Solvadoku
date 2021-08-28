@@ -1,4 +1,4 @@
-package com.yde.solvadoku;
+package com.yde.solvadoku.UI;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,7 +26,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.yde.solvadoku.Grids.SudokuGrid;
+import com.yde.solvadoku.Logic.Cell;
+import com.yde.solvadoku.Logic.Sudoku;
+import com.yde.solvadoku.R;
 
 import java.util.ArrayList;
 import java.util.Objects;
