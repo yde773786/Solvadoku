@@ -26,6 +26,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.yde.solvadoku.Grids.SudokuGrid;
+
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -56,23 +58,23 @@ public class MainActivity extends AppCompatActivity implements View.OnFocusChang
         putPencilMarks = sharedPreferences.getBoolean(getString(R.string.pencil_settings), true);
 
         unit = new EditText[9][9];
-        int[][] storeId = new int[][]{{R.id.et00, R.id.et01, R.id.et02, R.id.et03, R.id.et04, R.id.et05, R.id.et06, R.id.et07, R.id.et08},
-                {R.id.et10, R.id.et11, R.id.et12, R.id.et13, R.id.et14, R.id.et15, R.id.et16, R.id.et17, R.id.et18},
-                {R.id.et20, R.id.et21, R.id.et22, R.id.et23, R.id.et24, R.id.et25, R.id.et26, R.id.et27, R.id.et28},
-                {R.id.et30, R.id.et31, R.id.et32, R.id.et33, R.id.et34, R.id.et35, R.id.et36, R.id.et37, R.id.et38},
-                {R.id.et40, R.id.et41, R.id.et42, R.id.et43, R.id.et44, R.id.et45, R.id.et46, R.id.et47, R.id.et48},
-                {R.id.et50, R.id.et51, R.id.et52, R.id.et53, R.id.et54, R.id.et55, R.id.et56, R.id.et57, R.id.et58},
-                {R.id.et60, R.id.et61, R.id.et62, R.id.et63, R.id.et64, R.id.et65, R.id.et66, R.id.et67, R.id.et68},
-                {R.id.et70, R.id.et71, R.id.et72, R.id.et73, R.id.et74, R.id.et75, R.id.et76, R.id.et77, R.id.et78},
-                {R.id.et80, R.id.et81, R.id.et82, R.id.et83, R.id.et84, R.id.et85, R.id.et86, R.id.et87, R.id.et88}};
-
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
-                unit[i][j] = (EditText) findViewById(storeId[i][j]);
-                unit[i][j].setOnFocusChangeListener(this);
-                unit[i][j].addTextChangedListener(new CellTextWatcher(i, j));
-            }
-        }
+//        int[][] storeId = new int[][]{{R.id.et00, R.id.et01, R.id.et02, R.id.et03, R.id.et04, R.id.et05, R.id.et06, R.id.et07, R.id.et08},
+//                {R.id.et10, R.id.et11, R.id.et12, R.id.et13, R.id.et14, R.id.et15, R.id.et16, R.id.et17, R.id.et18},
+//                {R.id.et20, R.id.et21, R.id.et22, R.id.et23, R.id.et24, R.id.et25, R.id.et26, R.id.et27, R.id.et28},
+//                {R.id.et30, R.id.et31, R.id.et32, R.id.et33, R.id.et34, R.id.et35, R.id.et36, R.id.et37, R.id.et38},
+//                {R.id.et40, R.id.et41, R.id.et42, R.id.et43, R.id.et44, R.id.et45, R.id.et46, R.id.et47, R.id.et48},
+//                {R.id.et50, R.id.et51, R.id.et52, R.id.et53, R.id.et54, R.id.et55, R.id.et56, R.id.et57, R.id.et58},
+//                {R.id.et60, R.id.et61, R.id.et62, R.id.et63, R.id.et64, R.id.et65, R.id.et66, R.id.et67, R.id.et68},
+//                {R.id.et70, R.id.et71, R.id.et72, R.id.et73, R.id.et74, R.id.et75, R.id.et76, R.id.et77, R.id.et78},
+//                {R.id.et80, R.id.et81, R.id.et82, R.id.et83, R.id.et84, R.id.et85, R.id.et86, R.id.et87, R.id.et88}};
+//
+//        for (int i = 0; i < 9; i++) {
+//            for (int j = 0; j < 9; j++) {
+//                unit[i][j] = (EditText) findViewById(storeId[i][j]);
+//                unit[i][j].setOnFocusChangeListener(this);
+//                unit[i][j].addTextChangedListener(new CellTextWatcher(i, j));
+//            }
+//        }
 
         solve = (Button) findViewById(R.id.solve);
         solve.setOnClickListener(new View.OnClickListener() {

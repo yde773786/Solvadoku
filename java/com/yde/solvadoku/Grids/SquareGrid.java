@@ -1,28 +1,22 @@
-package com.yde.solvadoku;
+package com.yde.solvadoku.Grids;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.widget.GridLayout;
 
-public class SudokuGrid extends GridLayout {
+import androidx.gridlayout.widget.GridLayout;
 
-    public SudokuGrid(Context context) {
+public class SquareGrid extends GridLayout {
+
+    public SquareGrid(Context context) {
         super(context);
-        LayoutInflater inflater = LayoutInflater.from(context);
-        inflater.inflate(R.layout.sudoku_grid, this);
     }
 
-    public SudokuGrid(Context context, AttributeSet attrs) {
+    public SquareGrid(Context context, AttributeSet attrs) {
         super(context, attrs);
-        LayoutInflater inflater = LayoutInflater.from(context);
-        inflater.inflate(R.layout.sudoku_grid, this);
     }
 
-    public SudokuGrid(Context context, AttributeSet attrs, int defStyle) {
+    public SquareGrid(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        LayoutInflater inflater = LayoutInflater.from(context);
-        inflater.inflate(R.layout.sudoku_grid, this);
     }
 
     @Override

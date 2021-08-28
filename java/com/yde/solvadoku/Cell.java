@@ -94,20 +94,18 @@ public class Cell {
     }// end of boolean isNotSet()
 
     public String listCandidates() {
-        String s = "";
+        StringBuilder s = new StringBuilder();
         for (int i = 0; i < 9; i++) {
             if (candidates[i]) {
-                s += (i + 1);
+                s.append(i + 1);
             } else
-                s += "_";
+                s.append(" ");
             if ((i + 1) % 3 == 0) {
-                s += '\n';
+                s.append('\n');
             } else
-                s += " ";
+                s.append(" ");
         }
-        return s;
+        return s.toString();
     }
 
-    // public int pencilMarks() {
-    //}
 }// end of class Cell
