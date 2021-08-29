@@ -23,12 +23,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yde.solvadoku.Logic.Cell;
 import com.yde.solvadoku.Logic.Sudoku;
 import com.yde.solvadoku.R;
+import com.yde.solvadoku.UI.Grids.SudokuGrid;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -36,7 +37,7 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity implements View.OnFocusChangeListener {
 
     private static final int SETTINGS_ACTIVITY_REQUEST_CODE = 0;
-    private EditText[][] unit;
+    private TextView[][] unit;
     private Button partial;
     private Button solve;
     private Button checkSteps;
@@ -49,7 +50,8 @@ public class MainActivity extends AppCompatActivity implements View.OnFocusChang
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
         try {
             Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
@@ -59,24 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnFocusChang
         SharedPreferences sharedPreferences = this.getSharedPreferences(getString(R.string.db_key), Context.MODE_PRIVATE);
         putPencilMarks = sharedPreferences.getBoolean(getString(R.string.pencil_settings), true);
 
-        unit = new EditText[9][9];
-//        int[][] storeId = new int[][]{{R.id.et00, R.id.et01, R.id.et02, R.id.et03, R.id.et04, R.id.et05, R.id.et06, R.id.et07, R.id.et08},
-//                {R.id.et10, R.id.et11, R.id.et12, R.id.et13, R.id.et14, R.id.et15, R.id.et16, R.id.et17, R.id.et18},
-//                {R.id.et20, R.id.et21, R.id.et22, R.id.et23, R.id.et24, R.id.et25, R.id.et26, R.id.et27, R.id.et28},
-//                {R.id.et30, R.id.et31, R.id.et32, R.id.et33, R.id.et34, R.id.et35, R.id.et36, R.id.et37, R.id.et38},
-//                {R.id.et40, R.id.et41, R.id.et42, R.id.et43, R.id.et44, R.id.et45, R.id.et46, R.id.et47, R.id.et48},
-//                {R.id.et50, R.id.et51, R.id.et52, R.id.et53, R.id.et54, R.id.et55, R.id.et56, R.id.et57, R.id.et58},
-//                {R.id.et60, R.id.et61, R.id.et62, R.id.et63, R.id.et64, R.id.et65, R.id.et66, R.id.et67, R.id.et68},
-//                {R.id.et70, R.id.et71, R.id.et72, R.id.et73, R.id.et74, R.id.et75, R.id.et76, R.id.et77, R.id.et78},
-//                {R.id.et80, R.id.et81, R.id.et82, R.id.et83, R.id.et84, R.id.et85, R.id.et86, R.id.et87, R.id.et88}};
-//
-//        for (int i = 0; i < 9; i++) {
-//            for (int j = 0; j < 9; j++) {
-//                unit[i][j] = (EditText) findViewById(storeId[i][j]);
-//                unit[i][j].setOnFocusChangeListener(this);
-//                unit[i][j].addTextChangedListener(new CellTextWatcher(i, j));
-//            }
-//        }
+        unit = SudokuGrid.getUnit();
 
         solve = (Button) findViewById(R.id.solve);
         solve.setOnClickListener(new View.OnClickListener() {
@@ -270,30 +255,30 @@ public class MainActivity extends AppCompatActivity implements View.OnFocusChang
         return true;
     }
 
-    private void makeNotEditable(EditText editText, int color) {
-        editText.setFocusable(false);
-        editText.setEnabled(false);
-        editText.setTextColor(color);
-        editText.setCursorVisible(false);
+    private void makeNotEditable(TextView textView, int color) {
+        textView.setFocusable(false);
+        textView.setEnabled(false);
+        textView.setTextColor(color);
+        textView.setCursorVisible(false);
     }
 
-    private int value(EditText editText) {
-        return Integer.parseInt(editText.getText().toString());
+    private int value(TextView textView) {
+        return Integer.parseInt(textView.getText().toString());
     }
 
-    private boolean hasValue(EditText editText) {
+    private boolean hasValue(TextView textView) {
         for (int i = 1; i <= 9; i++) {
-            if (editText.getText().toString().equals(String.valueOf(i)))
+            if (textView.getText().toString().equals(String.valueOf(i)))
                 return true;
         }
         return false;
     }
 
-    private void makeEditable(EditText editText) {
-        editText.setFocusableInTouchMode(true);
-        editText.setTextColor(getResources().getColor(R.color.colorBlack));
-        editText.setEnabled(true);
-        editText.setCursorVisible(true);
+    private void makeEditable(TextView textView) {
+        textView.setFocusableInTouchMode(true);
+        textView.setTextColor(getResources().getColor(R.color.colorBlack));
+        textView.setEnabled(true);
+        textView.setCursorVisible(true);
     }
 
     @Override
@@ -397,96 +382,96 @@ public class MainActivity extends AppCompatActivity implements View.OnFocusChang
         return false;
     }
 
-    private void clearBackground(EditText editText, int r, int c) {
+    private void clearBackground(TextView textView, int r, int c) {
         if (c == 2 || c == 5) {
             if (r == 2 || r == 5) {
-                editText.setBackgroundResource(R.drawable.bottom_right);
+                textView.setBackgroundResource(R.drawable.bottom_right);
             } else if (r == 3 || r == 6) {
-                editText.setBackgroundResource(R.drawable.top_right);
+                textView.setBackgroundResource(R.drawable.top_right);
             } else
-                editText.setBackgroundResource(R.drawable.right_border);
+                textView.setBackgroundResource(R.drawable.right_border);
         } else if (c == 3 || c == 6) {
             if (r == 2 || r == 5) {
-                editText.setBackgroundResource(R.drawable.bottom_left);
+                textView.setBackgroundResource(R.drawable.bottom_left);
             } else if (r == 3 || r == 6) {
-                editText.setBackgroundResource(R.drawable.top_left);
+                textView.setBackgroundResource(R.drawable.top_left);
             } else
-                editText.setBackgroundResource(R.drawable.left_border);
+                textView.setBackgroundResource(R.drawable.left_border);
         } else if (r == 2 || r == 5) {
-            editText.setBackgroundResource(R.drawable.bottom_border);
+            textView.setBackgroundResource(R.drawable.bottom_border);
         } else if (r == 3 || r == 6) {
-            editText.setBackgroundResource(R.drawable.top_border);
+            textView.setBackgroundResource(R.drawable.top_border);
         } else
-            editText.setBackgroundResource(R.drawable.border);
+            textView.setBackgroundResource(R.drawable.border);
     }
 
-    private void disableBackground(EditText editText, int r, int c) {
+    private void disableBackground(TextView textView, int r, int c) {
         if (c == 2 || c == 5) {
             if (r == 2 || r == 5) {
-                editText.setBackgroundResource(R.drawable.bottom_rightgrey);
+                textView.setBackgroundResource(R.drawable.bottom_rightgrey);
             } else if (r == 3 || r == 6) {
-                editText.setBackgroundResource(R.drawable.top_rightgrey);
+                textView.setBackgroundResource(R.drawable.top_rightgrey);
             } else
-                editText.setBackgroundResource(R.drawable.right_bordergrey);
+                textView.setBackgroundResource(R.drawable.right_bordergrey);
         } else if (c == 3 || c == 6) {
             if (r == 2 || r == 5) {
-                editText.setBackgroundResource(R.drawable.bottom_leftgrey);
+                textView.setBackgroundResource(R.drawable.bottom_leftgrey);
             } else if (r == 3 || r == 6) {
-                editText.setBackgroundResource(R.drawable.top_leftgrey);
+                textView.setBackgroundResource(R.drawable.top_leftgrey);
             } else
-                editText.setBackgroundResource(R.drawable.left_bordergrey);
+                textView.setBackgroundResource(R.drawable.left_bordergrey);
         } else if (r == 2 || r == 5) {
-            editText.setBackgroundResource(R.drawable.bottom_bordergrey);
+            textView.setBackgroundResource(R.drawable.bottom_bordergrey);
         } else if (r == 3 || r == 6) {
-            editText.setBackgroundResource(R.drawable.top_bordergrey);
+            textView.setBackgroundResource(R.drawable.top_bordergrey);
         } else
-            editText.setBackgroundResource(R.drawable.bordergrey);
+            textView.setBackgroundResource(R.drawable.bordergrey);
     }
 
-    private void selectedBackground(EditText editText, int r, int c) {
+    private void selectedBackground(TextView textView, int r, int c) {
         if (c == 2 || c == 5) {
             if (r == 2 || r == 5) {
-                editText.setBackgroundResource(R.drawable.bottom_rightblue);
+                textView.setBackgroundResource(R.drawable.bottom_rightblue);
             } else if (r == 3 || r == 6) {
-                editText.setBackgroundResource(R.drawable.top_rightblue);
+                textView.setBackgroundResource(R.drawable.top_rightblue);
             } else
-                editText.setBackgroundResource(R.drawable.right_borderblue);
+                textView.setBackgroundResource(R.drawable.right_borderblue);
         } else if (c == 3 || c == 6) {
             if (r == 2 || r == 5) {
-                editText.setBackgroundResource(R.drawable.bottom_leftblue);
+                textView.setBackgroundResource(R.drawable.bottom_leftblue);
             } else if (r == 3 || r == 6) {
-                editText.setBackgroundResource(R.drawable.top_leftblue);
+                textView.setBackgroundResource(R.drawable.top_leftblue);
             } else
-                editText.setBackgroundResource(R.drawable.left_borderblue);
+                textView.setBackgroundResource(R.drawable.left_borderblue);
         } else if (r == 2 || r == 5) {
-            editText.setBackgroundResource(R.drawable.bottom_borderblue);
+            textView.setBackgroundResource(R.drawable.bottom_borderblue);
         } else if (r == 3 || r == 6) {
-            editText.setBackgroundResource(R.drawable.top_borderblue);
+            textView.setBackgroundResource(R.drawable.top_borderblue);
         } else
-            editText.setBackgroundResource(R.drawable.borderblue);
+            textView.setBackgroundResource(R.drawable.borderblue);
     }
 
-    private void wrongBackground(EditText editText, int r, int c) {
+    private void wrongBackground(TextView textView, int r, int c) {
         if (c == 2 || c == 5) {
             if (r == 2 || r == 5) {
-                editText.setBackgroundResource(R.drawable.bottom_rightred);
+                textView.setBackgroundResource(R.drawable.bottom_rightred);
             } else if (r == 3 || r == 6) {
-                editText.setBackgroundResource(R.drawable.top_rightred);
+                textView.setBackgroundResource(R.drawable.top_rightred);
             } else
-                editText.setBackgroundResource(R.drawable.right_borderred);
+                textView.setBackgroundResource(R.drawable.right_borderred);
         } else if (c == 3 || c == 6) {
             if (r == 2 || r == 5) {
-                editText.setBackgroundResource(R.drawable.bottom_leftred);
+                textView.setBackgroundResource(R.drawable.bottom_leftred);
             } else if (r == 3 || r == 6) {
-                editText.setBackgroundResource(R.drawable.top_leftred);
+                textView.setBackgroundResource(R.drawable.top_leftred);
             } else
-                editText.setBackgroundResource(R.drawable.left_borderred);
+                textView.setBackgroundResource(R.drawable.left_borderred);
         } else if (r == 2 || r == 5) {
-            editText.setBackgroundResource(R.drawable.bottom_borderred);
+            textView.setBackgroundResource(R.drawable.bottom_borderred);
         } else if (r == 3 || r == 6) {
-            editText.setBackgroundResource(R.drawable.top_borderred);
+            textView.setBackgroundResource(R.drawable.top_borderred);
         } else
-            editText.setBackgroundResource(R.drawable.borderred);
+            textView.setBackgroundResource(R.drawable.borderred);
     }
 
     private class CellTextWatcher implements TextWatcher {
