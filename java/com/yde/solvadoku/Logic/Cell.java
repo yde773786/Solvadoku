@@ -3,11 +3,13 @@ package com.yde.solvadoku.Logic;
 import java.util.Arrays;
 
 /**
- * An instance of the Cell class is used to represent one cell in the sudoku
- * puzzle.It consists of an array (candidates) that contains a list of the
- * possible candidates that a specific cell can have. It also consists of a int
- * member variable (solution) that is meant to represent the final inserted
- * number into the cell.
+ * Each cell in the Sudoku board is an instance of the Cell class.
+ *
+ * It consists of an array (candidates) that keeps record of the
+ * possible solutions for the specific cell.
+ *
+ * It also consists of a int member variable (solution) that represents the
+ * final solution inserted into the cell.
  */
 public class Cell {
 
@@ -16,8 +18,8 @@ public class Cell {
     private int noOfCandidates;
 
     /**
-     * initializes array possibilities true for all ints from 1 to 9, indicating
-     * that all numbers are candidates initially.
+     * Initializes array possibilities to true for all numbers from 1 to 9,
+     * Thus indicating that all numbers are candidates for the cell initially.
      */
     public Cell() {
         candidates = new boolean[9];
@@ -25,25 +27,38 @@ public class Cell {
             candidates[i] = true;
 
         noOfCandidates = 9;
-        solution = 0;
+        solution = 0; // 0 means the cell does not have a solution yet.
     }// end of constructor
 
     /**
-     * provides the number of candidates for the cell
+     * @return The number of possible solutions for the cell.
      */
     public int getNoOfCandidates() {
         return noOfCandidates;
     }// end of int getNoOfCandidates()
 
     /**
-     * checks if the input int is a current candidate in the cell
+     * Checks if a number is a possible solution for the cell.
+     *
+     * @return True if the input is a possible solution for the cell.
      */
     public boolean isCandidate(int input) {
         return candidates[input - 1];
-    }// end of boolean isCandidate
+    }// end of boolean isCandidate(int)
 
     /**
-     * returns the current Candidate at the entered position.
+     * Returns the candidate in a given position from the list of candidates.
+     *
+     * For example, let us consider the candidates for a cell is 1,2,5,7,8
+     * and we want the candidate in position 2, the required output will be 5
+     * because it is in the 2nd position (because we start counting from 0)
+     * in the list of candidates.
+     *
+     * @param position
+     *        Position of the candidate.
+     *
+     * @return The candidate at the entered position, else returns -1 if there
+     *         is no candidate in that position.
      */
     public int getCandidate(int position) {
         int current_pos = -1;
@@ -58,41 +73,62 @@ public class Cell {
     }// end of int getCandidate(int)
 
     /**
-     * removes the corresponding candidate to the int input
+     * Removes a number from the list of candidates for the cell
+     * by setting the corresponding array index in {@code:candidates} to false.
+     *
+     * @param candidate_to_remove
+     *        The number to be removed as a candidate for the cell.
      */
-    public void removeCandidate(int input) {
-        candidates[input - 1] = false;
+    public void removeCandidate(int candidate_to_remove) {
+        candidates[candidate_to_remove - 1] = false;
         noOfCandidates--;
-    }// end of void removeCandidate
+    }// end of void removeCandidate()
 
     /**
-     * checks if the input cell has the same Candidates as the current cell
+     * Checks if another cell has the same list of candidates as the current cell.
+     *
+     * @param other
+     *        Cell instance of the second cell.
+     *
+     * @return True if the current cell and other cell have the same candidates.
      */
     public boolean sameCandidates(Cell other) {
         return (Arrays.equals(this.candidates, other.candidates));
     }// end of boolean sameCandidate(Cell)
 
     /**
-     * inserts the int input to the cell permanently
+     * Inserts the final solution in the cell permanently.
+     *
+     * This is done irrespective of the current number of possible candidates.
+     *
+     * @param solution
+     *        The number that is the final solution for the cell.
      */
-    public void placeSolution(int input) { // a final decision is made irrespective of the current number of possibilities and Candidates
-        solution = input;
-    }// end of void placeSolution
+    public void placeSolution(int solution) {
+        this.solution = solution;
+    }// end of void placeSolution(int)
 
     /**
-     * gets the inserted value
+     * @return The solution for the cell if a solution is already found, else 0.
      */
     public int getSolution() {
-        return solution;
-    }// end of int getSolution()
+        return this.solution;
+    } // end of int getSolution()
 
     /**
-     * checks if the cell has a value permanently inserted in it or not.
+     * Checks if the cell has a solution or not.
+     *
+     * @return True if the cell has a solution.
      */
     public boolean isNotSet() {
         return (solution == 0);
-    }// end of boolean isNotSet()
+    } // end of boolean isNotSet()
 
+    /**
+     * Method to generate a String of the candidates for the cell.
+     *
+     * @return A String containing the possible solutions for the cell.
+     */
     public String listCandidates() {
         StringBuilder s = new StringBuilder();
         for (int i = 0; i < 9; i++) {
@@ -106,6 +142,6 @@ public class Cell {
                 s.append(" ");
         }
         return s.toString();
-    }
+    } // end of String listCandidates()
 
 }// end of class Cell
