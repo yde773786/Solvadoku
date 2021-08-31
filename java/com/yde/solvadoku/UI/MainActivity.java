@@ -581,8 +581,8 @@ public class MainActivity extends AppCompatActivity implements View.OnFocusChang
                 invalidateOptionsMenu();
                 return true;
 
-            case R.id.settings:
-                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+            case R.id.about:
+                Intent intent = new Intent(MainActivity.this, AboutActivity.class);
                 intent.putExtra("input", putPencilMarks);
                 startActivityForResult(intent, SETTINGS_ACTIVITY_REQUEST_CODE);
                 return true;

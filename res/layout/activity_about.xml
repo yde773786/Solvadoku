@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    tools:context=".UI.AboutActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colortoolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/AppTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:fontFamily="@font/raleway"
+            android:text="@string/title"
+            android:textColor="@color/colortitle"
+            android:textSize="35sp" />
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.19"
+        android:background="@drawable/normal_green"
+        android:fontFamily="@font/raleway"
+        android:gravity="bottom|center"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:text="@string/desc"
+        android:textColor="@color/colorGrey"
+        android:textSize="22sp" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.25"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.1"
+            android:fontFamily="@font/raleway"
+            android:gravity="center"
+            android:text="@string/github"
+            android:textColor="@color/colorGrey"
+            android:textSize="22sp" />
+
+        <ImageView
+            android:id="@+id/github"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:tag="https://github.com/yde773786/Solvadoku"
+            app:srcCompat="@mipmap/github" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="125dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center"
+        android:layout_weight="0.13"
+        app:srcCompat="@drawable/ic_settingsicon" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_weight="0.02"
+        android:fontFamily="@font/raleway"
+        android:text="@string/about"
+        android:textColor="@color/colorGrey"
+        android:textSize="16sp" />
+
+</LinearLayout>

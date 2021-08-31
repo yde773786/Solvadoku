@@ -33,9 +33,9 @@
     <string name="no_pencil_marks">Partial solve without pencil marks</string>
     <string name="settings">Settings and Information</string>
     <string name="title_activity_settings">SettingsActivity</string>
-    <string name="switcher">Show pencil marks for unsolved cells in Partial Solve</string>
+    <string name="desc">The objective of Solvadoku is to extend the functionality of Sudoku solvers by providing detailed step by step solutions on how to approach any puzzle.</string>
     <string name="about">Solvadoku Version 1.1</string>
-    <string name="github">Check out the Github Repository for our app!</string>
+    <string name="github">Our project is FOSS! Check out the Github Repository for Solvadoku here.</string>
     <string name="db_key">settings</string>
     <string name="pencil_settings">pencil settings</string>
 
