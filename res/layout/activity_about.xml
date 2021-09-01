@@ -40,8 +40,8 @@
         android:background="@drawable/normal_green"
         android:fontFamily="@font/raleway"
         android:gravity="bottom|center"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp"
+        android:paddingStart="17dp"
+        android:paddingEnd="17dp"
         android:text="@string/desc"
         android:textColor="@color/colorGrey"
         android:textSize="22sp" />
@@ -60,6 +60,8 @@
             android:layout_weight="1.1"
             android:fontFamily="@font/raleway"
             android:gravity="center"
+            android:paddingStart="17dp"
+            android:paddingEnd="5dp"
             android:text="@string/github"
             android:textColor="@color/colorGrey"
             android:textSize="22sp" />
@@ -69,6 +71,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.25"
+            android:paddingEnd="17dp"
             android:tag="https://github.com/yde773786/Solvadoku"
             app:srcCompat="@mipmap/github" />
 

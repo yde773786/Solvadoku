@@ -34,7 +34,7 @@
     <string name="settings">Settings and Information</string>
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="desc">The objective of Solvadoku is to extend the functionality of Sudoku solvers by providing detailed step by step solutions on how to approach any puzzle.</string>
-    <string name="about">Solvadoku Version 1.1</string>
+    <string name="about">Solvadoku Version 2.0</string>
     <string name="github">Our project is FOSS! Check out the Github Repository for Solvadoku here.</string>
     <string name="db_key">settings</string>
     <string name="pencil_settings">pencil settings</string>
