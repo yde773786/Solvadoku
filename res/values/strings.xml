@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Solvadoku</string>
     <string name="solve">SOLVE </string>
-    <string name="steps">Check steps</string>
+    <string name="steps">STEPS</string>
     <string name="clear_all">Complete reset</string>
     <string name="clear_solved">Clear solved cells</string>
     <string name="pop_up_title">Choose Strategies</string>
@@ -10,7 +10,7 @@
     <string name="no_strat_chosen">Choose at least one strategy</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
-    <string name="partial">Solve Partially</string>
+    <string name="partial">PARTIAL</string>
     <string name="title">SOLVADOKU</string>
     <string name="naked_single">When a cell has only one possible candidate remaining, we call it a Naked Single. The candidate then gets inserted into the cell.</string>
     <string name="hidden_single">When a candidate that exists in a particular House (Row, Column, or Block) does not exist in any other cell in that same house, we call it a Hidden Single because it \"hides\" behind the other candidates in the cell. The candidate then gets inserted into the cell.</string>
@@ -38,6 +38,15 @@
     <string name="github">Our project is FOSS! Check out the Github Repository for Solvadoku here.</string>
     <string name="db_key">settings</string>
     <string name="pencil_settings">pencil settings</string>
+    <string name="_1">1</string>
+    <string name="_2">2</string>
+    <string name="_3">3</string>
+    <string name="_4">4</string>
+    <string name="_5">5</string>
+    <string name="_6">6</string>
+    <string name="_7">7</string>
+    <string name="_8">8</string>
+    <string name="_9">9</string>
 
 
 </resources>
