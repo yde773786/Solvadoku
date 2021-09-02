@@ -21,19 +21,7 @@ public class SquareGrid extends GridLayout {
 
     @Override
     protected void onMeasure(int widthSpec, int heightSpec) {
-        int width = MeasureSpec.getSize(widthSpec);
-        int height = MeasureSpec.getSize(heightSpec);
-        int makeSquare = Math.min(width, height);
-
-        if ((double) width / height <= 0.66) {
-            super.onMeasure(MeasureSpec.makeMeasureSpec(makeSquare, MeasureSpec.EXACTLY),
-                    MeasureSpec.makeMeasureSpec(makeSquare, MeasureSpec.EXACTLY));
-        } else if ((double) width / height > 0.66 && (double) width / height <= 0.7) {
-            super.onMeasure(MeasureSpec.makeMeasureSpec((int) (makeSquare * 0.8), MeasureSpec.EXACTLY),
-                    MeasureSpec.makeMeasureSpec((int) (makeSquare * 0.8), MeasureSpec.EXACTLY));
-        } else {
-            super.onMeasure(MeasureSpec.makeMeasureSpec((int) (makeSquare * 0.7), MeasureSpec.EXACTLY),
-                    MeasureSpec.makeMeasureSpec((int) (makeSquare * 0.7), MeasureSpec.EXACTLY));
-        }
+        int minSpec = Math.min(widthSpec, heightSpec);
+        super.onMeasure(minSpec, minSpec);
     }
 }
