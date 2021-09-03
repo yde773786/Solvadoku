@@ -2,7 +2,7 @@
     <string name="app_name">Solvadoku</string>
     <string name="solve">SOLVE </string>
     <string name="steps">STEPS</string>
-    <string name="clear_all">Complete reset</string>
+    <string name="clear_all">Reset Puzzle</string>
     <string name="clear_solved">Clear solved cells</string>
     <string name="pop_up_title">Choose Strategies</string>
     <string name="invalid_input">Invalid input</string>
@@ -35,6 +35,7 @@
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="desc">The objective of Solvadoku is to extend the functionality of Sudoku solvers by providing detailed step by step solutions on how to approach any puzzle.</string>
     <string name="about">Solvadoku Version 2.0</string>
+    <string name="about_menu">About</string>
     <string name="github">Our project is FOSS! Check out the Github Repository for Solvadoku here.</string>
     <string name="db_key">settings</string>
     <string name="pencil_settings">pencil settings</string>
@@ -47,6 +48,7 @@
     <string name="_7">7</string>
     <string name="_8">8</string>
     <string name="_9">9</string>
+    <string name="other">other</string>
 
 
 </resources>

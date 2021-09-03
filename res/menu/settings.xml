@@ -3,15 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/action_clear_all"
-        android:icon="@drawable/ic_check"
-        android:title="@string/clear_all"
-        app:showAsAction="ifRoom" />
+        android:id="@+id/pencil"
+        android:title="@string/pencil_marks"
+        android:icon="@drawable/ic_pencil"
+        app:showAsAction="always" />
 
     <item
-        android:id="@+id/about"
-        android:icon="@drawable/ic_stat_name"
-        android:title="@string/about"
-        app:showAsAction="ifRoom" />
+        android:id="@+id/other"
+        android:title="@string/other"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_overflow">
+
+        <menu>
+            <item
+                android:id="@+id/action_clear_all"
+                android:title="@string/clear_all"
+                app:showAsAction="never" />
+
+            <item
+                android:id="@+id/about"
+                android:title="@string/about_menu"
+                app:showAsAction="never" />
+        </menu>
+
+    </item>
 
 </menu>

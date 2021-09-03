@@ -104,7 +104,7 @@ public class StepsActivity extends AppCompatActivity {
             dialog.show();
             TextView title = (TextView) dialog.findViewById(R.id.pop);
             TextView content = (TextView) dialog.findViewById(android.R.id.message);
-            Typeface face = Typeface.createFromAsset(getAssets(), "fonts/raleway.ttf");
+            Typeface face = Typeface.createFromAsset(getAssets(), "font/raleway.ttf");
             content.setTypeface(face);
             title.setText(pure_algorithm);
         }
