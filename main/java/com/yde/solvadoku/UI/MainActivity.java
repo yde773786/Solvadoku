@@ -6,10 +6,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -21,6 +22,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -42,15 +44,16 @@ public class MainActivity extends AppCompatActivity implements View.OnFocusChang
     private Button solve;
     private Button checkSteps;
     Cell[][] puzzle = new Cell[9][9];
+    Button[] keypad = new Button[9];
     private static final float actualFontSize = 25;
     private static boolean putPencilMarks;
     final ArrayList<String> checkedItems = new ArrayList<>();
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
         try {
@@ -58,12 +61,37 @@ public class MainActivity extends AppCompatActivity implements View.OnFocusChang
         } catch (NullPointerException ignored) {
         }
 
-        SharedPreferences sharedPreferences = this.getSharedPreferences(getString(R.string.db_key), Context.MODE_PRIVATE);
-        putPencilMarks = sharedPreferences.getBoolean(getString(R.string.pencil_settings), true);
+        putPencilMarks = false;
+        final SudokuGrid sudokuGrid = findViewById(R.id.gridLayout);
+        unit = sudokuGrid.getUnit();
 
-        unit = SudokuGrid.getUnit();
+        keypad = new Button[]{findViewById(R.id.one), findViewById(R.id.two), findViewById(R.id.three), findViewById(R.id.four),
+                findViewById(R.id.five), findViewById(R.id.six), findViewById(R.id.seven), findViewById(R.id.eight), findViewById(R.id.nine)};
 
-        solve = (Button) findViewById(R.id.solve);
+        for (int i = 0; i < keypad.length; i++) {
+            final int finalI = i;
+            keypad[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    sudokuGrid.setFocusedValue(getString(R.string.cell_focus_value, finalI + 1));
+                }
+            });
+
+            keypad[i].setOnTouchListener(new View.OnTouchListener() {
+
+                @Override
+                public boolean onTouch(View view, MotionEvent event) {
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        keypad[finalI].setBackgroundResource(R.drawable.keypad_unfocused);
+                    } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                        keypad[finalI].setBackgroundResource(R.drawable.keypad_focused);
+                    }
+                    return false;
+                }
+            });
+        }
+
+        solve = findViewById(R.id.solve);
         solve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

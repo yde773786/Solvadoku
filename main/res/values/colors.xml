@@ -10,7 +10,7 @@
     <color name="colorRed">#FF0000</color>
     <color name="lightBlue">#ADD8E6</color>
     <color name="numKeys">#515151</color>
-    <color name="colortitle">#494949</color>
+    <color name="numKeysFocus">#494949</color>
     <color name="lightRed">#FFCCCB</color>
     <color name="colorDeepBlue">#186CB3</color>
     <color name="corebtn">#4B926D</color>

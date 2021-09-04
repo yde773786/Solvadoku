@@ -16,10 +16,10 @@ import java.util.Objects;
 
 public class SudokuGrid extends SquareGrid {
 
-    private static HashMap<TextView, int[]> cellToState = new HashMap<>();
-    private static TextView[][] unit;
-    private static final int CLEAR = 0, DISABLED = 1, SELECTED = 2, INVALID = 3;
-    private TextView prevClicked;
+    private HashMap<TextView, int[]> cellToState = new HashMap<>();
+    private TextView[][] unit;
+    private final int CLEAR = 0, DISABLED = 1, SELECTED = 2, INVALID = 3;
+    private TextView focusedCell;
 
     public SudokuGrid(Context context) {
         super(context);
@@ -27,6 +27,10 @@ public class SudokuGrid extends SquareGrid {
         paintSudoku();
     }
 
+    /**
+     * Sets up the Sudoku grid by painting on top of SquareGrid and providing the
+     * TextViews with required functionality and backgrounds
+     */
     private void paintSudoku() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
@@ -46,10 +50,10 @@ public class SudokuGrid extends SquareGrid {
                 textView.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (prevClicked != null) {
-                            prevClicked.setBackgroundResource(Objects.requireNonNull(cellToState.get(prevClicked))[CLEAR]);
+                        if (focusedCell != null) {
+                            focusedCell.setBackgroundResource(Objects.requireNonNull(cellToState.get(focusedCell))[CLEAR]);
                         }
-                        prevClicked = textView;
+                        focusedCell = textView;
                         textView.setBackgroundResource(Objects.requireNonNull(cellToState.get(textView))[SELECTED]);
                     }
                 });
@@ -74,7 +78,14 @@ public class SudokuGrid extends SquareGrid {
         paintSudoku();
     }
 
-    private static void addCellToState(TextView textView, int r, int c) {
+    /**
+     * Links the cell to all possible backgrounds it can have.
+     *
+     * @param textView Cell required
+     * @param r        Row of cell
+     * @param c        Column of cell
+     */
+    private void addCellToState(TextView textView, int r, int c) {
         if (c == 2 || c == 5) {
             if (r == 2 || r == 5) {
                 cellToState.put(textView, new int[]{R.drawable.bottom_right, R.drawable.bottom_rightgrey,
@@ -106,7 +117,23 @@ public class SudokuGrid extends SquareGrid {
                     R.drawable.borderblue, R.drawable.borderred});
     }
 
-    public static TextView[][] getUnit() {
+    /**
+     * Set the focused cel as value inputted
+     *
+     * @param value Value of focused cell required
+     */
+    public void setFocusedValue(String value) {
+        if (focusedCell != null) {
+            focusedCell.setText(value);
+        }
+    }
+
+    /**
+     * Getter for Sudoku grid
+     *
+     * @return Sudoku grid required.
+     */
+    public TextView[][] getUnit() {
         return unit;
     }
 
