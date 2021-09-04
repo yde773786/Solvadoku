@@ -4,10 +4,10 @@ import java.util.Arrays;
 
 /**
  * Each cell in the Sudoku board is an instance of the Cell class.
- *
+ * <p>
  * It consists of an array (candidates) that keeps record of the
  * possible solutions for the specific cell.
- *
+ * <p>
  * It also consists of a int member variable (solution) that represents the
  * final solution inserted into the cell.
  */
@@ -48,17 +48,15 @@ public class Cell {
 
     /**
      * Returns the candidate in a given position from the list of candidates.
-     *
+     * <p>
      * For example, let us consider the candidates for a cell is 1,2,5,7,8
      * and we want the candidate in position 2, the required output will be 5
      * because it is in the 2nd position (because we start counting from 0)
      * in the list of candidates.
      *
-     * @param position
-     *        Position of the candidate.
-     *
+     * @param position Position of the candidate.
      * @return The candidate at the entered position, else returns -1 if there
-     *         is no candidate in that position.
+     * is no candidate in that position.
      */
     public int getCandidate(int position) {
         int current_pos = -1;
@@ -76,8 +74,7 @@ public class Cell {
      * Removes a number from the list of candidates for the cell
      * by setting the corresponding array index in {@code:candidates} to false.
      *
-     * @param candidate_to_remove
-     *        The number to be removed as a candidate for the cell.
+     * @param candidate_to_remove The number to be removed as a candidate for the cell.
      */
     public void removeCandidate(int candidate_to_remove) {
         candidates[candidate_to_remove - 1] = false;
@@ -87,9 +84,7 @@ public class Cell {
     /**
      * Checks if another cell has the same list of candidates as the current cell.
      *
-     * @param other
-     *        Cell instance of the second cell.
-     *
+     * @param other Cell instance of the second cell.
      * @return True if the current cell and other cell have the same candidates.
      */
     public boolean sameCandidates(Cell other) {
@@ -98,11 +93,10 @@ public class Cell {
 
     /**
      * Inserts the final solution in the cell permanently.
-     *
+     * <p>
      * This is done irrespective of the current number of possible candidates.
      *
-     * @param solution
-     *        The number that is the final solution for the cell.
+     * @param solution The number that is the final solution for the cell.
      */
     public void placeSolution(int solution) {
         this.solution = solution;

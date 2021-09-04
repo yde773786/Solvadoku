@@ -50,8 +50,8 @@ public final class Sudoku {
             }
         }
 
-        int tmp_r =  (row - (row % 3));//starting point (Row) of the subsquare to which the current cell belongs to
-        int tmp_c =  (col - (col % 3));//starting point (Column) of the subsquare to which the current cell belongs to
+        int tmp_r = (row - (row % 3));//starting point (Row) of the subsquare to which the current cell belongs to
+        int tmp_c = (col - (col % 3));//starting point (Column) of the subsquare to which the current cell belongs to
         for (int r = tmp_r; r <= tmp_r + 2; r++) {//traverse subsquare
             for (int c = tmp_c; c <= tmp_c + 2; c++) {//traverse subsquare
                 if (puzzle[r][c].isCandidate(val) && puzzle[r][c].isNotSet()) {//remove candidates from cells that are not set
@@ -106,7 +106,7 @@ public final class Sudoku {
                     }
                 }
                 if (freq == 1) {//catches the hidden Single. If there was no candidate, freq would be 0 and if there were many candidates , freq would be 2
-                    hiddenSingleCheckSteps(puzzle, num, r, index_c,  1);
+                    hiddenSingleCheckSteps(puzzle, num, r, index_c, 1);
                 }
             }
 
@@ -122,7 +122,7 @@ public final class Sudoku {
                     }
                 }
                 if (freq == 1) {//catches the hidden Single. If there was no candidate, freq would be 0 and if there were many candidates , freq would be 2
-                    hiddenSingleCheckSteps(puzzle, num, index_r, c,  2);
+                    hiddenSingleCheckSteps(puzzle, num, index_r, c, 2);
                 }
             }
 
@@ -141,7 +141,7 @@ public final class Sudoku {
                         }
                     }
                     if (freq == 1) {//catches the hidden Single. If there was no candidate, freq would be 0 and if there were many candidates , freq would be 2
-                        hiddenSingleCheckSteps(puzzle, num, index_r, index_c,  3);
+                        hiddenSingleCheckSteps(puzzle, num, index_r, index_c, 3);
                     }
                 }
             }
@@ -198,7 +198,7 @@ public final class Sudoku {
 
                         /* a loop running from the previous cell in the row till the start of that row (column 0).
                             Checks if the current cell (at [r,c]) has 2 candidates and is not set first.*/
-                    for (int rev_c =  (c - 1); rev_c >= 0 && puzzle[r][c].getNoOfCandidates() == 2 && puzzle[r][c].isNotSet(); rev_c--) {
+                    for (int rev_c = (c - 1); rev_c >= 0 && puzzle[r][c].getNoOfCandidates() == 2 && puzzle[r][c].isNotSet(); rev_c--) {
 
                             /* if any cell before [r,c] in the same row has 2 candidates and is not set, check
                                    if that cell has the same candidates as the cell at [r,c]*/
@@ -241,7 +241,7 @@ public final class Sudoku {
                 }
             }
 
-            nakedPairCheckSteps(chkremoveFirst, chkremoveSecond, removeFirst, removeSecond, the_pair, r, skip_columns[0], r, skip_columns[1],  1);
+            nakedPairCheckSteps(chkremoveFirst, chkremoveSecond, removeFirst, removeSecond, the_pair, r, skip_columns[0], r, skip_columns[1], 1);
 
         }
 
@@ -262,7 +262,7 @@ public final class Sudoku {
 
                         /* a loop running from the previous cell in the column till the start of that column (row 0).
                             Checks if the current cell (at [r,c]) has 2 candidates and is not set first.*/
-                    for (int rev_r =  (r - 1); rev_r >= 0 && puzzle[r][c].getNoOfCandidates() == 2 && puzzle[r][c].isNotSet(); rev_r--) {
+                    for (int rev_r = (r - 1); rev_r >= 0 && puzzle[r][c].getNoOfCandidates() == 2 && puzzle[r][c].isNotSet(); rev_r--) {
 
                             /* if any cell before [r,c] in the same column has 2 candidates and is not set, check
                                    if that cell has the same candidates as the cell at [r,c]*/
@@ -304,7 +304,7 @@ public final class Sudoku {
                 }
             }
 
-            nakedPairCheckSteps(chkremoveFirst, chkremoveSecond, removeFirst, removeSecond, the_pair, skip_rows[0], c, skip_rows[1], c,  2);
+            nakedPairCheckSteps(chkremoveFirst, chkremoveSecond, removeFirst, removeSecond, the_pair, skip_rows[0], c, skip_rows[1], c, 2);
 
         }
 
@@ -321,14 +321,14 @@ public final class Sudoku {
                 chkremoveFirst = chkremoveSecond = false;
 
                 for (int r = r1; r < r1 + 3; r++) {
-                    for (int c =  (c1 + 1); c < c1 + 3; c++) {
+                    for (int c = (c1 + 1); c < c1 + 3; c++) {
 
                         if (pairNotFound) {
 
                                 /* a loop running from the previous cell in the column till the start of that subsquare [r1,c1]
                                  Checks if the current cell (at [r,c]) has 2 candidates and is not set first. */
                             for (int rev_r = r; rev_r >= r1 && puzzle[r][c].getNoOfCandidates() == 2 && puzzle[r][c].isNotSet(); rev_r--) {
-                                for (int rev_c =  (c - 1); rev_c >= c1; rev_c--) {
+                                for (int rev_c = (c - 1); rev_c >= c1; rev_c--) {
 
                                         /* if any cell before [r,c] in the same subsquare has 2 candidates and is not set, check
                                    if that cell has the same candidates as the cell at [r,c] */
@@ -354,7 +354,7 @@ public final class Sudoku {
                           assign r1 and c1-1 to columns to restart the loop */
                             if (!pairNotFound) {
                                 r = r1;
-                                c =  (c1 - 1);
+                                c = (c1 - 1);
                             }
                         }
 
@@ -377,7 +377,7 @@ public final class Sudoku {
                 }
 
                 nakedPairCheckSteps(chkremoveFirst, chkremoveSecond, removeFirst, removeSecond, the_pair, skip_index[0][0], skip_index[0][1],
-                        skip_index[1][0], skip_index[1][1],  3);
+                        skip_index[1][0], skip_index[1][1], 3);
 
             }
         }
@@ -459,7 +459,7 @@ public final class Sudoku {
                                 freq++;
                                 if (freq == 2) { // if there are 2 cells in the row with num as a candidate
                                     if (!existsInOtherRowsInSubsquare(puzzle, num, r, c)) {// checking if any other row in the subsquare has num as a candidate
-                                        pointingPairCheckSteps(puzzle, insert_candidates, num, r, c,  1);
+                                        pointingPairCheckSteps(puzzle, insert_candidates, num, r, c, 1);
                                     }
                                 }
                             }
@@ -483,7 +483,7 @@ public final class Sudoku {
                                 freq++;
                                 if (freq == 2) { // if there are 2 cells in the column with num as a candidate
                                     if (!existsInOtherColumnsInSubsquare(puzzle, num, r, c)) {// checking if any other column in the subsquare has num as a candidate
-                                        pointingPairCheckSteps(puzzle, insert_candidates, num, r, c,  2);
+                                        pointingPairCheckSteps(puzzle, insert_candidates, num, r, c, 2);
                                     }
                                 }
                             }
@@ -499,8 +499,8 @@ public final class Sudoku {
      * Checks if the candidate is present in other columns of the subsquare
      */
     private static boolean existsInOtherColumnsInSubsquare(Cell[][] puzzle, int num, int current_row, int current_col) {
-        int tmp_r =  (current_row - (current_row % 3));// starting row of current subsquare
-        int tmp_c =  (current_col - (current_col % 3));// starting column of current subsquare
+        int tmp_r = (current_row - (current_row % 3));// starting row of current subsquare
+        int tmp_c = (current_col - (current_col % 3));// starting column of current subsquare
         for (int r = tmp_r; r < tmp_r + 3; r++) {
             for (int c = tmp_c; c < tmp_c + 3; c++) {
                 if (c != current_col && puzzle[r][c].isCandidate(num) && puzzle[r][c].isNotSet()) {// avoid the current column and check if num is a candidate in the cell
@@ -515,8 +515,8 @@ public final class Sudoku {
      * Checks if the candidate is present in other rows of the subsquare
      */
     private static boolean existsInOtherRowsInSubsquare(Cell[][] puzzle, int num, int current_row, int current_col) {
-        int tmp_r =  (current_row - (current_row % 3));// starting row of current subsquare
-        int tmp_c =  (current_col - (current_col % 3));// starting column of current subsquare
+        int tmp_r = (current_row - (current_row % 3));// starting row of current subsquare
+        int tmp_c = (current_col - (current_col % 3));// starting column of current subsquare
         for (int r = tmp_r; r < tmp_r + 3; r++) {
             for (int c = tmp_c; c < tmp_c + 3; c++) {
                 if (r != current_row && puzzle[r][c].isCandidate(num) && puzzle[r][c].isNotSet()) {// avoid the current row and check if num is a candidate in the cell
@@ -532,7 +532,7 @@ public final class Sudoku {
      */
     private static String removeFromColumn(Cell[][] puzzle, int num, int current_row, int current_col) {
         String remove_str = "Remove Candidate " + num + " at ";
-        int tmp_r =  (current_row - (current_row % 3));// starting row of current subsquare
+        int tmp_r = (current_row - (current_row % 3));// starting row of current subsquare
         for (int r = 0; r < 9; r++) {
             if ((r < tmp_r || r >= tmp_r + 3) && puzzle[r][current_col].isCandidate(num) && puzzle[r][current_col].isNotSet()) {// if statment to avoid removing candidates from the current subsquare
                 puzzle[r][current_col].removeCandidate(num);
@@ -548,7 +548,7 @@ public final class Sudoku {
      */
     private static String removeFromRow(Cell[][] puzzle, int num, int current_row, int current_col) {
         String remove_str = "Remove Candidate " + num + " at ";
-        int tmp_c =  (current_col - (current_col % 3));// starting column of current subsquare
+        int tmp_c = (current_col - (current_col % 3));// starting column of current subsquare
         for (int c = 0; c < 9; c++) {
             if ((c < tmp_c || c >= tmp_c + 3) && puzzle[current_row][c].isCandidate(num) && puzzle[current_row][c].isNotSet()) {// if statment to avoid removing candidates from the current subsquare
                 puzzle[current_row][c].removeCandidate(num);
@@ -600,12 +600,12 @@ public final class Sudoku {
                 for (int sub_c = 3; sub_c <= 9; sub_c += 3) {//points to the end of each subsquare in the particular row
                     int freq = 0;
                     String[] insert_candidates = new String[3];//the coordinates of claiming pairs (size 3 to avoid out of bounds in case of pointing triple)
-                    for (int c =  (sub_c - 3); c < sub_c; c++) {//from beginning of subsquare at the row till its end (sub_c)
+                    for (int c = (sub_c - 3); c < sub_c; c++) {//from beginning of subsquare at the row till its end (sub_c)
                         if (puzzle[r][c].isCandidate(num) && puzzle[r][c].isNotSet()) {
                             insert_candidates[freq] = "(" + (r + 1) + "," + (c + 1) + ")";
                             freq++;
                             if (freq == 2 && notInOtherCellsOfRow(puzzle, sub_c, r, num)) {//number of cells in the row and subsquare is 2. remove all 'num' candidates within the subsquare that are not part of the row
-                                claimingPairCheckSteps(puzzle, insert_candidates, num, r,  (sub_c - 3),  1);
+                                claimingPairCheckSteps(puzzle, insert_candidates, num, r, (sub_c - 3), 1);
                             }
 
                         }
@@ -618,12 +618,12 @@ public final class Sudoku {
                 for (int sub_r = 3; sub_r <= 9; sub_r += 3) {
                     int freq = 0;
                     String[] insert_candidates = new String[3];
-                    for (int r =  (sub_r - 3); r < sub_r; r++) {//from beginning of subsquare at the column till its end (sub_r)
+                    for (int r = (sub_r - 3); r < sub_r; r++) {//from beginning of subsquare at the column till its end (sub_r)
                         if (puzzle[r][c].isCandidate(num) && puzzle[r][c].isNotSet()) {
                             insert_candidates[freq] = "(" + (r + 1) + "," + (c + 1) + ")";
                             freq++;
                             if (freq == 2 && notInOtherCellsOfColumn(puzzle, sub_r, c, num)) {
-                                claimingPairCheckSteps(puzzle, insert_candidates, num, c,  (sub_r - 3),  2);
+                                claimingPairCheckSteps(puzzle, insert_candidates, num, c, (sub_r - 3), 2);
                             }
                         }
                     }
@@ -672,11 +672,11 @@ public final class Sudoku {
         int tmp_r, tmp_c;// storing the index beginning of the subsquare required
 
         if (i == 1) {// if i is 1 , the claimingPair is being checked row-wise
-            tmp_r =  (current - current % 3);//finds first row of the subsquare to which the current row belongs
+            tmp_r = (current - current % 3);//finds first row of the subsquare to which the current row belongs
             tmp_c = tmp_start;//tmp_start already contains the index of first column of subsquare
         } else {// if i is 2 , the claimingPair is being checked column-wise
             tmp_r = tmp_start;//tmp_start already contains the index of first row of subsquare
-            tmp_c =  (current - current % 3);//finds first column of the subsquare to which the current row belongs
+            tmp_c = (current - current % 3);//finds first column of the subsquare to which the current row belongs
         }
 
         for (int r = tmp_r; r < tmp_r + 3; r++) {
@@ -742,17 +742,17 @@ public final class Sudoku {
 
             if (eligible_columns.size() >= 2) {
                 for (int i = 0; i < eligible_columns.size() - 1; i++) {//loop to go through combinations of the eligible cells in the rows to find valid hidden pairs
-                    for (int j =  (i + 1); j < eligible_columns.size(); j++) {
+                    for (int j = (i + 1); j < eligible_columns.size(); j++) {
                         int index_1 = eligible_columns.get(i);
                         int index_2 = eligible_columns.get(j);
                         ArrayList<Integer> similarCandidates = getSimilarCandidates(puzzle[r][index_1], puzzle[r][index_2]);//store the similar candidates between chosen candidates
                         if (similarCandidates.size() >= 2) {//checking if there are exactly 2 similar candidates
                             for (int outer = 0; outer < similarCandidates.size() - 1; outer++) {
-                                for (int inner =  (outer + 1); inner < similarCandidates.size(); inner++) {//choose any 2 of the similar candidates
+                                for (int inner = (outer + 1); inner < similarCandidates.size(); inner++) {//choose any 2 of the similar candidates
                                     pair[0] = similarCandidates.get(outer);
                                     pair[1] = similarCandidates.get(inner);
                                     if (pairDoesNotExistInOtherCellsInRow(puzzle, r, pair, index_1, index_2))//checking if any other cells in the same row also have pair[0] or pair[1] as candidates
-                                        hiddenPairCheckSteps(puzzle, r, index_1, r, index_2, pair,  1);
+                                        hiddenPairCheckSteps(puzzle, r, index_1, r, index_2, pair, 1);
                                 }
                             }
 
@@ -772,17 +772,17 @@ public final class Sudoku {
 
             if (eligible_rows.size() >= 2) {
                 for (int i = 0; i < eligible_rows.size() - 1; i++) {//loop to go through combinations of the eligible cells in the columns to find valid hidden pairs
-                    for (int j =  (i + 1); j < eligible_rows.size(); j++) {
+                    for (int j = (i + 1); j < eligible_rows.size(); j++) {
                         int index_1 = eligible_rows.get(i);
                         int index_2 = eligible_rows.get(j);
                         ArrayList<Integer> similarCandidates = getSimilarCandidates(puzzle[index_1][c], puzzle[index_2][c]);//store the similar candidates between chosen candidates
                         if (similarCandidates.size() >= 2) {//checking if there are more than or equal to 2 similar candidates
                             for (int outer = 0; outer < similarCandidates.size() - 1; outer++) {
-                                for (int inner =  (outer + 1); inner < similarCandidates.size(); inner++) {//choose any 2 of the similar candidates
+                                for (int inner = (outer + 1); inner < similarCandidates.size(); inner++) {//choose any 2 of the similar candidates
                                     pair[0] = similarCandidates.get(outer);
                                     pair[1] = similarCandidates.get(inner);
                                     if (pairDoesNotExistInOtherCellsInColumn(puzzle, c, pair, index_1, index_2))//checking if any other cells in the same column also have pair[0] or pair[1] as candidates
-                                        hiddenPairCheckSteps(puzzle, index_1, c, index_2, c, pair,  2);
+                                        hiddenPairCheckSteps(puzzle, index_1, c, index_2, c, pair, 2);
                                 }
                             }
                         }//if statement
@@ -808,7 +808,7 @@ public final class Sudoku {
                 int eligibleCellsSize = eligible_columns.size();
                 if (eligibleCellsSize >= 2) {
                     for (int i = 0; i < eligibleCellsSize - 1; i++) {//loop to go through combinations of the eligible cells in the subquare to find valid hidden pairs
-                        for (int j =  (i + 1); j < eligibleCellsSize; j++) {
+                        for (int j = (i + 1); j < eligibleCellsSize; j++) {
                             int index_1_r = eligible_rows.get(i);
                             int index_1_c = eligible_columns.get(i);
                             int index_2_r = eligible_rows.get(j);
@@ -816,11 +816,11 @@ public final class Sudoku {
                             ArrayList<Integer> similarCandidates = getSimilarCandidates(puzzle[index_1_r][index_1_c], puzzle[index_2_r][index_2_c]);//store the similar candidates between chosen candidates
                             if (similarCandidates.size() >= 2) {//checking if there are more than or equal to 2 similar candidates
                                 for (int outer = 0; outer < similarCandidates.size() - 1; outer++) {
-                                    for (int inner =  (outer + 1); inner < similarCandidates.size(); inner++) {//choose any 2 of the similar candidates
+                                    for (int inner = (outer + 1); inner < similarCandidates.size(); inner++) {//choose any 2 of the similar candidates
                                         pair[0] = similarCandidates.get(outer);
                                         pair[1] = similarCandidates.get(inner);
                                         if (pairDoesNotExistInOtherCellsInSubsquare(puzzle, r1, c1, pair, index_1_r, index_1_c, index_2_r, index_2_c))//checking if any other cells in the same subsquare also have pair[0] or pair[1] as candidates
-                                            hiddenPairCheckSteps(puzzle, index_1_r, index_1_c, index_2_r, index_2_c, pair,  3);
+                                            hiddenPairCheckSteps(puzzle, index_1_r, index_1_c, index_2_r, index_2_c, pair, 3);
                                     }
                                 }
                             }//if statement
@@ -1290,7 +1290,7 @@ public final class Sudoku {
     }//end of nakedTripleCheckSteps()
 
 
-    private static void hiddenTriple(Cell[][] puzzle) {        
+    private static void hiddenTriple(Cell[][] puzzle) {
         int[] triple = new int[3];//array to store the values of the triple
 
         //checking for HIDDEN TRIPLE in Rows
@@ -1300,12 +1300,12 @@ public final class Sudoku {
                 if (puzzle[r][c].isNotSet() && puzzle[r][c].getNoOfCandidates() >= 2)//if cell has 2 or more candidates, it is eligible
                     eligible_columns.add(c);
             }//c
-    
+
             if (eligible_columns.size() >= 3) {//there needs to be at least 3 eligible cells for a hidden triple to exist
 
-                for (int i = 0 ; i < eligible_columns.size()-2 ; i++) {//loop to go through combinations of the eligible cells in the rows to find valid hidden triple
-                    for (int j = (i + 1) ; j < eligible_columns.size()-1 ; j++) {
-                        for (int k = (j + 1) ; k < eligible_columns.size() ; k++){
+                for (int i = 0; i < eligible_columns.size() - 2; i++) {//loop to go through combinations of the eligible cells in the rows to find valid hidden triple
+                    for (int j = (i + 1); j < eligible_columns.size() - 1; j++) {
+                        for (int k = (j + 1); k < eligible_columns.size(); k++) {
                             int index_1 = eligible_columns.get(i);
                             int index_2 = eligible_columns.get(j);
                             int index_3 = eligible_columns.get(k);
@@ -1313,19 +1313,19 @@ public final class Sudoku {
 
                             if (similarCandidates.size() >= 3) {//checking if there are at least 3 similar candidates
 
-                                for (int inc0 = 0 ; inc0 < similarCandidates.size()-2 ; inc0++) {
-                                    for (int inc1 = (inc0 + 1) ; inc1 < similarCandidates.size()-1 ; inc1++) {
-                                        for (int inc2 = (inc1 + 1) ; inc2 < similarCandidates.size() ; inc2++) {//choose any 3 of the similar candidates
+                                for (int inc0 = 0; inc0 < similarCandidates.size() - 2; inc0++) {
+                                    for (int inc1 = (inc0 + 1); inc1 < similarCandidates.size() - 1; inc1++) {
+                                        for (int inc2 = (inc1 + 1); inc2 < similarCandidates.size(); inc2++) {//choose any 3 of the similar candidates
                                             triple[0] = similarCandidates.get(inc0);
                                             triple[1] = similarCandidates.get(inc1);
                                             triple[2] = similarCandidates.get(inc2);
 
                                             if (tripleDoesNotExistInOtherCellsInRow(puzzle, r, triple, index_1, index_2, index_3))//checking if any other cells in the same row also have triple[0], triple[1] or triple[2] as candidates
-                                                hiddenTripleCheckSteps(puzzle, r, index_1, r, index_2, r, index_3, triple,  1);
+                                                hiddenTripleCheckSteps(puzzle, r, index_1, r, index_2, r, index_3, triple, 1);
                                         }//inc2
                                     }//inc1
                                 }//inc0
-    
+
                             }//if statement
 
                         }//k
@@ -1334,7 +1334,7 @@ public final class Sudoku {
 
             }//if
         }//r
-    
+
         //checking for HIDDEN TRIPLE in Columns
         for (int c = 0; c < 9; c++) {
             ArrayList<Integer> eligible_rows = new ArrayList<>();//rows in the current column that could possibly contain a hidden triple
@@ -1342,12 +1342,12 @@ public final class Sudoku {
                 if (puzzle[r][c].isNotSet() && puzzle[r][c].getNoOfCandidates() >= 2)//if cell has 2 or more candidates, it is eligible
                     eligible_rows.add(r);
             }//r
-    
+
             if (eligible_rows.size() >= 3) {//there needs to be at least 3 eligible cells for a hidden triple to exist
 
-                for (int i = 0 ; i < eligible_rows.size()-2 ; i++) {//loop to go through combinations of the eligible cells in the columns to find valid hidden triple
-                    for (int j =  (i + 1) ; j < eligible_rows.size()-1 ; j++) {
-                        for (int k = (j + 1) ; k < eligible_rows.size() ; k++){
+                for (int i = 0; i < eligible_rows.size() - 2; i++) {//loop to go through combinations of the eligible cells in the columns to find valid hidden triple
+                    for (int j = (i + 1); j < eligible_rows.size() - 1; j++) {
+                        for (int k = (j + 1); k < eligible_rows.size(); k++) {
                             int index_1 = eligible_rows.get(i);
                             int index_2 = eligible_rows.get(j);
                             int index_3 = eligible_rows.get(k);
@@ -1355,19 +1355,19 @@ public final class Sudoku {
 
                             if (similarCandidates.size() >= 3) {//checking if there are 2 or 3 similar candidates
 
-                                for (int inc0 = 0 ; inc0 < similarCandidates.size()-2 ; inc0++) {
-                                    for (int inc1 = (inc0 + 1) ; inc1 < similarCandidates.size()-1 ; inc1++) {
-                                        for (int inc2 = (inc1 + 1) ; inc2 < similarCandidates.size() ; inc2++) {//choose any 3 of the similar candidates
+                                for (int inc0 = 0; inc0 < similarCandidates.size() - 2; inc0++) {
+                                    for (int inc1 = (inc0 + 1); inc1 < similarCandidates.size() - 1; inc1++) {
+                                        for (int inc2 = (inc1 + 1); inc2 < similarCandidates.size(); inc2++) {//choose any 3 of the similar candidates
                                             triple[0] = similarCandidates.get(inc0);
                                             triple[1] = similarCandidates.get(inc1);
                                             triple[2] = similarCandidates.get(inc2);
 
                                             if (tripleDoesNotExistInOtherCellsInColumn(puzzle, c, triple, index_1, index_2, index_3))//checking if any other cells in the same column also have triple[0], triple[1] or triple[2] as candidates
-                                                hiddenTripleCheckSteps(puzzle, index_1, c, index_2, c, index_3, c, triple,  2);
+                                                hiddenTripleCheckSteps(puzzle, index_1, c, index_2, c, index_3, c, triple, 2);
                                         }//inc2
                                     }//inc1
                                 }//inc0
-    
+
                             }//if statement
 
                         }//k
@@ -1376,7 +1376,7 @@ public final class Sudoku {
 
             }//if
         }//c
-    
+
         //checking for HIDDEN TRIPLE in Block
         for (int r1 = 0; r1 <= 6; r1 += 3) {//jumps to first row position of block
             for (int c1 = 0; c1 <= 6; c1 += 3) {//jumps to first column position of block
@@ -1390,13 +1390,13 @@ public final class Sudoku {
                         }
                     }
                 }
-    
+
                 int eligibleCellsSize = eligible_columns.size();
                 if (eligibleCellsSize >= 3) {
 
-                    for (int i = 0 ; i < eligibleCellsSize-2 ; i++) {//loop to go through combinations of the eligible cells in the subquare to find valid hidden triple
-                        for (int j = (i + 1) ; j < eligibleCellsSize-1 ; j++) {
-                            for (int k = (j + 1) ; k < eligibleCellsSize ; k++) {
+                    for (int i = 0; i < eligibleCellsSize - 2; i++) {//loop to go through combinations of the eligible cells in the subquare to find valid hidden triple
+                        for (int j = (i + 1); j < eligibleCellsSize - 1; j++) {
+                            for (int k = (j + 1); k < eligibleCellsSize; k++) {
                                 int index_1_r = eligible_rows.get(i);
                                 int index_1_c = eligible_columns.get(i);
 
@@ -1407,17 +1407,17 @@ public final class Sudoku {
                                 int index_3_c = eligible_columns.get(k);
 
                                 ArrayList<Integer> similarCandidates = getSimilarCandidates(puzzle[index_1_r][index_1_c], puzzle[index_2_r][index_2_c], puzzle[index_3_r][index_3_c]);//store the similar candidates between chosen candidates
-                                
+
                                 if (similarCandidates.size() >= 2) {//checking if there are more than or equal to 2 similar candidates
-                                    for (int inc0 = 0 ; inc0 < similarCandidates.size()-2 ; inc0++) {
-                                        for (int inc1 = (inc0 + 1) ; inc1 < similarCandidates.size()-1 ; inc1++) {
-                                            for (int inc2 = (inc1 + 1) ; inc2 < similarCandidates.size() ; inc2++) {//choose any 3 of the similar candidates
+                                    for (int inc0 = 0; inc0 < similarCandidates.size() - 2; inc0++) {
+                                        for (int inc1 = (inc0 + 1); inc1 < similarCandidates.size() - 1; inc1++) {
+                                            for (int inc2 = (inc1 + 1); inc2 < similarCandidates.size(); inc2++) {//choose any 3 of the similar candidates
                                                 triple[0] = similarCandidates.get(inc0);
                                                 triple[1] = similarCandidates.get(inc1);
                                                 triple[2] = similarCandidates.get(inc2);
 
                                                 if (tripleDoesNotExistInOtherCellsInSubsquare(puzzle, r1, c1, triple, index_1_r, index_1_c, index_2_r, index_2_c, index_3_r, index_3_c))//checking if any other cells in the same subsquare also have triple[0], triple[1] or triple[2] as candidates
-                                                    hiddenTripleCheckSteps(puzzle, index_1_r, index_1_c, index_2_r, index_2_c, index_3_r, index_3_c, triple,  3);
+                                                    hiddenTripleCheckSteps(puzzle, index_1_r, index_1_c, index_2_r, index_2_c, index_3_r, index_3_c, triple, 3);
                                             }//inc2
                                         }//inc1
                                     }//inc0
@@ -1433,44 +1433,44 @@ public final class Sudoku {
         }//r1
 
     }// end of hiddenTriple()
-    
-    
+
+
     private static ArrayList<Integer> getSimilarCandidates(Cell cell_1, Cell cell_2, Cell cell_3) {
-        Cell[] cellArray = { cell_1, cell_2, cell_3};
+        Cell[] cellArray = {cell_1, cell_2, cell_3};
         boolean flag;//to exist the inner nested loops and jump straight to the next iteration of outermost loop
         ArrayList<Integer> similar_candidates = new ArrayList<>();// stores the similar candidates
         for (int num = 1; num < 10; num++) {
             flag = false;
             for (int index1 = 0; index1 < cellArray.length - 1; index1++) {
                 for (int index2 = (index1 + 1); index2 < cellArray.length; index2++) {
-                    if (cellArray[index1].isCandidate(num) && cellArray[index2].isCandidate(num)){                     
+                    if (cellArray[index1].isCandidate(num) && cellArray[index2].isCandidate(num)) {
                         similar_candidates.add(num);// adding the similar candidate to the array list
                         flag = true;
                         break;
                     }
                 } // index2
-                if(flag)
+                if (flag)
                     break;
             } // index1
         } // num
         return similar_candidates;
     }// end of getSimilarCandidates()
-    
-    
-    private static String[] removeNonTripleCandidates(Cell cell_1, Cell cell_2, Cell cell_3, int[] triple) {  
+
+
+    private static String[] removeNonTripleCandidates(Cell cell_1, Cell cell_2, Cell cell_3, int[] triple) {
         Cell[] cellArray = {cell_1, cell_2, cell_3};
 
         String[] removeTriple = new String[3];//stores the text for check steps when candidates are removed
-        for (int i = 0 ; i < 3 ; i++)
+        for (int i = 0; i < 3; i++)
             removeTriple[i] = "Remove Candidates ";
-    
+
         boolean[] tmp = new boolean[3];//records if any candidates have been removed anywhere
         for (int i = 0; i < 3; i++)
             tmp[i] = true;
-    
+
         for (int num = 1; num < 10; num++) {//loop to remove TRIPLE candidates from the other cells in the House(Row, Column or Block)
             if (num != triple[0] && num != triple[1] && num != triple[2]) {
-                for (int i = 0 ; i < 3 ; i++){
+                for (int i = 0; i < 3; i++) {
                     if (cellArray[i].isCandidate(num)) {
                         cellArray[i].removeCandidate(num);
                         removeTriple[i] += num + ",";
@@ -1480,8 +1480,8 @@ public final class Sudoku {
                 }//i
             }
         }//num
-    
-        for (int i = 0 ; i < 3 ; i++){
+
+        for (int i = 0; i < 3; i++) {
             if (tmp[i])
                 removeTriple[i] = "";
             else
@@ -1489,32 +1489,32 @@ public final class Sudoku {
         }
         return removeTriple;
     }// end of removeNonTripleCandidates()
-    
-    
+
+
     private static boolean tripleDoesNotExistInOtherCellsInRow(Cell[][] puzzle, int row, int[] triple, int index1, int index2, int index3) {
-        for (int c = 0 ; c < 9; c++) {
-            if ( puzzle[row][c].isNotSet() && (c != index1 && c != index2 && c != index3) )
-                if ( puzzle[row][c].isCandidate(triple[0]) || puzzle[row][c].isCandidate(triple[1]) || puzzle[row][c].isCandidate(triple[2]) )
-                    return false;                   
+        for (int c = 0; c < 9; c++) {
+            if (puzzle[row][c].isNotSet() && (c != index1 && c != index2 && c != index3))
+                if (puzzle[row][c].isCandidate(triple[0]) || puzzle[row][c].isCandidate(triple[1]) || puzzle[row][c].isCandidate(triple[2]))
+                    return false;
         }
         return true;
     }// end of tripleDoesNotExistInOtherCellsInRow()
-    
+
     private static boolean tripleDoesNotExistInOtherCellsInColumn(Cell[][] puzzle, int col, int[] triple, int index1, int index2, int index3) {
         for (int r = 0; r < 9; r++) {
-            if ( puzzle[r][col].isNotSet() && (r != index1 && r != index2 && r != index3) )
-                if ( puzzle[r][col].isCandidate(triple[0]) || puzzle[r][col].isCandidate(triple[1]) || puzzle[r][col].isCandidate(triple[2]) )
-                    return false;                
+            if (puzzle[r][col].isNotSet() && (r != index1 && r != index2 && r != index3))
+                if (puzzle[r][col].isCandidate(triple[0]) || puzzle[r][col].isCandidate(triple[1]) || puzzle[r][col].isCandidate(triple[2]))
+                    return false;
         }
         return true;
     }// end of tripleDoesNotExistInOtherCellsInColumn()
-    
+
     private static boolean tripleDoesNotExistInOtherCellsInSubsquare(Cell[][] puzzle, int r1, int c1, int[] triple, int index_1_r, int index_1_c, int index_2_r, int index_2_c, int index_3_r, int index_3_c) {
         for (int r = r1; r < r1 + 3; r++) {//traversal (subsquare)
             for (int c = c1; c < c1 + 3; c++) {
-                if ( puzzle[r][c].isNotSet() && ( !(r == index_1_r && c == index_1_c) && !(r == index_2_r && c == index_2_c) && !(r == index_3_r && c == index_3_c) ) )
-                    if ( puzzle[r][c].isCandidate(triple[0]) || puzzle[r][c].isCandidate(triple[1]) || puzzle[r][c].isCandidate(triple[2]) ) 
-                        return false;                    
+                if (puzzle[r][c].isNotSet() && (!(r == index_1_r && c == index_1_c) && !(r == index_2_r && c == index_2_c) && !(r == index_3_r && c == index_3_c)))
+                    if (puzzle[r][c].isCandidate(triple[0]) || puzzle[r][c].isCandidate(triple[1]) || puzzle[r][c].isCandidate(triple[2]))
+                        return false;
             }
         }
         return true;
@@ -1524,42 +1524,41 @@ public final class Sudoku {
 
         int tmp = changeCounter;
         String end_tag = "";
-    
+
         switch (house) {
             case 1://hidden triple in row
                 end_tag = " in Row " + (row_1 + 1);
                 break;
-    
+
             case 2://hidden triple in column
                 end_tag = " in Column " + (col_1 + 1);
                 break;
-    
+
             case 3://hidden triple in subsquare
                 end_tag = " in Block";
                 break;
         }
-    
+
         String[] removeSet = removeNonTripleCandidates(puzzle[row_1][col_1], puzzle[row_2][col_2], puzzle[row_3][col_3], triple);//contains the remove string for each cell
         if (tmp != changeCounter) {//if tmp is != changeCounter, there has been a change caused by hiddenTriple()
             algorithm.add("Hidden Triple" + end_tag);
             insert.add("Candidates: " + triple[0] + ", " + triple[1] + ", " + triple[2] + " are common to cells " + "(" + (row_1 + 1) + "," + (col_1 + 1) + "), "
-                        + "(" + (row_2 + 1) + "," + (col_2 + 1) + ")" + " and " + "(" + (row_3 + 1) + "," + (col_3 + 1) + ")");
+                    + "(" + (row_2 + 1) + "," + (col_2 + 1) + ")" + " and " + "(" + (row_3 + 1) + "," + (col_3 + 1) + ")");
 
             String cell_1 = removeSet[0].length() == 0 ? "" : "(" + (row_1 + 1) + "," + (col_1 + 1) + ")";//if we don't have to remove any candidates, don't print
             String cell_2 = removeSet[1].length() == 0 ? "" : "(" + (row_2 + 1) + "," + (col_2 + 1) + ")";//if we don't have to remove any candidates, don't print
             String cell_3 = removeSet[2].length() == 0 ? "" : "(" + (row_3 + 1) + "," + (col_3 + 1) + ")";//if we don't have to remove any candidates, don't print
             remove.add((removeSet[0] + cell_1 + " " + removeSet[1] + cell_2 + " " + removeSet[2] + cell_3).trim());
-        }    
+        }
     }// end of hiddenTripleCheckSteps()
-
 
 
     private static void nakedQuad(Cell[][] puzzle) {
 
         //checking for NAKED QUAD in Rows
-        for (int r = 0 ; r < 9 ; r++) {
+        for (int r = 0; r < 9; r++) {
             ArrayList<Integer> eligible_columns = new ArrayList<>();//an arraylist containing all columns in the row that are eligible to possibily contain Naked Quad
-            for (int c = 0 ; c < 9 ; c++) {
+            for (int c = 0; c < 9; c++) {
                 if (checkNakedQuadEligible(puzzle[r][c])) {//checks if eligible
                     eligible_columns.add(c);//if so, add it to the arrayList
                 }
@@ -1572,29 +1571,29 @@ public final class Sudoku {
                 boolean quad_found = false;//checks if a quad has been found
 
                 String[] removeCandidateText = new String[4];//stores the text message for the check steps
-                for (int i = 0 ; i < 4 ; i++){
+                for (int i = 0; i < 4; i++) {
                     removeCandidateText[i] = "";
                 }
                 boolean[] checkCandidateRemoved = new boolean[4];//to check if either candidate was removed anywhere in puzzle
-                for (int i = 0 ; i < 4 ; i++){
+                for (int i = 0; i < 4; i++) {
                     checkCandidateRemoved[i] = false;
                 }
-            
 
-                for (int index1 = 0 ; index1 < eligible_columns.size()-3 && !quad_found ; index1++) {//loop generating the first cell that 'could' be a naked quad
+
+                for (int index1 = 0; index1 < eligible_columns.size() - 3 && !quad_found; index1++) {//loop generating the first cell that 'could' be a naked quad
 
                     ArrayList<Integer> candidateList = new ArrayList<>();//stores the list of unique candidates amongst a combination of four cells whose columns were eligible
                     addIfAbsent(candidateList, puzzle[r][eligible_columns.get(index1)]);
 
-                    for (int index2 = (index1 + 1) ; index2 < eligible_columns.size()-2 && !quad_found; index2++) {//loop generating the second cell that 'could' be a naked quad
-                        
+                    for (int index2 = (index1 + 1); index2 < eligible_columns.size() - 2 && !quad_found; index2++) {//loop generating the second cell that 'could' be a naked quad
+
                         int countSecondsCandidates = addIfAbsent(candidateList, puzzle[r][eligible_columns.get(index2)]); // to count the candidates of second cell that are added to candidateList
 
-                        for (int index3 = (index2 + 1) ; index3 < eligible_columns.size()-1 && !quad_found ; index3++) {//loop generating the third cell that 'could' be a naked quad 
+                        for (int index3 = (index2 + 1); index3 < eligible_columns.size() - 1 && !quad_found; index3++) {//loop generating the third cell that 'could' be a naked quad
 
                             int countThirdsCandidates = addIfAbsent(candidateList, puzzle[r][eligible_columns.get(index3)]);
 
-                            for (int index4 = (index3 + 1) ; index4 < eligible_columns.size() && !quad_found ; index4++){//loop generating the fourth cell that 'could' be a naked quad 
+                            for (int index4 = (index3 + 1); index4 < eligible_columns.size() && !quad_found; index4++) {//loop generating the fourth cell that 'could' be a naked quad
 
                                 int countFourthsCandidates = addIfAbsent(candidateList, puzzle[r][eligible_columns.get(index4)]); // to count the candidates of fourth cell that are added to candidateList
 
@@ -1625,18 +1624,18 @@ public final class Sudoku {
                             }//index4
 
                             removeRecentAdditions(candidateList, countThirdsCandidates);//make space for addition of a new third cell
-                                
+
                         }//index3
 
                         removeRecentAdditions(candidateList, countSecondsCandidates);//make space for addition of a new second cell
-                        
+
                     }//index2
 
                 }//index1
 
 
                 if (quad_found) {//if the quad has been found, remove candidates from other cells in that row that are naked quad candidates.
-                    for (int c = 0 ; c < 9 ; c++) {
+                    for (int c = 0; c < 9; c++) {
                         if (c != skip_columns[0] && c != skip_columns[1] && c != skip_columns[2] && c != skip_columns[3] && puzzle[r][c].isNotSet()) {
                             ArrayList<Integer> removeList = eliminateFromCell(puzzle[r][c], quad);//gets the candidates removed from the particular cell
                             if (removeList.contains(quad[0])) {
@@ -1659,8 +1658,8 @@ public final class Sudoku {
                     }
                 }// if (quad_found)
 
-                nakedQuadCheckSteps(checkCandidateRemoved, removeCandidateText, quad, 
-                                    r, skip_columns[0], r, skip_columns[1], r, skip_columns[2], r, skip_columns[3], 1);
+                nakedQuadCheckSteps(checkCandidateRemoved, removeCandidateText, quad,
+                        r, skip_columns[0], r, skip_columns[1], r, skip_columns[2], r, skip_columns[3], 1);
 
             }//if (eligible columns >= 4)            
 
@@ -1668,9 +1667,9 @@ public final class Sudoku {
 
 
         //checking for NAKED QUAD in Columns
-        for (int c = 0 ; c < 9 ; c++) {
+        for (int c = 0; c < 9; c++) {
             ArrayList<Integer> eligible_rows = new ArrayList<>();//an arraylist containing all rows in the column that are eligible to possibily contain Naked Quad
-            for (int r = 0 ; r < 9 ; r++) {
+            for (int r = 0; r < 9; r++) {
                 if (checkNakedQuadEligible(puzzle[r][c])) {//checks if eligible
                     eligible_rows.add(r);//if so, add it to the arrayList
                 }
@@ -1683,29 +1682,29 @@ public final class Sudoku {
                 boolean quad_found = false;//checks if a quad has been found
 
                 String[] removeCandidateText = new String[4];//stores the text message for the check steps
-                for (int i = 0 ; i < 4 ; i++){
+                for (int i = 0; i < 4; i++) {
                     removeCandidateText[i] = "";
                 }
                 boolean[] checkCandidateRemoved = new boolean[4];//to check if either candidate was removed anywhere in puzzle
-                for (int i = 0 ; i < 4 ; i++){
+                for (int i = 0; i < 4; i++) {
                     checkCandidateRemoved[i] = false;
                 }
-            
 
-                for (int index1 = 0 ; index1 < eligible_rows.size()-3 && !quad_found ; index1++) {//loop generating the first cell that 'could' be a naked quad
+
+                for (int index1 = 0; index1 < eligible_rows.size() - 3 && !quad_found; index1++) {//loop generating the first cell that 'could' be a naked quad
 
                     ArrayList<Integer> candidateList = new ArrayList<>();//stores the list of unique candidates amongst a combination of four cells whose rows were eligible
                     addIfAbsent(candidateList, puzzle[eligible_rows.get(index1)][c]);
 
-                    for (int index2 = (index1 + 1) ; index2 < eligible_rows.size()-2 && !quad_found; index2++) {//loop generating the second cell that 'could' be a naked quad
-                        
+                    for (int index2 = (index1 + 1); index2 < eligible_rows.size() - 2 && !quad_found; index2++) {//loop generating the second cell that 'could' be a naked quad
+
                         int countSecondsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(index2)][c]); // to count the candidates of second cell that are added to candidateList
 
-                        for (int index3 = (index2 + 1) ; index3 < eligible_rows.size()-1 && !quad_found ; index3++) {//loop generating the third cell that 'could' be a naked quad
+                        for (int index3 = (index2 + 1); index3 < eligible_rows.size() - 1 && !quad_found; index3++) {//loop generating the third cell that 'could' be a naked quad
 
                             int countThirdsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(index3)][c]); // to count the candidates of third cell that are added to candidateList
 
-                            for (int index4 = (index3 + 1) ; index4 < eligible_rows.size() && !quad_found ; index4++){//loop generating the third cell that 'could' be a naked quad
+                            for (int index4 = (index3 + 1); index4 < eligible_rows.size() && !quad_found; index4++) {//loop generating the third cell that 'could' be a naked quad
 
                                 int countFourthsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(index4)][c]); // to count the candidates of fourth cell that are added to candidateList
 
@@ -1736,11 +1735,11 @@ public final class Sudoku {
                             }//index4
 
                             removeRecentAdditions(candidateList, countThirdsCandidates);//make space for addition of a new third cell
-                                
+
                         }//index3
 
                         removeRecentAdditions(candidateList, countSecondsCandidates);//make space for addition of a new second cell
-                        
+
                     }//index2
 
                 }//index1
@@ -1770,8 +1769,8 @@ public final class Sudoku {
                     }
                 }// if (quad_found)
 
-                nakedQuadCheckSteps(checkCandidateRemoved, removeCandidateText, quad, 
-                                    skip_rows[0], c, skip_rows[1], c, skip_rows[2], c, skip_rows[3], c, 2);
+                nakedQuadCheckSteps(checkCandidateRemoved, removeCandidateText, quad,
+                        skip_rows[0], c, skip_rows[1], c, skip_rows[2], c, skip_rows[3], c, 2);
 
             }//if (eligible rows >= 4)  
 
@@ -1794,38 +1793,38 @@ public final class Sudoku {
                 }
 
                 int eligibleCellsLength = eligible_columns.size();
-                
+
                 if (eligibleCellsLength >= 4) {//if the number of eligible cells in the block is less than 4, a naked quad cannot exist.
 
                     int[] skip_rows = new int[4];//stores the rows of nakedQuad (if existing) , to be skipped.
                     int[] skip_columns = new int[4];//stores the columns of nakedQuad (if existing) , to be skipped.
                     int[] quad = new int[4];//stores the candidates that are common to the nakedQuad of existing.
                     boolean quad_found = false;//checks if a quad has been found
-                
+
                     String[] removeCandidateText = new String[4];//stores the text message for the check steps
-                    for (int i = 0 ; i < 4 ; i++){
+                    for (int i = 0; i < 4; i++) {
                         removeCandidateText[i] = "";
                     }
                     boolean[] checkCandidateRemoved = new boolean[4];//to check if either candidate was removed anywhere in puzzle
-                    for (int i = 0 ; i < 4 ; i++){
+                    for (int i = 0; i < 4; i++) {
                         checkCandidateRemoved[i] = false;
-                    }                
-                
+                    }
 
-                    for (int index1 = 0; index1 < eligibleCellsLength-3 && !quad_found ; index1++) {
+
+                    for (int index1 = 0; index1 < eligibleCellsLength - 3 && !quad_found; index1++) {
 
                         ArrayList<Integer> candidateList = new ArrayList<>();//stores the list of unique candidates amongst a combination of four cells whose cells were eligible
                         addIfAbsent(candidateList, puzzle[eligible_rows.get(index1)][eligible_columns.get(index1)]);
 
-                        for (int index2 = (index1 + 1) ; index2 < eligibleCellsLength-2 && !quad_found ; index2++) {//loop generating the second cell that 'could' be a naked quad
-                            
+                        for (int index2 = (index1 + 1); index2 < eligibleCellsLength - 2 && !quad_found; index2++) {//loop generating the second cell that 'could' be a naked quad
+
                             int countSecondsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(index2)][eligible_columns.get(index2)]); //to count the candidates of second cell that are added to candidateList
 
-                            for (int index3 = (index2 + 1) ; index3 < eligibleCellsLength-1 && !quad_found ; index3++) {//loop generating the third cell that 'could' be a naked quad
-                                    
+                            for (int index3 = (index2 + 1); index3 < eligibleCellsLength - 1 && !quad_found; index3++) {//loop generating the third cell that 'could' be a naked quad
+
                                 int countThirdsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(index3)][eligible_columns.get(index3)]); //to count the candidates of third cell that are added to candidateList
 
-                                for (int index4 = (index3 + 1) ; index4 < eligibleCellsLength && !quad_found ; index4++){//loop generating the fourth cell that 'could' be a naked quad
+                                for (int index4 = (index3 + 1); index4 < eligibleCellsLength && !quad_found; index4++) {//loop generating the fourth cell that 'could' be a naked quad
 
                                     int countFourthsCandidates = addIfAbsent(candidateList, puzzle[eligible_rows.get(index4)][eligible_columns.get(index4)]); //to count the candidates of fourth cell that are added to candidateList
 
@@ -1841,30 +1840,30 @@ public final class Sudoku {
 
                                         skip_rows[3] = eligible_rows.get(index4);
                                         skip_columns[3] = eligible_columns.get(index4);
-                                                
+
                                         quad[0] = candidateList.get(0);
                                         removeCandidateText[0] = "Remove Candidate " + quad[0] + " at ";
-                                     
+
                                         quad[1] = candidateList.get(1);
                                         removeCandidateText[1] = "Remove Candidate " + quad[1] + " at ";
-                                       
+
                                         quad[2] = candidateList.get(2);
                                         removeCandidateText[2] = "Remove Candidate " + quad[2] + " at ";
-                                          
+
                                         quad[3] = candidateList.get(3);
                                         removeCandidateText[3] = "Remove Candidate " + quad[3] + " at ";
-                                         
+
                                         quad_found = true;//stop searching for combinations, a triplet has been found.
                                     }
                                     removeRecentAdditions(candidateList, countFourthsCandidates);//make space for addition of a new fourth cell
                                 }
 
-                                    removeRecentAdditions(candidateList, countThirdsCandidates);//make space for addition of a new third cell
-                                    
+                                removeRecentAdditions(candidateList, countThirdsCandidates);//make space for addition of a new third cell
+
                             }
 
                             removeRecentAdditions(candidateList, countSecondsCandidates);//make space for addition of a new second cell
-                            
+
                         }
                     }
 
@@ -1895,8 +1894,8 @@ public final class Sudoku {
                         }
                     }// if(!quad_found)
 
-                    nakedQuadCheckSteps(checkCandidateRemoved, removeCandidateText, quad, skip_rows[0], skip_columns[0], 
-                                        skip_rows[1], skip_columns[1], skip_rows[2], skip_columns[2], skip_rows[3], skip_columns[3], 3);
+                    nakedQuadCheckSteps(checkCandidateRemoved, removeCandidateText, quad, skip_rows[0], skip_columns[0],
+                            skip_rows[1], skip_columns[1], skip_rows[2], skip_columns[2], skip_rows[3], skip_columns[3], 3);
 
                 }// if( eligibleCellSize >= 4)      
 
@@ -1914,7 +1913,7 @@ public final class Sudoku {
     /**
      * add changes made by naked triple to the check steps linked lists
      */
-    private static void nakedQuadCheckSteps(boolean[] checkCandidateRemoved, String[] removeCandidateText, 
+    private static void nakedQuadCheckSteps(boolean[] checkCandidateRemoved, String[] removeCandidateText,
                                             int[] quad, int row_1, int column_1, int row_2, int column_2,
                                             int row_3, int column_3, int row_4, int column_4, int house) {
 
@@ -1937,7 +1936,7 @@ public final class Sudoku {
         if (checkCandidateRemoved[0] || checkCandidateRemoved[1] || checkCandidateRemoved[2] || checkCandidateRemoved[3]) {//checking if nakedQuad() changed the puzzle in some way
 
             algorithm.add("Naked Quad" + end_tag);
-            insert.add("Candidates: " + quad[0] + ", " + quad[1] + ", " + quad[2] + " and " + quad[3] +" are common to cells " +
+            insert.add("Candidates: " + quad[0] + ", " + quad[1] + ", " + quad[2] + " and " + quad[3] + " are common to cells " +
                     "(" + (row_1 + 1) + "," + (column_1 + 1) + "), (" + (row_2 + 1) + "," + (column_2 + 1) + "), ("
                     + (row_3 + 1) + "," + (column_3 + 1) + ") and (" + (row_4 + 1) + "," + (column_4 + 1) + ")");
 
@@ -1958,8 +1957,7 @@ public final class Sudoku {
     }//end of nakedQuadCheckSteps()
 
 
-
-    private static void hiddenQuad(Cell[][] puzzle) {        
+    private static void hiddenQuad(Cell[][] puzzle) {
         int[] quad = new int[4];//array to store the values of the quad
 
         //checking for HIDDEN QUAD in Rows
@@ -1969,13 +1967,13 @@ public final class Sudoku {
                 if (puzzle[r][c].isNotSet() && puzzle[r][c].getNoOfCandidates() >= 2)//if cell has 2 or more candidates, it is eligible
                     eligible_columns.add(c);
             }//c
-    
+
             if (eligible_columns.size() >= 4) {//there needs to be at least 4 eligible cells for a hidden quad to exist
 
-                for (int i = 0 ; i < eligible_columns.size()-3 ; i++) {//loop to go through combinations of the eligible cells in the rows to find valid hidden quad
-                    for (int j =  (i + 1) ; j < eligible_columns.size()-2 ; j++) {
-                        for (int k = (j + 1) ; k < eligible_columns.size()-1 ; k++){
-                            for(int l = (k + 1) ; l < eligible_columns.size() ; l++){
+                for (int i = 0; i < eligible_columns.size() - 3; i++) {//loop to go through combinations of the eligible cells in the rows to find valid hidden quad
+                    for (int j = (i + 1); j < eligible_columns.size() - 2; j++) {
+                        for (int k = (j + 1); k < eligible_columns.size() - 1; k++) {
+                            for (int l = (k + 1); l < eligible_columns.size(); l++) {
                                 int index_1 = eligible_columns.get(i);
                                 int index_2 = eligible_columns.get(j);
                                 int index_3 = eligible_columns.get(k);
@@ -1984,22 +1982,22 @@ public final class Sudoku {
 
                                 if (similarCandidates.size() >= 4) {//checking if there are 4 or more similar candidates
 
-                                    for (int inc0 = 0 ; inc0 < similarCandidates.size()-3 ; inc0++) {
-                                        for (int inc1 = (inc0 + 1) ; inc1 < similarCandidates.size()-2 ; inc1++) {
-                                            for (int inc2 = (inc1 + 1) ; inc2 < similarCandidates.size()-1 ; inc2++) {
-                                                for (int inc3 = (inc2 + 1) ; inc3 < similarCandidates.size() ; inc3++) {//choose any 4 of the similar candidates
+                                    for (int inc0 = 0; inc0 < similarCandidates.size() - 3; inc0++) {
+                                        for (int inc1 = (inc0 + 1); inc1 < similarCandidates.size() - 2; inc1++) {
+                                            for (int inc2 = (inc1 + 1); inc2 < similarCandidates.size() - 1; inc2++) {
+                                                for (int inc3 = (inc2 + 1); inc3 < similarCandidates.size(); inc3++) {//choose any 4 of the similar candidates
                                                     quad[0] = similarCandidates.get(inc0);
                                                     quad[1] = similarCandidates.get(inc1);
                                                     quad[2] = similarCandidates.get(inc2);
                                                     quad[3] = similarCandidates.get(inc3);
 
                                                     if (quadDoesNotExistInOtherCellsInRow(puzzle, r, quad, index_1, index_2, index_3, index_4))//checking if any other cells in the same row also have quad[0], quad[1], quad[2] or quad[3] as candidates
-                                                        hiddenQuadCheckSteps(puzzle, r, index_1, r, index_2, r, index_3, r, index_4, quad,  1);
+                                                        hiddenQuadCheckSteps(puzzle, r, index_1, r, index_2, r, index_3, r, index_4, quad, 1);
                                                 }//inc3
                                             }//inc2
                                         }//inc1
                                     }//inc0
-    
+
                                 }//if statement
 
                             }//l
@@ -2009,7 +2007,7 @@ public final class Sudoku {
 
             }//if
         }//r
-    
+
         //checking for HIDDEN QUAD in Columns
         for (int c = 0; c < 9; c++) {
             ArrayList<Integer> eligible_rows = new ArrayList<>();//rows in the current column that could possibly contain a hidden quad
@@ -2017,13 +2015,13 @@ public final class Sudoku {
                 if (puzzle[r][c].isNotSet() && puzzle[r][c].getNoOfCandidates() >= 2)//if cell has 2 or more candidates, it is eligible
                     eligible_rows.add(r);
             }//r
-    
+
             if (eligible_rows.size() >= 4) {//there needs to be at least 4 eligible cells for a hidden quad to exist
 
-                for (int i = 0 ; i < eligible_rows.size()-3 ; i++) {//loop to go through combinations of the eligible cells in the columns to find valid hidden quad
-                    for (int j =  (i + 1) ; j < eligible_rows.size()-2 ; j++) {
-                        for (int k = (j + 1) ; k < eligible_rows.size()-1 ; k++){
-                            for (int l = (k + 1) ; l < eligible_rows.size() ; l++){
+                for (int i = 0; i < eligible_rows.size() - 3; i++) {//loop to go through combinations of the eligible cells in the columns to find valid hidden quad
+                    for (int j = (i + 1); j < eligible_rows.size() - 2; j++) {
+                        for (int k = (j + 1); k < eligible_rows.size() - 1; k++) {
+                            for (int l = (k + 1); l < eligible_rows.size(); l++) {
                                 int index_1 = eligible_rows.get(i);
                                 int index_2 = eligible_rows.get(j);
                                 int index_3 = eligible_rows.get(k);
@@ -2033,10 +2031,10 @@ public final class Sudoku {
 
                                 if (similarCandidates.size() >= 4) {//checking if there are at least 4 similar candidates
 
-                                    for (int inc0 = 0 ; inc0 < similarCandidates.size()-3 ; inc0++) {
-                                        for (int inc1 =  (inc0 + 1) ; inc1 < similarCandidates.size()-2 ; inc1++) {
-                                            for (int inc2 = (inc1 + 1) ; inc2 < similarCandidates.size()-1 ; inc2++) {
-                                                for (int inc3 = (inc2 + 1) ; inc3 < similarCandidates.size() ; inc3++) {//choose any 4 of the similar candidates
+                                    for (int inc0 = 0; inc0 < similarCandidates.size() - 3; inc0++) {
+                                        for (int inc1 = (inc0 + 1); inc1 < similarCandidates.size() - 2; inc1++) {
+                                            for (int inc2 = (inc1 + 1); inc2 < similarCandidates.size() - 1; inc2++) {
+                                                for (int inc3 = (inc2 + 1); inc3 < similarCandidates.size(); inc3++) {//choose any 4 of the similar candidates
                                                     quad[0] = similarCandidates.get(inc0);
                                                     quad[1] = similarCandidates.get(inc1);
                                                     quad[2] = similarCandidates.get(inc2);
@@ -2048,7 +2046,7 @@ public final class Sudoku {
                                             }//inc2
                                         }//inc1
                                     }//inc0
-                                
+
                                 }//if statement
 
                             }//l
@@ -2058,7 +2056,7 @@ public final class Sudoku {
 
             }//if
         }//c
-    
+
         //checking for HIDDEN QUAD in Block
         for (int r1 = 0; r1 <= 6; r1 += 3) {//jumps to first row position of block
             for (int c1 = 0; c1 <= 6; c1 += 3) {//jumps to first column position of block
@@ -2072,14 +2070,14 @@ public final class Sudoku {
                         }
                     }
                 }
-    
+
                 int eligibleCellsSize = eligible_columns.size();
                 if (eligibleCellsSize >= 4) {
 
-                    for (int i = 0 ; i < eligibleCellsSize-3 ; i++) {//loop to go through combinations of the eligible cells in the subquare to find valid hidden quad
-                        for (int j = (i + 1) ; j < eligibleCellsSize-2 ; j++) {
-                            for (int k = (j + 1) ; k < eligibleCellsSize-1 ; k++) {
-                                for (int l = (k + 1) ; l < eligibleCellsSize ; l++) {
+                    for (int i = 0; i < eligibleCellsSize - 3; i++) {//loop to go through combinations of the eligible cells in the subquare to find valid hidden quad
+                        for (int j = (i + 1); j < eligibleCellsSize - 2; j++) {
+                            for (int k = (j + 1); k < eligibleCellsSize - 1; k++) {
+                                for (int l = (k + 1); l < eligibleCellsSize; l++) {
                                     int index_1_r = eligible_rows.get(i);
                                     int index_1_c = eligible_columns.get(i);
 
@@ -2093,12 +2091,12 @@ public final class Sudoku {
                                     int index_4_c = eligible_columns.get(l);
 
                                     ArrayList<Integer> similarCandidates = getSimilarCandidates(puzzle[index_1_r][index_1_c], puzzle[index_2_r][index_2_c], puzzle[index_3_r][index_3_c], puzzle[index_4_r][index_4_c]);//store the similar candidates between chosen candidates
-                                    
+
                                     if (similarCandidates.size() >= 4) {//checking if there are at least 4 similar candidates
-                                        for (int inc0 = 0 ; inc0 < similarCandidates.size()-3 ; inc0++) {
-                                            for (int inc1 = (inc0 + 1); inc1 < similarCandidates.size()-2 ; inc1++) {
-                                                for (int inc2 = (inc1 + 1) ; inc2 < similarCandidates.size()-1 ; inc2++) {
-                                                    for (int inc3 = (inc2 + 1) ; inc3 < similarCandidates.size() ; inc3++) {//choose any 2 of the similar candidates
+                                        for (int inc0 = 0; inc0 < similarCandidates.size() - 3; inc0++) {
+                                            for (int inc1 = (inc0 + 1); inc1 < similarCandidates.size() - 2; inc1++) {
+                                                for (int inc2 = (inc1 + 1); inc2 < similarCandidates.size() - 1; inc2++) {
+                                                    for (int inc3 = (inc2 + 1); inc3 < similarCandidates.size(); inc3++) {//choose any 2 of the similar candidates
                                                         quad[0] = similarCandidates.get(inc0);
                                                         quad[1] = similarCandidates.get(inc1);
                                                         quad[2] = similarCandidates.get(inc2);
@@ -2124,20 +2122,20 @@ public final class Sudoku {
     }// end of hiddenQuad()
 
     private static ArrayList<Integer> getSimilarCandidates(Cell cell_1, Cell cell_2, Cell cell_3, Cell cell_4) {
-        Cell[] cellArray = { cell_1, cell_2, cell_3, cell_4 };
+        Cell[] cellArray = {cell_1, cell_2, cell_3, cell_4};
         boolean flag;
         ArrayList<Integer> similar_candidates = new ArrayList<>();// stores the similar candidates
-        for (int num = 1 ; num < 10; num++) {
+        for (int num = 1; num < 10; num++) {
             flag = false;
-            for (int index1 = 0 ; index1 < cellArray.length-1 ; index1++) {
-                for (int index2 = (index1 + 1) ; index2 < cellArray.length ; index2++) {
-                    if (cellArray[index1].isCandidate(num) && cellArray[index2].isCandidate(num)){                        
+            for (int index1 = 0; index1 < cellArray.length - 1; index1++) {
+                for (int index2 = (index1 + 1); index2 < cellArray.length; index2++) {
+                    if (cellArray[index1].isCandidate(num) && cellArray[index2].isCandidate(num)) {
                         similar_candidates.add(num);// adding the similar candidate to the array list
                         flag = true;
                         break;
                     }
                 } // index2
-                if(flag)
+                if (flag)
                     break;
             } // index1
         } // num
@@ -2148,7 +2146,7 @@ public final class Sudoku {
         Cell[] cellArray = {cell_1, cell_2, cell_3, cell_4};
 
         String[] removeQuad = new String[4];//stores the text for check steps when candidates are removed
-        for (int i = 0 ; i < 4 ; i++)
+        for (int i = 0; i < 4; i++)
             removeQuad[i] = "Remove Candidates ";
 
         boolean[] tmp = new boolean[4];//records if any candidates have been removed anywhere
@@ -2157,7 +2155,7 @@ public final class Sudoku {
 
         for (int num = 1; num < 10; num++) {//loop to remove QUAD candidates from the other cells in the House(Row, Column or Block)
             if (num != quad[0] && num != quad[1] && num != quad[2] && num != quad[3]) {
-                for (int i = 0 ; i < 4 ; i++){
+                for (int i = 0; i < 4; i++) {
                     if (cellArray[i].isCandidate(num)) {
                         cellArray[i].removeCandidate(num);
                         removeQuad[i] += num + ",";
@@ -2168,7 +2166,7 @@ public final class Sudoku {
             }
         }//num
 
-        for (int i = 0 ; i < 4 ; i++){
+        for (int i = 0; i < 4; i++) {
             if (tmp[i])
                 removeQuad[i] = "";
             else
@@ -2176,32 +2174,32 @@ public final class Sudoku {
         }
         return removeQuad;
     }// end of removeNonQuadCandidates()
-    
-    
+
+
     private static boolean quadDoesNotExistInOtherCellsInRow(Cell[][] puzzle, int row, int[] quad, int index1, int index2, int index3, int index4) {
         for (int c = 0; c < 9; c++) {
-            if ( puzzle[row][c].isNotSet() && (c != index1 && c != index2 && c != index3 && c != index4) )
-                if ( puzzle[row][c].isCandidate(quad[0]) || puzzle[row][c].isCandidate(quad[1]) || puzzle[row][c].isCandidate(quad[2]) || puzzle[row][c].isCandidate(quad[3]))
-                    return false;                   
+            if (puzzle[row][c].isNotSet() && (c != index1 && c != index2 && c != index3 && c != index4))
+                if (puzzle[row][c].isCandidate(quad[0]) || puzzle[row][c].isCandidate(quad[1]) || puzzle[row][c].isCandidate(quad[2]) || puzzle[row][c].isCandidate(quad[3]))
+                    return false;
         }
         return true;
     }// end of quadDoesNotExistInOtherCellsInRow()
-    
+
     private static boolean quadDoesNotExistInOtherCellsInColumn(Cell[][] puzzle, int col, int[] quad, int index1, int index2, int index3, int index4) {
         for (int r = 0; r < 9; r++) {
-            if ( puzzle[r][col].isNotSet() && (r != index1 && r != index2 && r != index3 && r != index4) )
-                if ( puzzle[r][col].isCandidate(quad[0]) || puzzle[r][col].isCandidate(quad[1]) || puzzle[r][col].isCandidate(quad[2]) || puzzle[r][col].isCandidate(quad[3]) )
-                    return false;                
+            if (puzzle[r][col].isNotSet() && (r != index1 && r != index2 && r != index3 && r != index4))
+                if (puzzle[r][col].isCandidate(quad[0]) || puzzle[r][col].isCandidate(quad[1]) || puzzle[r][col].isCandidate(quad[2]) || puzzle[r][col].isCandidate(quad[3]))
+                    return false;
         }
         return true;
     }// end of quadDoesNotExistInOtherCellsInColumn()
-    
+
     private static boolean quadDoesNotExistInOtherCellsInSubsquare(Cell[][] puzzle, int r1, int c1, int[] quad, int index_1_r, int index_1_c, int index_2_r, int index_2_c, int index_3_r, int index_3_c, int index_4_r, int index_4_c) {
         for (int r = r1; r < r1 + 3; r++) {//traversal (subsquare)
             for (int c = c1; c < c1 + 3; c++) {
-                if ( puzzle[r][c].isNotSet() && ( !(r == index_1_r && c == index_1_c) && !(r == index_2_r && c == index_2_c) && !(r == index_3_r && c == index_3_c) && !(r == index_4_r && c == index_4_c) ) )
-                    if ( puzzle[r][c].isCandidate(quad[0]) || puzzle[r][c].isCandidate(quad[1]) || puzzle[r][c].isCandidate(quad[2]) || puzzle[r][c].isCandidate(quad[3]) ) 
-                        return false;                    
+                if (puzzle[r][c].isNotSet() && (!(r == index_1_r && c == index_1_c) && !(r == index_2_r && c == index_2_c) && !(r == index_3_r && c == index_3_c) && !(r == index_4_r && c == index_4_c)))
+                    if (puzzle[r][c].isCandidate(quad[0]) || puzzle[r][c].isCandidate(quad[1]) || puzzle[r][c].isCandidate(quad[2]) || puzzle[r][c].isCandidate(quad[3]))
+                        return false;
             }
         }
         return true;
@@ -2211,37 +2209,36 @@ public final class Sudoku {
 
         int tmp = changeCounter;
         String end_tag = "";
-    
+
         switch (house) {
             case 1://hidden quad in row
                 end_tag = " in Row " + (row_1 + 1);
                 break;
-    
+
             case 2://hidden quad in column
                 end_tag = " in Column " + (col_1 + 1);
                 break;
-    
+
             case 3://hidden quad in subsquare
                 end_tag = " in Block";
                 break;
         }
-    
+
         String[] removeSet = removeNonQuadCandidates(puzzle[row_1][col_1], puzzle[row_2][col_2], puzzle[row_3][col_3], puzzle[row_4][col_4], quad);//contains the remove string for each cell
         if (tmp != changeCounter) {//if tmp is != changeCounter, there has been a change caused by hiddenQuad()
             algorithm.add("Hidden Quad" + end_tag);
             insert.add("Candidates: " + quad[0] + ", " + quad[1] + ", " + quad[2] + " and " + quad[3] + " are common to cells (" + (row_1 + 1) + "," + (col_1 + 1) + "), ("
-                        + (row_2 + 1) + "," + (col_2 + 1) + "), (" + (row_3 + 1) + "," + (col_3 + 1) + ") and (" + (row_4 + 1) + "," + (col_4 + 1) + ")");
+                    + (row_2 + 1) + "," + (col_2 + 1) + "), (" + (row_3 + 1) + "," + (col_3 + 1) + ") and (" + (row_4 + 1) + "," + (col_4 + 1) + ")");
 
             String cell_1 = removeSet[0].length() == 0 ? "" : "(" + (row_1 + 1) + "," + (col_1 + 1) + ")";//if we don't have to remove any candidates, don't print
             String cell_2 = removeSet[1].length() == 0 ? "" : "(" + (row_2 + 1) + "," + (col_2 + 1) + ")";//if we don't have to remove any candidates, don't print
             String cell_3 = removeSet[2].length() == 0 ? "" : "(" + (row_3 + 1) + "," + (col_3 + 1) + ")";//if we don't have to remove any candidates, don't print
             String cell_4 = removeSet[3].length() == 0 ? "" : "(" + (row_4 + 1) + "," + (col_4 + 1) + ")";//if we don't have to remove any candidates, don't print
             remove.add((removeSet[0] + cell_1 + " " + removeSet[1] + cell_2 + " " + removeSet[2] + cell_3 + " " + removeSet[3] + cell_4).trim());
-        }    
+        }
     }// end of hiddenQuadCheckSteps()
 
 
-    
     private static void xWing(Cell[][] puzzle) {
         basicFish(puzzle, 1);
     }// end of xWing()
@@ -2284,7 +2281,7 @@ public final class Sudoku {
                 }
 
             }
-            basicFishRemoval(puzzle, r_eligibleRows, r_eligibleColumns, num,  1, type);
+            basicFishRemoval(puzzle, r_eligibleRows, r_eligibleColumns, num, 1, type);
 
 
             //checking Columns
@@ -2310,7 +2307,7 @@ public final class Sudoku {
                     c_eligibleRows.add(tmp_rows);
                 }
             }
-            basicFishRemoval(puzzle, c_eligibleColumns, c_eligibleRows, num,  2, type);
+            basicFishRemoval(puzzle, c_eligibleColumns, c_eligibleRows, num, 2, type);
         }
 
     }
@@ -2623,15 +2620,15 @@ public final class Sudoku {
     }
 
     private static void finnedXWing(Cell[][] puzzle) {
-        finnedFish(puzzle,  1);
+        finnedFish(puzzle, 1);
     }
 
     private static void finnedSwordfish(Cell[][] puzzle) {
-        finnedFish(puzzle,  2);
+        finnedFish(puzzle, 2);
     }
 
     private static void finnedJellyfish(Cell[][] puzzle) {
-        finnedFish(puzzle,  3);
+        finnedFish(puzzle, 3);
     }
 
     private static void finnedFish(Cell[][] puzzle, int type) {
@@ -2664,7 +2661,7 @@ public final class Sudoku {
                 }
 
             }
-            finnedFishRemoval(puzzle, r_eligibleFinRows, r_eligibleFinColumns, num,  1, type);
+            finnedFishRemoval(puzzle, r_eligibleFinRows, r_eligibleFinColumns, num, 1, type);
 
 
             //checking Columns
@@ -2690,7 +2687,7 @@ public final class Sudoku {
                     c_eligibleFinRows.add(tmp_rows);
                 }
             }
-            finnedFishRemoval(puzzle, c_eligibleFinColumns, c_eligibleFinRows, num,  2, type);
+            finnedFishRemoval(puzzle, c_eligibleFinColumns, c_eligibleFinRows, num, 2, type);
         }
 
     }
@@ -3067,11 +3064,11 @@ public final class Sudoku {
         finInsert[1] = "";
         if (puzzle[row][column].isCandidate(num)
                 && puzzle[row][column].isNotSet() &&
-                !contains(fin_coordinates, new int[]{ row,  column}))
+                !contains(fin_coordinates, new int[]{row, column}))
             finInsert[0] += "(" + (row + 1) + "," + (column + 1) + ") ";
         else if (puzzle[row][column].isCandidate(num)
                 && puzzle[row][column].isNotSet() &&
-                contains(fin_coordinates, new int[]{ row,  column}))
+                contains(fin_coordinates, new int[]{row, column}))
             finInsert[1] += "(" + (row + 1) + "," + (column + 1) + ") ";
 
         return finInsert;
@@ -3118,11 +3115,11 @@ public final class Sudoku {
     }
 
     private static int[] commonSubsquare(ArrayList<int[]> fin_coordinates) {
-        int row_s =  (fin_coordinates.get(0)[0] - fin_coordinates.get(0)[0] % 3);
-        int col_s =  (fin_coordinates.get(0)[1] - fin_coordinates.get(0)[1] % 3);
+        int row_s = (fin_coordinates.get(0)[0] - fin_coordinates.get(0)[0] % 3);
+        int col_s = (fin_coordinates.get(0)[1] - fin_coordinates.get(0)[1] % 3);
         for (int i = 1; i < fin_coordinates.size(); i++) {
-            if (!( (fin_coordinates.get(i)[0] - fin_coordinates.get(i)[0] % 3) == row_s &&
-                     (fin_coordinates.get(i)[1] - fin_coordinates.get(i)[1] % 3) == col_s)) {
+            if (!((fin_coordinates.get(i)[0] - fin_coordinates.get(i)[0] % 3) == row_s &&
+                    (fin_coordinates.get(i)[1] - fin_coordinates.get(i)[1] % 3) == col_s)) {
                 return null;
             }
         }
@@ -3192,7 +3189,7 @@ public final class Sudoku {
                     }//second if statement
                 }//first if statement
             }//for loop
-            puzzle[r][c].placeSolution( 0);//making the cell empty again
+            puzzle[r][c].placeSolution(0);//making the cell empty again
             return false;//if no candidate can be successfully placed in the cell
         }
     }//end of bruteForce()
@@ -3221,8 +3218,8 @@ public final class Sudoku {
         }
 
         //checking subsquare
-        int tmp_r =  (row - (row % 3));// starting row of current subsquare
-        int tmp_c =  (col - (col % 3));// starting column of current subsquare
+        int tmp_r = (row - (row % 3));// starting row of current subsquare
+        int tmp_c = (col - (col % 3));// starting column of current subsquare
         for (int r = tmp_r; r < tmp_r + 3; r++) {
             for (int c = tmp_c; c < tmp_c + 3; c++) {
                 if (num == puzzle[r][c].getSolution()) {// avoid the current column and check if num is a candidate in the cell
@@ -3278,7 +3275,7 @@ public final class Sudoku {
                     nakedQuad(puzzle);
                     if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by nakedQuad()
                         levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
-                
+
                 case 9:
                     beforeUsingStrategy = changeCounter;
                     jellyfish(puzzle);
@@ -3345,7 +3342,7 @@ public final class Sudoku {
 
         //if the solving strategies could not completely solve the puzzle, resort to brute force
         if (cellCount != 81) {//checking if the puzzle is unsolved
-            bruteForce(puzzle,  0);//calling the brute force method
+            bruteForce(puzzle, 0);//calling the brute force method
             algorithm.add("Brute Force");//adding Brute Force to the list of algorithms used
             insert.add("Solvadoku solved the rest of this puzzle using brute force. There may be " +
                     "some other logic to solve the puzzle or none at all if it is a puzzle with multiple solutions");
@@ -3365,7 +3362,7 @@ public final class Sudoku {
     public static void partiallySolve(Cell[][] puzzle, ArrayList<String> chosenStrategies) {
 
         final String[] logics = {"Naked Single", "Hidden Single", "Naked Pair", "Pointing Pair",
-                "Claiming Pair", "Hidden Pair", "Naked Triple", "Hidden Triple", "X-Wing", "Swordfish", "Jellyfish", 
+                "Claiming Pair", "Hidden Pair", "Naked Triple", "Hidden Triple", "X-Wing", "Swordfish", "Jellyfish",
                 "Naked Quad", "Hidden Quad", "Finned X-Wing", "Finned Swordfish", "Finned Jellyfish", "Brute Force"};
 
         boolean[] strategy = new boolean[logics.length];//array that indicates which solving strategies the user wants to use
@@ -3385,7 +3382,7 @@ public final class Sudoku {
         do {//loop to call the functions to solve the puzzle
             changeCounter = 0;//reinitializing the counter to 0 before the start of every iteration
             switch (levelUpdater) {
-                
+
                 case 15:
                     if (strategy[15]) {
                         beforeUsingStrategy = changeCounter;
@@ -3456,8 +3453,8 @@ public final class Sudoku {
                         hiddenTriple(puzzle);
                         if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by hiddenTriple()
                             levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
-                    }      
-                
+                    }
+
                 case 6:
                     if (strategy[6]) {
                         beforeUsingStrategy = changeCounter;
@@ -3517,7 +3514,7 @@ public final class Sudoku {
 
         //if the solving strategies could not completely solve the puzzle, resort to brute force
         if (cellCount != 81 && strategy[logics.length - 1]) {//checking if the puzzle is unsolved AND the user has chosen to use Brute Force
-            bruteForce(puzzle,  0);//calling the brute force method
+            bruteForce(puzzle, 0);//calling the brute force method
             algorithm.add("Brute Force");
             insert.add("Solvadoku solved the rest of this puzzle using brute force. There may be " +
                     "some other logic to solve the puzzle or none at all if it is a puzzle with multiple solutions");
