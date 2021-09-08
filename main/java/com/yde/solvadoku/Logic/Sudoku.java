@@ -12,12 +12,22 @@ public final class Sudoku {
 
     private static int changeCounter = 0;
     public static int cellCount = 0;
-    public static ArrayList<String> algorithm = new ArrayList<>();
-    public static ArrayList<String> insert = new ArrayList<>();
-    public static ArrayList<String> remove = new ArrayList<>();
-    public static ArrayList<String[]> viewHolderList = new ArrayList<>();
+    public static ArrayList<String> algorithm;
+    public static ArrayList<String> insert;
+    public static ArrayList<String> remove;
+    public static ArrayList<String[]> viewHolderList;
 
     private Sudoku() {
+    }
+
+    /**
+     * Reset the puzzle for new Solving process
+     */
+    public static void resetSudoku() {
+        algorithm = new ArrayList<>();
+        insert = new ArrayList<>();
+        remove = new ArrayList<>();
+        viewHolderList = new ArrayList<>();
     }
 
     /**
@@ -3230,134 +3240,6 @@ public final class Sudoku {
 
         return true;//if the number can exist in the cell, return true
     }// end of numCanExistInCell()
-
-    /**
-     * Solves the puzzle
-     */
-    public static void Solve(Cell[][] puzzle) {
-
-        int levelUpdater = 0;//this variable determines which all algorithms are used in an iteration of the do while loop below,
-        //higher the value of levelUpdater - more complex algorithms are used
-
-        int beforeUsingStrategy;//temporary variable used to check if there is a change in the value of changeCounter after a certain strategy is used
-
-        do {//loop to call the functions to solve the puzzle
-            changeCounter = 0;//reinitializing the counter to 0 before the start of every iteration
-
-            switch (levelUpdater) {
-
-                case 14:
-                    beforeUsingStrategy = changeCounter;
-                    finnedJellyfish(puzzle);
-                    if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by finnedJellyfish()
-                        levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
-
-                case 13:
-                    beforeUsingStrategy = changeCounter;
-                    finnedSwordfish(puzzle);
-                    if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by finnedSwordfish()
-                        levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
-
-                case 12:
-                    beforeUsingStrategy = changeCounter;
-                    finnedXWing(puzzle);
-                    if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by finnedXWing()
-                        levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
-
-                case 11:
-                    beforeUsingStrategy = changeCounter;
-                    hiddenQuad(puzzle);
-                    if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by hiddenQuad()
-                        levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
-
-                case 10:
-                    beforeUsingStrategy = changeCounter;
-                    nakedQuad(puzzle);
-                    if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by nakedQuad()
-                        levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
-
-                case 9:
-                    beforeUsingStrategy = changeCounter;
-                    jellyfish(puzzle);
-                    if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by jellyfish()
-                        levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
-
-                case 8:
-                    beforeUsingStrategy = changeCounter;
-                    swordfish(puzzle);
-                    if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by swordfish()
-                        levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
-
-                case 7:
-                    beforeUsingStrategy = changeCounter;
-                    xWing(puzzle);
-                    if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by xWing()
-                        levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)                
-
-                case 6:
-                    beforeUsingStrategy = changeCounter;
-                    hiddenTriple(puzzle);
-                    if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by hiddenTriple()
-                        levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
-
-                case 5:
-                    beforeUsingStrategy = changeCounter;
-                    nakedTriple(puzzle);
-                    if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by nakedTriple()
-                        levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
-
-                case 4:
-                    beforeUsingStrategy = changeCounter;
-                    hiddenPair(puzzle);
-                    if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by hiddenPair()
-                        levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
-
-                case 3:
-                    beforeUsingStrategy = changeCounter;
-                    pointingPair(puzzle);
-                    claimingPair(puzzle);
-                    if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by pointingPair() and claimingPair()
-                        levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
-
-                case 2:
-                    beforeUsingStrategy = changeCounter;
-                    nakedPair(puzzle);
-                    if (beforeUsingStrategy != changeCounter)//if they are not equal, change was effected by nakedPair()
-                        levelUpdater = 1;//reinitialize the levelUpdater to 1 (this is done for better efficiency of the code)
-
-                case 1:
-                    hiddenSingle(puzzle);
-
-                case 0:
-                    nakedSingle(puzzle);
-            }//end of switch case
-
-            if (cellCount == 81)//checking if the puzzle is solved (all 81 cells are filled), if true, exit the loop
-                break;
-
-            if (changeCounter == 0)//if no changes have been made to the puzzle with the current set of algorithms, increase the level to utilize more complex solving strategies
-                levelUpdater++;
-
-        } while (levelUpdater <= 14);//if the levelUpdater goes greater than 14, it means despite using all the algorithms available - the puzzle could not be solved
-
-        //if the solving strategies could not completely solve the puzzle, resort to brute force
-        if (cellCount != 81) {//checking if the puzzle is unsolved
-            bruteForce(puzzle, 0);//calling the brute force method
-            algorithm.add("Brute Force");//adding Brute Force to the list of algorithms used
-            insert.add("Solvadoku solved the rest of this puzzle using brute force. There may be " +
-                    "some other logic to solve the puzzle or none at all if it is a puzzle with multiple solutions");
-            remove.add("");
-            cellCount = 81;//brute force will always output a complete solution for the puzzle, hence all 81 cells are filled
-        }
-
-        for (int i = 0; i < algorithm.size(); i++) {
-            viewHolderList.add(new String[3]);
-            viewHolderList.get(i)[0] = algorithm.get(i);
-            viewHolderList.get(i)[1] = insert.get(i);
-            viewHolderList.get(i)[2] = remove.get(i);
-        }
-
-    }// end of Solve()
 
     public static void partiallySolve(Cell[][] puzzle, ArrayList<String> chosenStrategies) {
 

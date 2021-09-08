@@ -61,7 +61,7 @@ public class SudokuGrid extends SquareGrid {
                 unit[i][j] = textView;
                 addView(textView, i + j);
 
-                textView.setBackgroundResource(Objects.requireNonNull(cellToState.get(textView))[CLEAR]);
+                switchBackground(textView, CLEAR);
             }
         }
     }

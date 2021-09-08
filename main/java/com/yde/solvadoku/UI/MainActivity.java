@@ -123,12 +123,8 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 }
 
-                                Sudoku.algorithm = new ArrayList<>();
-                                Sudoku.insert = new ArrayList<>();
-                                Sudoku.remove = new ArrayList<>();
-                                Sudoku.viewHolderList = new ArrayList<>();
-
-                                Sudoku.Solve(puzzle);
+                                Sudoku.resetSudoku();
+                                Sudoku.partiallySolve(puzzle, checkedItems);
 
                                 for (int i = 0; i < 9; i++) {
                                     for (int j = 0; j < 9; j++) {
