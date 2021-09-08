@@ -262,7 +262,8 @@
                 android:id="@+id/solve"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
                 android:layout_weight="0.33"
                 android:background="@drawable/keypad_unfocused"
                 android:backgroundTint="@color/corebtn"
@@ -272,24 +273,11 @@
                 android:textSize="25sp" />
 
             <Button
-                android:id="@+id/partial"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_weight="0.33"
-                android:background="@drawable/keypad_unfocused"
-                android:backgroundTint="@color/corebtn"
-                android:fontFamily="@font/raleway"
-                android:text="@string/partial"
-                android:textColor="@color/colorWhite"
-                android:textSize="25sp" />
-
-            <Button
                 android:id="@+id/check_steps"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
                 android:layout_weight="0.33"
                 android:background="@drawable/keypad_unfocused"
                 android:backgroundTint="@color/corebtn"

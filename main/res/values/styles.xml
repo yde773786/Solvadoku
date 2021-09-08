@@ -35,5 +35,9 @@
 
     <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="disabled_darken">
+        <item name="android:textColor">@drawable/text_color</item>
+    </style>
+
 
 </resources>

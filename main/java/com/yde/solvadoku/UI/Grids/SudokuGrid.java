@@ -3,14 +3,11 @@ package com.yde.solvadoku.UI.Grids;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.Gravity;
-import android.view.View;
+import android.view.LayoutInflater;
 import android.widget.TextView;
 
-
 import androidx.gridlayout.widget.GridLayout;
-
 import com.yde.solvadoku.R;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Objects;
@@ -18,16 +15,18 @@ import java.util.Set;
 
 public class SudokuGrid extends SquareGrid {
 
-    private HashMap<TextView, int[]> cellToState = new HashMap<>();
-    private TextView[][] unit;
+    private final HashMap<TextView, int[]> cellToState = new HashMap<>();
+    private final TextView[][] unit;
     private boolean isLegalPuzzle;
     private boolean[][] isError;
-    private final int CLEAR = 0, DISABLED = 1, SELECTED = 2, INVALID = 3, CURRENT = 4;
+    public final int CLEAR = 0, DISABLED = 1, SELECTED = 2, INVALID = 3, CURRENT = 4;
+    public final int SOLVED = R.color.colorDeepBlue, INPUT = R.color.colorBlack;
     private TextView focusedCell;
 
     public SudokuGrid(Context context) {
         super(context);
         unit = new TextView[9][9];
+        isLegalPuzzle = true;
         paintSudoku();
     }
 
@@ -38,7 +37,7 @@ public class SudokuGrid extends SquareGrid {
     private void paintSudoku() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                final TextView textView = new TextView(getContext());
+                final TextView textView = (TextView) LayoutInflater.from(getContext()).inflate(R.layout.sudoku_cell, null);
                 textView.setWidth(0);
                 textView.setHeight(0);
 
@@ -51,15 +50,12 @@ public class SudokuGrid extends SquareGrid {
 
                 addCellToState(textView, i, j);
 
-                textView.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (focusedCell != null) {
-                            switchBackground(focusedCell, getCurrentState(focusedCell));
-                        }
-                        focusedCell = textView;
-                        switchBackground(textView, SELECTED);
+                textView.setOnClickListener(view -> {
+                    if (focusedCell != null) {
+                        switchBackground(focusedCell, getCurrentState(focusedCell));
                     }
+                    focusedCell = textView;
+                    switchBackground(textView, SELECTED);
                 });
 
                 unit[i][j] = textView;
@@ -72,6 +68,7 @@ public class SudokuGrid extends SquareGrid {
 
     public SudokuGrid(Context context, AttributeSet attrs) {
         super(context, attrs);
+        isLegalPuzzle = true;
         unit = new TextView[9][9];
         paintSudoku();
     }
@@ -79,7 +76,12 @@ public class SudokuGrid extends SquareGrid {
     public SudokuGrid(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         unit = new TextView[9][9];
+        isLegalPuzzle = true;
         paintSudoku();
+    }
+
+    public boolean hasValue(TextView textView) {
+        return !textView.getText().equals("");
     }
 
     /**
@@ -244,13 +246,23 @@ public class SudokuGrid extends SquareGrid {
      * Switches the background of cell and updates its state
      *
      * @param textView Cell required
-     * @param state    state to be updated to (doesn't update if selected)
+     * @param state    To be updated to (doesn't update if selected)
      */
-    private void switchBackground(TextView textView, int state) {
+    public void switchBackground(TextView textView, int state) {
         textView.setBackgroundResource(Objects.requireNonNull(cellToState.get(textView))[state]);
         if (state != SELECTED) {
             Objects.requireNonNull(cellToState.get(textView))[CURRENT] = state;
         }
+    }
+
+    /**
+     * Switches the text color of cell
+     *
+     * @param textView Cell required
+     * @param state    To be updated to
+     */
+    public void switchTextColor(TextView textView, int state) {
+        textView.setTextColor(getResources().getColor(state));
     }
 
     /**
@@ -263,4 +275,7 @@ public class SudokuGrid extends SquareGrid {
         return Objects.requireNonNull(cellToState.get(textView))[CURRENT];
     }
 
+    public boolean getIsLegalPuzzle() {
+        return isLegalPuzzle;
+    }
 }
