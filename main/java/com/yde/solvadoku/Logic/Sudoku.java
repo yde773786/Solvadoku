@@ -23,7 +23,7 @@ public final class Sudoku {
     /**
      * Reset the puzzle for new Solving process
      */
-    public static void resetSudoku() {
+    public static void resetSolution() {
         algorithm = new ArrayList<>();
         insert = new ArrayList<>();
         remove = new ArrayList<>();

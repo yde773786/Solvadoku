@@ -4,10 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputFilter;
-import android.text.method.DigitsKeyListener;
 import android.view.ContextThemeWrapper;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -149,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
                                 solvedBoard.set(new ArrayList<>());
 
-                                Sudoku.resetSudoku();
+                                Sudoku.resetSolution();
                                 Sudoku.partiallySolve(puzzle, checkedItems);
 
                                 for (int i = 0; i < 9; i++) {
@@ -200,13 +197,6 @@ public class MainActivity extends AppCompatActivity {
         return Integer.parseInt(textView.getText().toString());
     }
 
-    private void makeEditable(TextView textView) {
-        textView.setFocusableInTouchMode(true);
-        textView.setTextColor(getResources().getColor(R.color.colorBlack));
-        textView.setEnabled(true);
-        textView.setCursorVisible(true);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -217,31 +207,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        switch (item.getItemId()) {
-            case R.id.action_clear_all:
-                for (int i = 0; i < 9; i++) {
-                    for (int j = 0; j < 9; j++) {
-                        unit[i][j].setGravity(Gravity.CENTER);
-                        unit[i][j].setTextSize(actualFontSize);
-                        unit[i][j].setKeyListener(DigitsKeyListener.getInstance("123456789"));
-                        unit[i][j].setFilters(new InputFilter[]{new InputFilter.LengthFilter(1)});
-                        makeEditable(unit[i][j]);
-                        unit[i][j].setText("");
-                        unit[i][j].clearFocus();
-                    }
-                }
-                solve.setEnabled(true);
-                checkSteps.setEnabled(false);
-                invalidateOptionsMenu();
-                return true;
-
-            case R.id.about:
-                Intent intent = new Intent(MainActivity.this, AboutActivity.class);
-                intent.putExtra("input", putPencilMarks);
-                startActivityForResult(intent, SETTINGS_ACTIVITY_REQUEST_CODE);
-                return true;
-
+        if (item.getItemId() == R.id.action_clear_all) {
+            initialBoard = new ArrayList<>();
+            sudokuGrid.resetSudoku();
+        } else if (item.getItemId() == R.id.about) {
+            Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+            intent.putExtra("input", putPencilMarks);
+            startActivityForResult(intent, SETTINGS_ACTIVITY_REQUEST_CODE);
+            return true;
+        } else if (item.getItemId() == R.id.pencil) {
+            putPencilMarks = true;
         }
+
         return super.onOptionsItemSelected(item);
     }
 

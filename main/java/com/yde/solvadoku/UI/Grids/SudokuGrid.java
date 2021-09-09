@@ -66,6 +66,21 @@ public class SudokuGrid extends SquareGrid {
         }
     }
 
+    /**
+     * Repaints sudoku puzzle on click of 'reset puzzle'
+     */
+    public void resetSudoku() {
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                unit[i][j].setText(R.string.empty);
+                unit[i][j].setEnabled(true);
+                unit[i][j].setText(R.string.empty);
+                switchBackground(unit[i][j], CLEAR);
+                switchTextColor(unit[i][j], INPUT);
+            }
+        }
+    }
+
     public SudokuGrid(Context context, AttributeSet attrs) {
         super(context, attrs);
         isLegalPuzzle = true;
