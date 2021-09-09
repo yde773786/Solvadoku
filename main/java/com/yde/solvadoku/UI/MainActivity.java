@@ -31,12 +31,14 @@ import com.yde.solvadoku.UI.Grids.SudokuGrid;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int SETTINGS_ACTIVITY_REQUEST_CODE = 0;
     private TextView[][] unit;
-    private Button partial;
+    private boolean isInitialBoard;
+    private ArrayList<int[]> initialBoard;
     private Button solve;
     private SudokuGrid sudokuGrid;
     private Button checkSteps;
@@ -59,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         putPencilMarks = false;
+        isInitialBoard = true;
+        AtomicReference<ArrayList<TextView>> solvedBoard = new AtomicReference<>(new ArrayList<>());
+        initialBoard = new ArrayList<>();
         sudokuGrid = findViewById(R.id.gridLayout);
         unit = sudokuGrid.getUnit();
 
@@ -93,20 +98,24 @@ public class MainActivity extends AppCompatActivity {
                         "Claiming Pair", "Hidden Pair", "Naked Triple", "Hidden Triple", "X-Wing", "Swordfish", "Jellyfish",
                         "Naked Quad", "Hidden Quad", "Finned X-Wing", "Finned Swordfish", "Finned Jellyfish", "Brute Force"};
                 boolean[] previous = new boolean[logics.length];
+
                 for (int i = 0; i < logics.length; i++) {
                     if (checkedItems.contains(logics[i])) {
                         previous[i] = true;
                     }
                 }
+
+                puzzle = new Cell[9][9];
+
                 builder.setCustomTitle(customTitle).setMultiChoiceItems(logics, previous, (dialogInterface, i, isChecked) -> {
                     if (isChecked) {
                         checkedItems.add(logics[i]);
                     } else checkedItems.remove(logics[i]);
                 })
                         .setPositiveButton(R.string.solve, (dialogInterface, x) -> {
+
                             if (sudokuGrid.getIsLegalPuzzle()) {
                                 checkSteps.setEnabled(true);
-                                puzzle = new Cell[9][9];
                                 Sudoku.cellCount = 0;
 
                                 for (int i = 0; i < 9; i++) {
@@ -115,20 +124,38 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 }
 
-                                for (int i = 0; i < 9; i++) {
-                                    for (int j = 0; j < 9; j++) {
-                                        if (sudokuGrid.hasValue(unit[i][j])) {
-                                            Sudoku.placeNumber(puzzle, i, j, value(unit[i][j]));
+                                // Finds initial board pieces (Runs first time only)
+                                if (isInitialBoard) {
+                                    for (int i = 0; i < 9; i++) {
+                                        for (int j = 0; j < 9; j++) {
+                                            if (sudokuGrid.hasValue(unit[i][j])) {
+                                                initialBoard.add(new int[]{i, j});
+                                            }
                                         }
                                     }
+
+                                    isInitialBoard = false;
                                 }
+
+                                // Places the initial board on every solve click
+                                for (int[] index : initialBoard) {
+                                    Sudoku.placeNumber(puzzle, index[0], index[1], value(unit[index[0]][index[1]]));
+                                }
+
+                                // Remove previously solved cells (As checked strategies may have different results
+                                for (TextView textView : solvedBoard.get()) {
+                                    sudokuGrid.switchBackground(textView, sudokuGrid.CLEAR);
+                                    textView.setText(R.string.empty);
+                                }
+                                solvedBoard.set(new ArrayList<>());
 
                                 Sudoku.resetSudoku();
                                 Sudoku.partiallySolve(puzzle, checkedItems);
 
                                 for (int i = 0; i < 9; i++) {
                                     for (int j = 0; j < 9; j++) {
-                                        if (!sudokuGrid.hasValue(unit[i][j]) && puzzle[i][j].getSolution() != 0) {
+                                        if (!sudokuGrid.hasValue(unit[i][j]) && puzzle[i][j].getSolution() != 0) { // Just solved cell
+                                            solvedBoard.get().add(unit[i][j]);
                                             sudokuGrid.switchBackground(unit[i][j], sudokuGrid.DISABLED);
                                             sudokuGrid.switchTextColor(unit[i][j], sudokuGrid.SOLVED);
                                             unit[i][j].setText(String.valueOf(puzzle[i][j].getSolution()));
@@ -140,6 +167,7 @@ public class MainActivity extends AppCompatActivity {
                                 if (Sudoku.cellCount == 81) {
                                     solve.setEnabled(false);
                                 }
+
                             } else {
                                 Toast.makeText(MainActivity.this, R.string.invalid_input, Toast.LENGTH_LONG).show();
                             }
@@ -203,7 +231,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 solve.setEnabled(true);
-                partial.setEnabled(true);
                 checkSteps.setEnabled(false);
                 invalidateOptionsMenu();
                 return true;
