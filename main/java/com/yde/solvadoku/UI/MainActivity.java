@@ -32,7 +32,6 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final int SETTINGS_ACTIVITY_REQUEST_CODE = 0;
     private TextView[][] unit;
     private boolean isInitialBoard;
     private ArrayList<int[]> initialBoard;
@@ -41,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
     private Button checkSteps;
     Cell[][] puzzle = new Cell[9][9];
     Button[] keypad = new Button[9];
-    private static final float actualFontSize = 25;
     private static boolean putPencilMarks;
     final ArrayList<String> checkedItems = new ArrayList<>();
 
@@ -215,30 +213,13 @@ public class MainActivity extends AppCompatActivity {
             isInitialBoard = true;
         } else if (item.getItemId() == R.id.about) {
             Intent intent = new Intent(MainActivity.this, AboutActivity.class);
-            intent.putExtra("input", putPencilMarks);
-            startActivityForResult(intent, SETTINGS_ACTIVITY_REQUEST_CODE);
+            startActivity(intent);
             return true;
         } else if (item.getItemId() == R.id.pencil) {
             putPencilMarks = true;
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == SETTINGS_ACTIVITY_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                assert data != null;
-                putPencilMarks = data.getBooleanExtra("key", true);
-                gridAsNecessary();
-            }
-        }
-    }
-
-    private void gridAsNecessary() {
-
     }
 
 }
