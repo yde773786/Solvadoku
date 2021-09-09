@@ -210,6 +210,9 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.action_clear_all) {
             initialBoard = new ArrayList<>();
             sudokuGrid.resetSudoku();
+            solve.setEnabled(true);
+            checkedItems.clear();
+            isInitialBoard = true;
         } else if (item.getItemId() == R.id.about) {
             Intent intent = new Intent(MainActivity.this, AboutActivity.class);
             intent.putExtra("input", putPencilMarks);
