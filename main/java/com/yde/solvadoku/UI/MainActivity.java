@@ -3,6 +3,9 @@ package com.yde.solvadoku.UI;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
@@ -17,6 +20,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -43,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private static boolean putPencilMarks;
     final ArrayList<String> checkedItems = new ArrayList<>();
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                         .setPositiveButton(R.string.solve, (dialogInterface, x) -> {
 
                             if (sudokuGrid.getIsLegalPuzzle()) {
-                                checkSteps.setEnabled(true);
+                                setEnabledSudokuButton(checkSteps, true);
                                 Sudoku.cellCount = 0;
 
                                 for (int i = 0; i < 9; i++) {
@@ -160,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
                                 }
 
                                 if (Sudoku.cellCount == 81) {
-                                    solve.setEnabled(false);
+                                    setEnabledSudokuButton(solve, false);
                                 }
 
                             } else {
@@ -178,7 +183,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         checkSteps = findViewById(R.id.check_steps);
-        checkSteps.setEnabled(false);
+        setEnabledSudokuButton(checkSteps, false);
+
         checkSteps.setOnClickListener(view -> {
             ArrayList<String[]> viewHolderList = Sudoku.viewHolderList;
             if (viewHolderList.size() != 0) {
@@ -208,8 +214,9 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.action_clear_all) {
             initialBoard = new ArrayList<>();
             sudokuGrid.resetSudoku();
-            solve.setEnabled(true);
+            setEnabledSudokuButton(solve, true);
             checkedItems.clear();
+            setEnabledSudokuButton(checkSteps, false);
             isInitialBoard = true;
         } else if (item.getItemId() == R.id.about) {
             Intent intent = new Intent(MainActivity.this, AboutActivity.class);
@@ -220,6 +227,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setEnabledSudokuButton(Button button, boolean isEnabled) {
+        button.setEnabled(isEnabled);
+        if (isEnabled) {
+            button.setBackgroundResource(R.drawable.button_enabled);
+        } else {
+            button.setBackgroundResource(R.drawable.button_unabled);
+        }
     }
 
 }
