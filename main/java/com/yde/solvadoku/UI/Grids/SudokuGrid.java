@@ -302,6 +302,7 @@ public class SudokuGrid extends SquareGrid {
      */
     public void giveNextCellFocus() {
         int[] index = cellToIndex.get(focusedCell);
+        switchBackground(focusedCell, getCurrentState(focusedCell));
         assert index != null;
         int i = index[0], j = index[1] + 1;
         if (j / 9 == 1) {

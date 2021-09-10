@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
 
         next = findViewById(R.id.next);
         next.setOnClickListener(view -> {
-
+            sudokuGrid.giveNextCellFocus();
         });
 
         checkSteps = findViewById(R.id.check_steps);
