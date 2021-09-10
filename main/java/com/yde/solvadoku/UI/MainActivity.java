@@ -73,8 +73,11 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < keypad.length; i++) {
             final int finalI = i;
             keypad[i].setOnClickListener(view -> {
-                sudokuGrid.setFocusedValue(getString(R.string.cell_focus_value, finalI + 1));
-                sudokuGrid.giveNextCellFocus();
+                if (sudokuGrid.setFocusedValue(getString(R.string.cell_focus_value, finalI + 1))) {
+                    sudokuGrid.giveNextCellFocus();
+                } else {
+                    Toast.makeText(MainActivity.this, R.string.select_cell, Toast.LENGTH_SHORT).show();
+                }
             });
 
             keypad[i].setOnTouchListener((view, event) -> {
@@ -171,14 +174,14 @@ public class MainActivity extends AppCompatActivity {
                                 }
 
                             } else {
-                                Toast.makeText(MainActivity.this, R.string.invalid_input, Toast.LENGTH_LONG).show();
+                                Toast.makeText(MainActivity.this, R.string.invalid_input, Toast.LENGTH_SHORT).show();
                             }
                         });
 
                 AlertDialog dialog = builder.create();
                 dialog.show();
             } else {
-                Toast.makeText(MainActivity.this, R.string.invalid_input, Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, R.string.invalid_input, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -202,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("CheckSteps", viewHolderList);
                 startActivity(intent);
             } else
-                Toast.makeText(MainActivity.this, R.string.no_effect, Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, R.string.no_effect, Toast.LENGTH_SHORT).show();
         });
 
     }
@@ -226,6 +229,7 @@ public class MainActivity extends AppCompatActivity {
             sudokuGrid.resetSudoku();
             setEnabledSudokuButton(solve, true);
             checkedItems.clear();
+            sudokuGrid.resetFocusedCell();
             setEnabledSudokuButton(checkSteps, false);
             isInitialBoard = true;
         } else if (item.getItemId() == R.id.about) {

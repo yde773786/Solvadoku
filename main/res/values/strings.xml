@@ -7,6 +7,7 @@
     <string name="pop_up_title">Choose Strategies</string>
     <string name="invalid_input">Invalid input</string>
     <string name="no_effect">The chosen strategies had no effect on the puzzle</string>
+    <string name="select_cell">Select a cell to enter input</string>
     <string name="no_strat_chosen">Choose at least one strategy</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>

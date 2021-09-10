@@ -145,12 +145,22 @@ public class SudokuGrid extends SquareGrid {
      * Set the focused cell as value inputted.
      *
      * @param value Value of focused cell required
+     * @return If value set successfully ( returns false if focused cell is null)
      */
-    public void setFocusedValue(String value) {
+    public boolean setFocusedValue(String value) {
         if (focusedCell != null) {
             focusedCell.setText(value);
             paintErrors();
+            return true;
         }
+        return false;
+    }
+
+    /**
+     * Makes all cells unfocused
+     */
+    public void resetFocusedCell() {
+        focusedCell = null;
     }
 
     /**
