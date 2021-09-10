@@ -2,13 +2,13 @@ package com.yde.solvadoku.UI.Grids;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.widget.TextView;
 
 import androidx.gridlayout.widget.GridLayout;
 import com.yde.solvadoku.R;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Objects;
