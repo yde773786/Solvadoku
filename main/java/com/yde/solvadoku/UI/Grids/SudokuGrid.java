@@ -2,6 +2,7 @@ package com.yde.solvadoku.UI.Grids;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import java.util.Set;
 public class SudokuGrid extends SquareGrid {
 
     private final HashMap<TextView, int[]> cellToState = new HashMap<>();
+    private final HashMap<TextView, int[]> cellToIndex = new HashMap<>();
     private final TextView[][] unit;
     private boolean isLegalPuzzle;
     private boolean[][] isError;
@@ -49,6 +51,7 @@ public class SudokuGrid extends SquareGrid {
                 textView.setGravity(Gravity.CENTER);
 
                 addCellToState(textView, i, j);
+                cellToIndex.put(textView, new int[]{i, j});
 
                 textView.setOnClickListener(view -> {
                     if (focusedCell != null) {
@@ -292,5 +295,19 @@ public class SudokuGrid extends SquareGrid {
 
     public boolean getIsLegalPuzzle() {
         return isLegalPuzzle;
+    }
+
+    /**
+     * Gives the adjacent to currently focused cell focus.
+     */
+    public void giveNextCellFocus() {
+        int[] index = cellToIndex.get(focusedCell);
+        assert index != null;
+        int i = index[0], j = index[1] + 1;
+        if (j / 9 == 1) {
+            i += 1;
+        }
+        focusedCell = unit[i % 9][j % 9];
+        switchBackground(focusedCell, SELECTED);
     }
 }

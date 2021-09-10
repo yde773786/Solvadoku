@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     private Button solve;
     private SudokuGrid sudokuGrid;
     private Button checkSteps;
+    private ImageButton next;
+    private ImageButton erase;
     Cell[][] puzzle = new Cell[9][9];
     Button[] keypad = new Button[9];
     private static boolean putPencilMarks;
@@ -69,8 +73,10 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i = 0; i < keypad.length; i++) {
             final int finalI = i;
-            keypad[i].setOnClickListener(view ->
-                    sudokuGrid.setFocusedValue(getString(R.string.cell_focus_value, finalI + 1)));
+            keypad[i].setOnClickListener(view -> {
+                sudokuGrid.setFocusedValue(getString(R.string.cell_focus_value, finalI + 1));
+                sudokuGrid.giveNextCellFocus();
+            });
 
             keypad[i].setOnTouchListener((view, event) -> {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -172,11 +178,19 @@ public class MainActivity extends AppCompatActivity {
 
                 AlertDialog dialog = builder.create();
                 dialog.show();
-
-
             } else {
                 Toast.makeText(MainActivity.this, R.string.invalid_input, Toast.LENGTH_LONG).show();
             }
+        });
+
+        erase = findViewById(R.id.erase);
+        erase.setOnClickListener(view -> {
+            sudokuGrid.setFocusedValue(getString(R.string.empty));
+        });
+
+        next = findViewById(R.id.next);
+        next.setOnClickListener(view -> {
+
         });
 
         checkSteps = findViewById(R.id.check_steps);
