@@ -2,10 +2,13 @@ package com.yde.solvadoku.UI.Grids;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.widget.TextView;
 
 import androidx.gridlayout.widget.GridLayout;
 
 public class SquareGrid extends GridLayout {
+
+    public TextView[][] unit;
 
     public SquareGrid(Context context) {
         super(context);

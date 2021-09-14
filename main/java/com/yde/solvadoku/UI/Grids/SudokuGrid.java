@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.gridlayout.widget.GridLayout;
@@ -18,7 +19,6 @@ public class SudokuGrid extends SquareGrid {
 
     private final HashMap<TextView, int[]> cellToState = new HashMap<>();
     private final HashMap<TextView, int[]> cellToIndex = new HashMap<>();
-    private final TextView[][] unit;
     private boolean isLegalPuzzle;
     private boolean[][] isError;
     public final int CLEAR = 0, DISABLED = 1, SELECTED = 2, INVALID = 3, CURRENT = 4;
@@ -37,16 +37,19 @@ public class SudokuGrid extends SquareGrid {
      * TextViews with required functionality and backgrounds
      */
     private void paintSudoku() {
+
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                final TextView textView = (TextView) LayoutInflater.from(getContext()).inflate(R.layout.sudoku_cell, null);
-                textView.setWidth(0);
-                textView.setHeight(0);
+                RelativeLayout cellGrid = (RelativeLayout) LayoutInflater.from(getContext()).inflate(R.layout.cell_grid, null);
 
                 GridLayout.LayoutParams gridParams = new GridLayout.LayoutParams(
                         GridLayout.spec(i, 0.11f), GridLayout.spec(j, 0.11f)
                 );
-                textView.setLayoutParams(gridParams);
+                gridParams.height = 0;
+                gridParams.width = 0;
+                cellGrid.setLayoutParams(gridParams);
+
+                TextView textView = cellGrid.findViewById(R.id.main_display);
                 textView.setTextSize(25);
                 textView.setGravity(Gravity.CENTER);
 
@@ -62,9 +65,8 @@ public class SudokuGrid extends SquareGrid {
                 });
 
                 unit[i][j] = textView;
-                addView(textView, i + j);
-
                 switchBackground(textView, CLEAR);
+                addView(cellGrid, i + j);
             }
         }
     }
