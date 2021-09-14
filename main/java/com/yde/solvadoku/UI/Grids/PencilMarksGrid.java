@@ -2,10 +2,13 @@ package com.yde.solvadoku.UI.Grids;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.gridlayout.widget.GridLayout;
+
+import com.yde.solvadoku.R;
 
 public class PencilMarksGrid extends SquareGrid {
 
@@ -31,8 +34,8 @@ public class PencilMarksGrid extends SquareGrid {
      * Paints the pencil marks grid
      */
     public void paintPencilMarks() {
-        for (int i = 0; i < 9; i++) {
-            for (int j = 0; j < 9; j++) {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
                 TextView textView = new TextView(getContext());
                 textView.setWidth(0);
                 textView.setHeight(0);
@@ -40,6 +43,10 @@ public class PencilMarksGrid extends SquareGrid {
                         GridLayout.spec(i, 0.33f), GridLayout.spec(j, 0.33f)
                 );
                 textView.setLayoutParams(gridParams);
+                textView.setTextSize(9);
+                textView.setText(i * 3 + j + 1 + "");
+                textView.setGravity(Gravity.CENTER);
+                addView(textView, i + j);
             }
         }
     }
