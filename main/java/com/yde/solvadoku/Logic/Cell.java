@@ -118,24 +118,4 @@ public class Cell {
         return (solution == 0);
     } // end of boolean isNotSet()
 
-    /**
-     * Method to generate a String of the candidates for the cell.
-     *
-     * @return A String containing the possible solutions for the cell.
-     */
-    public String listCandidates() {
-        StringBuilder s = new StringBuilder();
-        for (int i = 0; i < 9; i++) {
-            if (candidates[i]) {
-                s.append(i + 1);
-            } else
-                s.append(" ");
-            if ((i + 1) % 3 == 0) {
-                s.append('\n');
-            } else
-                s.append(" ");
-        }
-        return s.toString();
-    } // end of String listCandidates()
-
 }// end of class Cell
