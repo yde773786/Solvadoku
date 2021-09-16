@@ -73,6 +73,8 @@ public class PencilMarksGrid extends SquareGrid {
             for (int j = 0; j < 3; j++) {
                 if (cell.isCandidate(i * 3 + j + 1)) {
                     unit[i][j].setText(String.valueOf(i * 3 + j + 1));
+                } else {
+                    unit[i][j].setText(R.string.empty);
                 }
             }
         }

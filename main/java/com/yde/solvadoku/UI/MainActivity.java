@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private Button checkSteps;
     private ImageButton next;
     private ImageButton erase;
-    Cell[][] puzzle = new Cell[9][9];
+    Cell[][] puzzle;
     Button[] keypad = new Button[9];
     private static boolean putPencilMarks;
     final ArrayList<String> checkedItems = new ArrayList<>();
@@ -166,6 +166,12 @@ public class MainActivity extends AppCompatActivity {
                                             unit[i][j].setText(String.valueOf(puzzle[i][j].getSolution()));
                                         }
                                         unit[i][j].setEnabled(false);
+
+                                        if (putPencilMarks && !sudokuGrid.hasValue(unit[i][j])) {
+                                            sudokuGrid.pencilDisplay(puzzle[i][j], i, j);
+                                        } else {
+                                            sudokuGrid.pencilClear(i, j);
+                                        }
                                     }
                                 }
 
@@ -237,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             return true;
         } else if (item.getItemId() == R.id.pencil) {
-            putPencilMarks = true;
+            putPencilMarks = !putPencilMarks;
         }
 
         return super.onOptionsItemSelected(item);

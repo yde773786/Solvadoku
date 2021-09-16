@@ -8,6 +8,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.gridlayout.widget.GridLayout;
+
+import com.yde.solvadoku.Logic.Cell;
 import com.yde.solvadoku.R;
 
 import java.util.HashMap;
@@ -21,6 +23,7 @@ public class SudokuGrid extends SquareGrid {
     private final HashMap<TextView, int[]> cellToIndex = new HashMap<>();
     private boolean isLegalPuzzle;
     private boolean[][] isError;
+    PencilMarksGrid[][] pencilMarksGrids;
     public final int CLEAR = 0, DISABLED = 1, SELECTED = 2, INVALID = 3, CURRENT = 4;
     public final int SOLVED = R.color.colorDeepBlue, INPUT = R.color.colorBlack;
     private TextView focusedCell;
@@ -28,6 +31,7 @@ public class SudokuGrid extends SquareGrid {
     public SudokuGrid(Context context) {
         super(context);
         unit = new TextView[9][9];
+        pencilMarksGrids = new PencilMarksGrid[9][9];
         isLegalPuzzle = true;
         paintSudoku();
     }
@@ -65,6 +69,7 @@ public class SudokuGrid extends SquareGrid {
                 });
 
                 unit[i][j] = textView;
+                pencilMarksGrids[i][j] = cellGrid.findViewById(R.id.add_display);
                 switchBackground(textView, CLEAR);
                 addView(cellGrid, i + j);
             }
@@ -89,6 +94,7 @@ public class SudokuGrid extends SquareGrid {
     public SudokuGrid(Context context, AttributeSet attrs) {
         super(context, attrs);
         isLegalPuzzle = true;
+        pencilMarksGrids = new PencilMarksGrid[9][9];
         unit = new TextView[9][9];
         paintSudoku();
     }
@@ -96,6 +102,7 @@ public class SudokuGrid extends SquareGrid {
     public SudokuGrid(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         unit = new TextView[9][9];
+        pencilMarksGrids = new PencilMarksGrid[9][9];
         isLegalPuzzle = true;
         paintSudoku();
     }
@@ -152,7 +159,7 @@ public class SudokuGrid extends SquareGrid {
     public boolean setFocusedValue(String value) {
         if (focusedCell != null) {
             focusedCell.setText(value);
-            paintErrors();
+            paintUpdate();
             return true;
         }
         return false;
@@ -175,9 +182,9 @@ public class SudokuGrid extends SquareGrid {
     }
 
     /**
-     * Paints the row, column or block with invalid input, if any.
+     * Paints the row, column or block as per current condition of board
      */
-    private void paintErrors() {
+    private void paintUpdate() {
         isLegalPuzzle = true;
         isError = new boolean[9][9];
 
@@ -196,6 +203,27 @@ public class SudokuGrid extends SquareGrid {
                 }
             }
         }
+    }
+
+    /**
+     * Displays pencil marks of current location
+     *
+     * @param cell Cell at current location
+     * @param i    row index
+     * @param j    column index
+     */
+    public void pencilDisplay(Cell cell, int i, int j) {
+        pencilMarksGrids[i][j].insertPencilMarks(cell);
+    }
+
+    /**
+     * Clears pencil marks at location
+     *
+     * @param i row index
+     * @param j column index
+     */
+    public void pencilClear(int i, int j) {
+        pencilMarksGrids[i][j].clearPencilMarks();
     }
 
     /**
