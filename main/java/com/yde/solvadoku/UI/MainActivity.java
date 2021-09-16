@@ -3,6 +3,7 @@ package com.yde.solvadoku.UI;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
@@ -227,6 +228,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
@@ -243,7 +245,11 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             return true;
         } else if (item.getItemId() == R.id.pencil) {
-            putPencilMarks = !putPencilMarks;
+            if (putPencilMarks = !putPencilMarks) {
+                item.getIcon().setColorFilter(getColor(R.color.colorBlack), PorterDuff.Mode.MULTIPLY);
+            } else {
+                item.getIcon().setColorFilter(getColor(R.color.colorWhite), PorterDuff.Mode.MULTIPLY);
+            }
         }
 
         return super.onOptionsItemSelected(item);
