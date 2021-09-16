@@ -12,7 +12,7 @@
         android:id="@+id/other"
         android:title="@string/other"
         app:showAsAction="always"
-        android:icon="@drawable/ic_overflow">
+        android:icon="@drawable/ic_about_icon">
 
         <menu>
             <item

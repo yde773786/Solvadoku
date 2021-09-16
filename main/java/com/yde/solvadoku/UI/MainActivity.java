@@ -257,11 +257,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setEnabledSudokuButton(Button button, boolean isEnabled) {
         button.setEnabled(isEnabled);
-        if (isEnabled) {
-            button.setBackgroundResource(R.drawable.button_enabled);
-        } else {
-            button.setBackgroundResource(R.drawable.button_unabled);
-        }
+        button.setAlpha(isEnabled ? 1.0f : 0.4f);
     }
 
 }
