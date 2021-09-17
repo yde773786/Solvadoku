@@ -1,6 +1,7 @@
 package com.yde.solvadoku.UI.Grids;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ public class SudokuGrid extends SquareGrid {
 
     private final HashMap<TextView, int[]> cellToState = new HashMap<>();
     private final HashMap<TextView, int[]> cellToIndex = new HashMap<>();
+    private HashMap<String, Typeface> fontCache = new HashMap<String, Typeface>();
     private boolean isLegalPuzzle;
     private boolean[][] isError;
     PencilMarksGrid[][] pencilMarksGrids;
@@ -42,6 +44,9 @@ public class SudokuGrid extends SquareGrid {
      */
     private void paintSudoku() {
 
+        final String text_font = "majormono.ttf";
+        final int text_color = getResources().getColor(R.color.sudoku_board_number);
+
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 RelativeLayout cellGrid = (RelativeLayout) LayoutInflater.from(getContext()).inflate(R.layout.cell_grid, null);
@@ -54,8 +59,10 @@ public class SudokuGrid extends SquareGrid {
                 cellGrid.setLayoutParams(gridParams);
 
                 TextView textView = cellGrid.findViewById(R.id.main_display);
-                textView.setTextSize(25);
+                textView.setTextSize(27);
                 textView.setGravity(Gravity.CENTER);
+                textView.setTypeface(getTypeface(text_font));
+                textView.setTextColor(text_color);
 
                 addCellToState(textView, i, j);
                 cellToIndex.put(textView, new int[]{i, j});
@@ -74,6 +81,32 @@ public class SudokuGrid extends SquareGrid {
                 addView(cellGrid, i + j);
             }
         }
+    }
+
+    /**
+     * Method to get the Typeface from the cache
+     * If Typeface does not exist in cache, it will retrieve it from the
+     * assets folder and add it to the cache
+     *
+     * @param font_name name of the Typeface
+     *
+     * @return the requested Typeface if it is present in assets, else return default Typeface.
+     */
+    private Typeface getTypeface(String font_name) {
+        // Attempting to get the Typeface from the fontCache.
+        Typeface tf = fontCache.get(font_name);
+        // If the requested Typeface does not exist in cache, add it from the assets folder.
+        if(tf == null) {
+            try {
+                tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/"+font_name);
+            }
+            catch (Exception e) {
+                // returning the default system typeface.
+                return Typeface.DEFAULT;
+            }
+            fontCache.put(font_name, tf);
+        }
+        return tf;
     }
 
     /**
@@ -341,14 +374,22 @@ public class SudokuGrid extends SquareGrid {
      * Gives the adjacent to currently focused cell focus.
      */
     public void giveNextCellFocus() {
-        int[] index = cellToIndex.get(focusedCell);
+        int row, col;
+        int[] focused_cell_index = cellToIndex.get(focusedCell);
         switchBackground(focusedCell, getCurrentState(focusedCell));
-        assert index != null;
-        int i = index[0], j = index[1] + 1;
-        if (j / 9 == 1) {
-            i += 1;
-        }
-        focusedCell = unit[i % 9][j % 9];
+
+        assert focused_cell_index != null;
+
+        row = focused_cell_index[0];
+        col = focused_cell_index[1];
+
+        // Moving to the next column.
+        col++;
+        // If the next column goes beyond the number of columns in the board, go to next row.
+        if(col % 9 == 0)
+            row++;
+
+        focusedCell = unit[row % 9][col % 9];
         switchBackground(focusedCell, SELECTED);
     }
 }
