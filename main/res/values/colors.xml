@@ -16,5 +16,6 @@
     <color name="colorDeepBlue">#186CB3</color>
     <color name="corebtn">#4B926D</color>
     <color name="reset">#C14D5B</color>
+    <color name="sudoku_board_number">#171717</color>
 
 </resources>
