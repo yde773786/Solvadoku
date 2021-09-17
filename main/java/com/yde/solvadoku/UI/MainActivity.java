@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private Button solve;
     private SudokuGrid sudokuGrid;
     private Button checkSteps;
+    private MenuItem pencilMenu;
     private ImageButton next;
     private ImageButton erase;
     Cell[][] puzzle;
@@ -130,6 +131,9 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 }
 
+                                setEnabledEditingButtons(false);
+                                pencilMenu.setVisible(true);
+
                                 // Finds initial board pieces (Runs first time only)
                                 if (isInitialBoard) {
                                     for (int i = 0; i < 9; i++) {
@@ -167,12 +171,6 @@ public class MainActivity extends AppCompatActivity {
                                             unit[i][j].setText(String.valueOf(puzzle[i][j].getSolution()));
                                         }
                                         unit[i][j].setEnabled(false);
-
-                                        if (putPencilMarks && !sudokuGrid.hasValue(unit[i][j])) {
-                                            sudokuGrid.pencilDisplay(puzzle[i][j], i, j);
-                                        } else {
-                                            sudokuGrid.pencilClear(i, j);
-                                        }
                                     }
                                 }
 
@@ -225,6 +223,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.settings, menu);
+        pencilMenu = menu.findItem(R.id.pencil);
+        pencilMenu.setVisible(false);
         return true;
     }
 
@@ -235,10 +235,23 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.action_clear_all) {
             initialBoard = new ArrayList<>();
             sudokuGrid.resetSudoku();
+
             setEnabledSudokuButton(solve, true);
+            setEnabledEditingButtons(true);
+            pencilMenu.setVisible(false);
+
             checkedItems.clear();
             sudokuGrid.resetFocusedCell();
             setEnabledSudokuButton(checkSteps, false);
+
+            if (putPencilMarks) {
+                for (int i = 0; i < 9; i++) {
+                    for (int j = 0; j < 9; j++) {
+                        sudokuGrid.pencilClear(i, j);
+                    }
+                }
+            }
+
             isInitialBoard = true;
         } else if (item.getItemId() == R.id.about) {
             Intent intent = new Intent(MainActivity.this, AboutActivity.class);
@@ -250,6 +263,16 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 item.getIcon().setColorFilter(getColor(R.color.colorWhite), PorterDuff.Mode.MULTIPLY);
             }
+
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    if (putPencilMarks && !sudokuGrid.hasValue(unit[i][j])) {
+                        sudokuGrid.pencilDisplay(puzzle[i][j], i, j);
+                    } else {
+                        sudokuGrid.pencilClear(i, j);
+                    }
+                }
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -258,6 +281,14 @@ public class MainActivity extends AppCompatActivity {
     private void setEnabledSudokuButton(Button button, boolean isEnabled) {
         button.setEnabled(isEnabled);
         button.setAlpha(isEnabled ? 1.0f : 0.4f);
+    }
+
+    private void setEnabledEditingButtons(boolean isEnabled) {
+        for (Button key : keypad) {
+            key.setEnabled(isEnabled);
+        }
+        next.setEnabled(isEnabled);
+        erase.setEnabled(isEnabled);
     }
 
 }
