@@ -5,10 +5,10 @@
         android:right="1dp"
         android:top="1dp">
         <shape android:shape="rectangle">
-            <solid android:color="@color/corebtn" />
+            <solid android:color="@color/stepsButton" />
             <corners
-                android:bottomLeftRadius="12dp"
-                android:topLeftRadius="12dp" />
+                android:bottomRightRadius="12dp"
+                android:topRightRadius="12dp" />
         </shape>
     </item>
 </layer-list>

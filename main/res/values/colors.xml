@@ -5,6 +5,7 @@
     <color name="colorAccent">#D81B60</color>
     <color name="colorPrimaryDark">#1C1C1C</color>
     <color name="colorGrey">#D3D3D3</color>
+    <color name="stepsButton">#316248</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="secondarybtn">#282830</color>
     <color name="colorBlack">#000000</color>
