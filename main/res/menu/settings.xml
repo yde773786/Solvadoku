@@ -9,23 +9,9 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/other"
-        android:title="@string/other"
+        android:id="@+id/about"
+        android:title="@string/about_menu"
         app:showAsAction="always"
-        android:icon="@drawable/ic_about_icon">
-
-        <menu>
-            <item
-                android:id="@+id/action_clear_all"
-                android:title="@string/clear_all"
-                app:showAsAction="never" />
-
-            <item
-                android:id="@+id/about"
-                android:title="@string/about_menu"
-                app:showAsAction="never" />
-        </menu>
-
-    </item>
+        android:icon="@drawable/ic_about_icon" />
 
 </menu>

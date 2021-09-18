@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private Button checkSteps;
     private MenuItem pencilMenu;
     private ImageButton next;
+    private ImageButton reset;
     private ImageButton erase;
     Cell[][] puzzle;
     Button[] keypad = new Button[9];
@@ -92,9 +93,34 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
+        reset = findViewById(R.id.reset);
+        reset.setOnClickListener(view -> {
+            initialBoard = new ArrayList<>();
+            sudokuGrid.resetSudoku();
+
+            setEnabledSudokuButton(solve, true);
+            setEnabledEditingButtons(true);
+            pencilMenu.setVisible(false);
+
+            checkedItems.clear();
+            sudokuGrid.resetFocusedCell();
+            setEnabledSudokuButton(checkSteps, false);
+
+            if (putPencilMarks) {
+                for (int i = 0; i < 9; i++) {
+                    for (int j = 0; j < 9; j++) {
+                        sudokuGrid.pencilClear(i, j);
+                    }
+                }
+            }
+
+            isInitialBoard = true;
+        });
+
         solve = findViewById(R.id.solve);
         solve.setOnClickListener(view -> {
 
+            sudokuGrid.resetFocusedCell();
             if (sudokuGrid.getIsLegalPuzzle()) {
                 Context context = new ContextThemeWrapper(MainActivity.this, R.style.CustomDialog);
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -232,28 +258,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        if (item.getItemId() == R.id.action_clear_all) {
-            initialBoard = new ArrayList<>();
-            sudokuGrid.resetSudoku();
-
-            setEnabledSudokuButton(solve, true);
-            setEnabledEditingButtons(true);
-            pencilMenu.setVisible(false);
-
-            checkedItems.clear();
-            sudokuGrid.resetFocusedCell();
-            setEnabledSudokuButton(checkSteps, false);
-
-            if (putPencilMarks) {
-                for (int i = 0; i < 9; i++) {
-                    for (int j = 0; j < 9; j++) {
-                        sudokuGrid.pencilClear(i, j);
-                    }
-                }
-            }
-
-            isInitialBoard = true;
-        } else if (item.getItemId() == R.id.about) {
+        if (item.getItemId() == R.id.about) {
             Intent intent = new Intent(MainActivity.this, AboutActivity.class);
             startActivity(intent);
             return true;

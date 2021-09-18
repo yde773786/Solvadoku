@@ -235,7 +235,7 @@
                 app:layout_rowWeight="0.33" />
 
             <ImageButton
-                android:id="@+id/undo"
+                android:id="@+id/reset"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_margin="2dp"
