@@ -65,7 +65,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5"
-            app:columnCount="4"
+            app:columnCount="3"
             app:rowCount="4">
 
             <Button
