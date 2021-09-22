@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private Button checkSteps;
     private MenuItem pencilMenu;
     private ImageButton next;
+    private ImageButton steps;
     private ImageButton reset;
     private ImageButton erase;
     Cell[][] puzzle;
@@ -69,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         initialBoard = new ArrayList<>();
         sudokuGrid = findViewById(R.id.gridLayout);
         unit = sudokuGrid.getUnit();
+        puzzle = new Cell[9][9];
 
         keypad = new Button[]{findViewById(R.id.one), findViewById(R.id.two), findViewById(R.id.three), findViewById(R.id.four),
                 findViewById(R.id.five), findViewById(R.id.six), findViewById(R.id.seven), findViewById(R.id.eight), findViewById(R.id.nine)};
@@ -102,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
             setEnabledEditingButtons(true);
             pencilMenu.setVisible(false);
 
-            checkedItems.clear();
             sudokuGrid.resetFocusedCell();
             setEnabledSudokuButton(checkSteps, false);
 
@@ -117,100 +118,100 @@ public class MainActivity extends AppCompatActivity {
             isInitialBoard = true;
         });
 
+        steps = findViewById(R.id.steps);
+        steps.setOnClickListener(view -> {
+            Context context = new ContextThemeWrapper(MainActivity.this, R.style.CustomDialog);
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            LayoutInflater inflater = getLayoutInflater();
+            View customTitle = inflater.inflate(R.layout.custom_title, null);
+
+            final String[] logics = {"Naked Single", "Hidden Single", "Naked Pair", "Pointing Pair",
+                    "Claiming Pair", "Hidden Pair", "Naked Triple", "Hidden Triple", "X-Wing", "Swordfish", "Jellyfish",
+                    "Naked Quad", "Hidden Quad", "Finned X-Wing", "Finned Swordfish", "Finned Jellyfish", "Brute Force"};
+            boolean[] previous = new boolean[logics.length];
+
+            for (int i = 0; i < logics.length; i++) {
+                if (checkedItems.contains(logics[i])) {
+                    previous[i] = true;
+                }
+            }
+
+            builder.setCustomTitle(customTitle).setMultiChoiceItems(logics, previous, (dialogInterface, i, isChecked) -> {
+                if (isChecked) {
+                    checkedItems.add(logics[i]);
+                } else checkedItems.remove(logics[i]);
+            }).setPositiveButton(R.string.ok, (dialogInterface, x) -> {
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        });
+
         solve = findViewById(R.id.solve);
         solve.setOnClickListener(view -> {
 
-            sudokuGrid.resetFocusedCell();
             if (sudokuGrid.getIsLegalPuzzle()) {
-                Context context = new ContextThemeWrapper(MainActivity.this, R.style.CustomDialog);
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                LayoutInflater inflater = getLayoutInflater();
-                View customTitle = inflater.inflate(R.layout.custom_title, null);
+                setEnabledSudokuButton(checkSteps, true);
+                Sudoku.cellCount = 0;
 
-                final String[] logics = {"Naked Single", "Hidden Single", "Naked Pair", "Pointing Pair",
-                        "Claiming Pair", "Hidden Pair", "Naked Triple", "Hidden Triple", "X-Wing", "Swordfish", "Jellyfish",
-                        "Naked Quad", "Hidden Quad", "Finned X-Wing", "Finned Swordfish", "Finned Jellyfish", "Brute Force"};
-                boolean[] previous = new boolean[logics.length];
-
-                for (int i = 0; i < logics.length; i++) {
-                    if (checkedItems.contains(logics[i])) {
-                        previous[i] = true;
+                for (int i = 0; i < 9; i++) {
+                    for (int j = 0; j < 9; j++) {
+                        puzzle[i][j] = new Cell();
                     }
                 }
 
-                puzzle = new Cell[9][9];
+                setEnabledEditingButtons(false);
+                pencilMenu.setVisible(true);
 
-                builder.setCustomTitle(customTitle).setMultiChoiceItems(logics, previous, (dialogInterface, i, isChecked) -> {
-                    if (isChecked) {
-                        checkedItems.add(logics[i]);
-                    } else checkedItems.remove(logics[i]);
-                })
-                        .setPositiveButton(R.string.solve, (dialogInterface, x) -> {
-
-                            if (sudokuGrid.getIsLegalPuzzle()) {
-                                setEnabledSudokuButton(checkSteps, true);
-                                Sudoku.cellCount = 0;
-
-                                for (int i = 0; i < 9; i++) {
-                                    for (int j = 0; j < 9; j++) {
-                                        puzzle[i][j] = new Cell();
-                                    }
-                                }
-
-                                setEnabledEditingButtons(false);
-                                pencilMenu.setVisible(true);
-
-                                // Finds initial board pieces (Runs first time only)
-                                if (isInitialBoard) {
-                                    for (int i = 0; i < 9; i++) {
-                                        for (int j = 0; j < 9; j++) {
-                                            if (sudokuGrid.hasValue(unit[i][j])) {
-                                                initialBoard.add(new int[]{i, j});
-                                            }
-                                        }
-                                    }
-
-                                    isInitialBoard = false;
-                                }
-
-                                // Places the initial board on every solve click
-                                for (int[] index : initialBoard) {
-                                    Sudoku.placeNumber(puzzle, index[0], index[1], value(unit[index[0]][index[1]]));
-                                }
-
-                                // Remove previously solved cells (As checked strategies may have different results
-                                for (TextView textView : solvedBoard.get()) {
-                                    sudokuGrid.switchBackground(textView, sudokuGrid.CLEAR);
-                                    textView.setText(R.string.empty);
-                                }
-                                solvedBoard.set(new ArrayList<>());
-
-                                Sudoku.resetSolution();
-                                Sudoku.partiallySolve(puzzle, checkedItems);
-
-                                for (int i = 0; i < 9; i++) {
-                                    for (int j = 0; j < 9; j++) {
-                                        if (!sudokuGrid.hasValue(unit[i][j]) && puzzle[i][j].getSolution() != 0) { // Just solved cell
-                                            solvedBoard.get().add(unit[i][j]);
-                                            sudokuGrid.switchBackground(unit[i][j], sudokuGrid.DISABLED);
-                                            sudokuGrid.switchTextColor(unit[i][j], sudokuGrid.SOLVED);
-                                            unit[i][j].setText(String.valueOf(puzzle[i][j].getSolution()));
-                                        }
-                                        unit[i][j].setEnabled(false);
-                                    }
-                                }
-
-                                if (Sudoku.cellCount == 81) {
-                                    setEnabledSudokuButton(solve, false);
-                                }
-
-                            } else {
-                                Toast.makeText(MainActivity.this, R.string.invalid_input, Toast.LENGTH_SHORT).show();
+                // Finds initial board pieces (Runs first time only)
+                if (isInitialBoard) {
+                    for (int i = 0; i < 9; i++) {
+                        for (int j = 0; j < 9; j++) {
+                            if (sudokuGrid.hasValue(unit[i][j])) {
+                                initialBoard.add(new int[]{i, j});
                             }
-                        });
+                        }
+                    }
 
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                    isInitialBoard = false;
+                }
+
+                // Places the initial board on every solve click
+                for (int[] index : initialBoard) {
+                    Sudoku.placeNumber(puzzle, index[0], index[1], value(unit[index[0]][index[1]]));
+                }
+
+                // Remove previously solved cells (As checked strategies may have different results
+                for (TextView textView : solvedBoard.get()) {
+                    sudokuGrid.switchBackground(textView, sudokuGrid.CLEAR);
+                    textView.setText(R.string.empty);
+                }
+                solvedBoard.set(new ArrayList<>());
+
+                Sudoku.resetSolution();
+                Sudoku.partiallySolve(puzzle, checkedItems);
+
+                for (int i = 0; i < 9; i++) {
+                    for (int j = 0; j < 9; j++) {
+                        if (!sudokuGrid.hasValue(unit[i][j]) && puzzle[i][j].getSolution() != 0) { // Just solved cell
+                            solvedBoard.get().add(unit[i][j]);
+                            sudokuGrid.switchBackground(unit[i][j], sudokuGrid.DISABLED);
+                            sudokuGrid.switchTextColor(unit[i][j], sudokuGrid.SOLVED);
+                            unit[i][j].setText(String.valueOf(puzzle[i][j].getSolution()));
+                        }
+
+                        if (putPencilMarks && !sudokuGrid.hasValue(unit[i][j])) {
+                            sudokuGrid.pencilDisplay(puzzle[i][j], i, j);
+                        } else {
+                            sudokuGrid.pencilClear(i, j);
+                        }
+                        unit[i][j].setEnabled(false);
+                    }
+                }
+
+                if (Sudoku.cellCount == 81) {
+                    setEnabledSudokuButton(solve, false);
+                }
             } else {
                 Toast.makeText(MainActivity.this, R.string.invalid_input, Toast.LENGTH_SHORT).show();
             }
