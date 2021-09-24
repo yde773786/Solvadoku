@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView[][] unit;
     private boolean isInitialBoard;
-    private ArrayList<int[]> initialBoard;
+    private boolean[][] initialBoard;
     private Button solve;
     private SudokuGrid sudokuGrid;
     private Button checkSteps;
@@ -67,10 +67,10 @@ public class MainActivity extends AppCompatActivity {
         putPencilMarks = false;
         isInitialBoard = true;
         AtomicReference<ArrayList<TextView>> solvedBoard = new AtomicReference<>(new ArrayList<>());
-        initialBoard = new ArrayList<>();
         sudokuGrid = findViewById(R.id.gridLayout);
         unit = sudokuGrid.getUnit();
         puzzle = new Cell[9][9];
+        initialBoard = new boolean[9][9];
 
         keypad = new Button[]{findViewById(R.id.one), findViewById(R.id.two), findViewById(R.id.three), findViewById(R.id.four),
                 findViewById(R.id.five), findViewById(R.id.six), findViewById(R.id.seven), findViewById(R.id.eight), findViewById(R.id.nine)};
@@ -97,9 +97,8 @@ public class MainActivity extends AppCompatActivity {
 
         reset = findViewById(R.id.reset);
         reset.setOnClickListener(view -> {
-            initialBoard = new ArrayList<>();
             sudokuGrid.resetSudoku();
-
+            initialBoard = new boolean[9][9];
             setEnabledSudokuButton(solve, true);
             setEnabledEditingButtons(true);
             pencilMenu.setVisible(false);
@@ -168,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
                     for (int i = 0; i < 9; i++) {
                         for (int j = 0; j < 9; j++) {
                             if (sudokuGrid.hasValue(unit[i][j])) {
-                                initialBoard.add(new int[]{i, j});
+                                initialBoard[i][j] = true;
                             }
                         }
                     }
@@ -177,15 +176,14 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 // Places the initial board on every solve click
-                for (int[] index : initialBoard) {
-                    Sudoku.placeNumber(puzzle, index[0], index[1], value(unit[index[0]][index[1]]));
+                for (int i = 0; i < 9; i++) {
+                    for (int j = 0; j < 9; j++) {
+                        if (initialBoard[i][j]) {
+                            Sudoku.placeNumber(puzzle, i, j, value(unit[i][j]));
+                        }
+                    }
                 }
 
-                // Remove previously solved cells (As checked strategies may have different results
-                for (TextView textView : solvedBoard.get()) {
-                    sudokuGrid.switchBackground(textView, sudokuGrid.CLEAR);
-                    textView.setText(R.string.empty);
-                }
                 solvedBoard.set(new ArrayList<>());
 
                 Sudoku.resetSolution();
@@ -193,11 +191,17 @@ public class MainActivity extends AppCompatActivity {
 
                 for (int i = 0; i < 9; i++) {
                     for (int j = 0; j < 9; j++) {
-                        if (!sudokuGrid.hasValue(unit[i][j]) && puzzle[i][j].getSolution() != 0) { // Just solved cell
-                            solvedBoard.get().add(unit[i][j]);
-                            sudokuGrid.switchBackground(unit[i][j], sudokuGrid.DISABLED);
-                            sudokuGrid.switchTextColor(unit[i][j], sudokuGrid.SOLVED);
-                            unit[i][j].setText(String.valueOf(puzzle[i][j].getSolution()));
+
+                        if (!initialBoard[i][j]) {
+                            if (puzzle[i][j].getSolution() != 0) { // Just solved cell
+                                solvedBoard.get().add(unit[i][j]);
+                                sudokuGrid.switchBackground(unit[i][j], sudokuGrid.DISABLED);
+                                sudokuGrid.switchTextColor(unit[i][j], sudokuGrid.SOLVED);
+                                unit[i][j].setText(String.valueOf(puzzle[i][j].getSolution()));
+                            } else { // Previously solved cell
+                                sudokuGrid.switchBackground(unit[i][j], sudokuGrid.CLEAR);
+                                unit[i][j].setText(R.string.empty);
+                            }
                         }
 
                         if (putPencilMarks && !sudokuGrid.hasValue(unit[i][j])) {
