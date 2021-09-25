@@ -24,7 +24,7 @@
             android:fontFamily="@font/ralewaymed"
             android:text="@string/pop_up_title"
             android:textSize="25sp"
-            android:textColor="@color/colorGrey" />
+            android:textColor="@color/colorWhite" />
 
     </androidx.appcompat.widget.Toolbar>
 
