@@ -45,7 +45,7 @@ public class SudokuGrid extends SquareGrid {
     private void paintSudoku() {
 
         final String text_font = "majormono.ttf";
-        final int text_color = getResources().getColor(R.color.sudoku_board_number);
+        final int text_color = getResources().getColor(R.color.sudoku_board_numbers);
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
