@@ -211,7 +211,8 @@
                 android:layout_margin="2dp"
                 android:background="@drawable/keypad_unfocused"
                 android:backgroundTint="@color/corebtn"
-                android:padding="10dp"
+
+                android:padding="13dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_erase"
                 app:layout_column="1"
@@ -226,7 +227,8 @@
                 android:layout_margin="2dp"
                 android:background="@drawable/keypad_unfocused"
                 android:backgroundTint="@color/corebtn"
-                android:padding="10dp"
+
+                android:padding="13dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_next"
                 app:layout_column="2"
@@ -235,14 +237,14 @@
                 app:layout_rowWeight="0.33" />
 
             <ImageButton
-                android:id="@+id/reset"
+                android:id="@+id/clear_board"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_margin="2dp"
                 android:background="@drawable/keypad_unfocused"
                 android:backgroundTint="@color/reset"
 
-                android:padding="10dp"
+                android:padding="13dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_trash_icon"
                 app:layout_column="0"
@@ -277,16 +279,16 @@
                     android:text="@string/solve"
                     android:layout_weight="0.75"
                     android:textColor="@color/colorWhite"
-                    android:textSize="25sp" />
+                    android:textSize="24sp" />
 
                 <ImageButton
-                    android:id="@+id/steps"
+                    android:id="@+id/choose_strategies"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.25"
                     android:background="@drawable/assist_enabled"
                     android:cropToPadding="true"
-                    android:padding="13dp"
+                    android:padding="11dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_dropdown_arrow_icon" />
             </LinearLayout>
