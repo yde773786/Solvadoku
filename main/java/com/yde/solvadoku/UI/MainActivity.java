@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -83,15 +82,6 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(MainActivity.this, R.string.select_cell, Toast.LENGTH_SHORT).show();
                 }
-            });
-
-            keypad[i].setOnTouchListener((view, event) -> {
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    keypad[finalI].setBackgroundResource(R.drawable.keypad_unfocused);
-                } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    keypad[finalI].setBackgroundResource(R.drawable.keypad_focused);
-                }
-                return false;
             });
         }
 
@@ -226,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
             sudokuGrid.setFocusedValue(getString(R.string.empty));
         });
 
-        next = findViewById(R.id.next);
+        next = findViewById(R.id.next_cell);
         next.setOnClickListener(view -> {
             sudokuGrid.giveNextCellFocus();
         });
