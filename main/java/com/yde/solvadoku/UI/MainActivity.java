@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        reset = findViewById(R.id.reset);
+        reset = findViewById(R.id.clear_board);
         reset.setOnClickListener(view -> {
             sudokuGrid.resetSudoku();
             initialBoard = new boolean[9][9];
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
             isInitialBoard = true;
         });
 
-        steps = findViewById(R.id.steps);
+        steps = findViewById(R.id.choose_strategies);
         steps.setOnClickListener(view -> {
             Context context = new ContextThemeWrapper(MainActivity.this, R.style.CustomDialog);
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
