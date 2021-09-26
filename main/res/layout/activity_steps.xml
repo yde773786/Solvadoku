@@ -27,7 +27,7 @@
             android:fontFamily="@font/raleway"
             android:text="@string/title"
             android:textColor="@color/colorWhite"
-            android:textSize="35sp" />
+            android:textSize="27.5sp" />
 
 
     </androidx.appcompat.widget.Toolbar>
