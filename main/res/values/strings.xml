@@ -8,7 +8,7 @@
     <string name="invalid_input">Invalid input</string>
     <string name="no_effect">The chosen strategies had no effect on the puzzle</string>
     <string name="select_cell">Select a cell to enter input</string>
-    <string name="no_strat_chosen">Choose at least one strategy</string>
+    <string name="no_strategy_chosen">Choose at least one strategy</string>
     <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="title">SOLVADOKU</string>
@@ -33,10 +33,10 @@
     <string name="no_pencil_marks">Partial solve without pencil marks</string>
     <string name="settings">Settings and Information</string>
     <string name="title_activity_settings">SettingsActivity</string>
-    <string name="desc">The objective of Solvadoku is to extend the functionality of Sudoku solvers by providing detailed step by step solutions on how to approach any puzzle.</string>
-    <string name="about">Solvadoku Version 2.0</string>
+    <string name="about_solvadoku">Solvadoku\'s objective is to encourage Sudoku enthusiasts to tackle harder puzzles and learn new solving strategies along the way</string>
+    <string name="app_release_version">solvadoku version 2.0</string>
     <string name="about_menu">About</string>
-    <string name="github">Our project is FOSS! Check out the Github Repository for Solvadoku here.</string>
+    <string name="github_repo_text">Our project is Free and Open-Source Software!\n\nCheck out the Github Repository for Solvadoku</string>
     <string name="db_key">settings</string>
     <string name="pencil_settings">pencil settings</string>
     <string name="cell_focus_value">%d</string>
@@ -54,5 +54,7 @@
     <string name="contentDescriptionEraseButton">Erase the number entered in the cell</string>
     <string name="contentDescriptionNextCellButton">Go to the next cell</string>
     <string name="contentDescriptionChooseStrategiesButton">Choose strategies</string>
+    <string name="contentDescriptionGitHubRepoButton">Link to Solvadoku GitHub Repository</string>
+    <string name="contentDescriptionSolvadokuIconAboutPage">Solvadoku App Icon</string>
 
 </resources>
