@@ -16,7 +16,16 @@
     <color name="lightRed">#FFCCCB</color>
     <color name="colorDeepBlue">#186CB3</color>
     <color name="corebtn">#4B926D</color>
-    <color name="reset">#C14D5B</color>
-    <color name="sudoku_board_number">#171717</color>
+
+    <color name="number_key_unpressed">#515151</color>
+    <color name="number_key_pressed">#323232</color>
+
+    <color name="function_button_unpressed">#4B926D</color>
+    <color name="function_button_pressed">#32664B</color>
+
+    <color name="clear_board_button_unpressed">#C14D5B</color>
+    <color name="clear_board_button_pressed">#8E3540</color>
+
+    <color name="sudoku_board_numbers">#171717</color>
 
 </resources>

@@ -50,6 +50,9 @@
     <string name="_8">8</string>
     <string name="_9">9</string>
     <string name="empty" />
-
+    <string name="contentDescriptionClearBoardButton">Clear the entire Sudoku board</string>
+    <string name="contentDescriptionEraseButton">Erase the number entered in the cell</string>
+    <string name="contentDescriptionNextCellButton">Go to the next cell</string>
+    <string name="contentDescriptionChooseStrategiesButton">Choose strategies</string>
 
 </resources>

@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -84,18 +83,9 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, R.string.select_cell, Toast.LENGTH_SHORT).show();
                 }
             });
-
-            keypad[i].setOnTouchListener((view, event) -> {
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    keypad[finalI].setBackgroundResource(R.drawable.keypad_unfocused);
-                } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    keypad[finalI].setBackgroundResource(R.drawable.keypad_focused);
-                }
-                return false;
-            });
         }
 
-        reset = findViewById(R.id.reset);
+        reset = findViewById(R.id.clear_board);
         reset.setOnClickListener(view -> {
             sudokuGrid.resetSudoku();
             initialBoard = new boolean[9][9];
@@ -117,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
             isInitialBoard = true;
         });
 
-        steps = findViewById(R.id.steps);
+        steps = findViewById(R.id.choose_strategies);
         steps.setOnClickListener(view -> {
             Context context = new ContextThemeWrapper(MainActivity.this, R.style.CustomDialog);
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -226,7 +216,7 @@ public class MainActivity extends AppCompatActivity {
             sudokuGrid.setFocusedValue(getString(R.string.empty));
         });
 
-        next = findViewById(R.id.next);
+        next = findViewById(R.id.next_cell);
         next.setOnClickListener(view -> {
             sudokuGrid.giveNextCellFocus();
         });
