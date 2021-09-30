@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private Button checkSteps;
     private MenuItem pencilMenu;
     private ImageButton next;
-    private ImageButton steps;
+    private ImageButton choose_strategies_btn;
     private ImageButton reset;
     private ImageButton erase;
     Cell[][] puzzle;
@@ -107,8 +107,8 @@ public class MainActivity extends AppCompatActivity {
             isInitialBoard = true;
         });
 
-        steps = findViewById(R.id.choose_strategies);
-        steps.setOnClickListener(view -> {
+        choose_strategies_btn = findViewById(R.id.choose_strategies);
+        choose_strategies_btn.setOnClickListener(view -> {
             Context context = new ContextThemeWrapper(MainActivity.this, R.style.CustomDialog);
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             LayoutInflater inflater = getLayoutInflater();
@@ -212,14 +212,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
         erase = findViewById(R.id.erase);
-        erase.setOnClickListener(view -> {
-            sudokuGrid.setFocusedValue(getString(R.string.empty));
-        });
+        erase.setOnClickListener(view -> sudokuGrid.setFocusedValue(getString(R.string.empty)));
 
         next = findViewById(R.id.next_cell);
-        next.setOnClickListener(view -> {
-            sudokuGrid.giveNextCellFocus();
-        });
+        next.setOnClickListener(view -> sudokuGrid.giveNextCellFocus());
 
         checkSteps = findViewById(R.id.check_steps);
         setEnabledSudokuButton(checkSteps, false);
