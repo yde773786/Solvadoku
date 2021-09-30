@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/pencil"
+        android:id="@+id/pencil_marks_btn"
         android:title="@string/pencil_marks_menu_item"
-        android:icon="@drawable/ic_pencil"
+        android:icon="@drawable/ic_pencil_marks_disabled"
         app:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/about"
+        android:id="@+id/about_btn"
         android:title="@string/about_menu_item"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_about_icon" />
+        android:icon="@drawable/ic_about_button"
+        app:showAsAction="always" />
 
 </menu>
