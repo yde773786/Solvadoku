@@ -4,14 +4,14 @@
 
     <item
         android:id="@+id/pencil"
-        android:title="@string/pencil_marks"
+        android:title="@string/pencil_marks_menu_item"
         android:icon="@drawable/ic_pencil"
-        app:showAsAction="always" />
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/about"
-        android:title="@string/about_menu"
-        app:showAsAction="always"
+        android:title="@string/about_menu_item"
+        app:showAsAction="ifRoom"
         android:icon="@drawable/ic_about_icon" />
 
 </menu>
