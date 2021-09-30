@@ -43,7 +43,7 @@
         android:gravity="center"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
-        android:text="@string/about_solvadoku"
+        android:text="@string/about_solvadoku_text"
         android:textColor="@color/colorGrey"
         android:textSize="22sp" />
 
