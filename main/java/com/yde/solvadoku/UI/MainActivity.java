@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         catch (NullPointerException ignored) {
         }
 
-        putPencilMarks = false;
+        putPencilMarks = true;
         isInitialBoard = true;
         AtomicReference<ArrayList<TextView>> solvedBoard = new AtomicReference<>(new ArrayList<>());
         sudokuGrid = findViewById(R.id.gridLayout);
