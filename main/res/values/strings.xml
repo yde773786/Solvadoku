@@ -42,11 +42,6 @@
 
     <string name="db_key">settings</string>
 
-    <string name="about_solvadoku">Solvadoku\'s objective is to encourage Sudoku enthusiasts to tackle harder puzzles and learn new solving strategies along the way</string>
-    <string name="app_release_version">solvadoku version 2.0</string>
-    <string name="about_menu">About</string>
-    <string name="github_repo_text">Our project is Free and Open-Source Software!\n\nCheck out the Github Repository for Solvadoku</string>
-
     <string name="cell_focus_value">%d</string>
     <string name="_1">1</string>
     <string name="_2">2</string>
