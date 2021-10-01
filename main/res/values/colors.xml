@@ -23,6 +23,16 @@
     <color name="clear_board_button_unpressed">#C14D5B</color>
     <color name="clear_board_button_pressed">#8E3540</color>
 
+    <color name="pencil_marks_button_enabled_unpressed">#4B926D</color>
+    <color name="pencil_marks_button_enabled_pressed">#32664B</color>
+
+    <color name="pencil_marks_button_disabled_unpressed">#858585</color>
+    <color name="pencil_marks_button_disabled_pressed">#3A3A3A</color>
+
+    <color name="about_button_unpressed">#A9FFD2</color>
+    <color name="about_button_pressed">#86CBA7</color>
+    <color name="about_button_foreground">#4B926D</color>
+
     <color name="sudoku_board_numbers">#171717</color>
 
 </resources>
