@@ -273,6 +273,7 @@ public class MainActivity extends AppCompatActivity {
         button.setAlpha(isEnabled ? 1.0f : 0.4f);
     }
 
+    // Activated allows the button to still be clickable, but it won't carry out its function.
     private void setActivatedSudokuButton(ImageButton button, boolean isActivated) {
         button.setActivated(isActivated);
         button.setAlpha(isActivated ? 1.0f : 0.4f);
