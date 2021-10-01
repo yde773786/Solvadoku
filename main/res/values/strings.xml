@@ -2,15 +2,11 @@
     <string name="app_name">Solvadoku</string>
     <string name="solve">SOLVE </string>
     <string name="steps">STEPS</string>
-    <string name="clear_all">Reset Puzzle</string>
-    <string name="clear_solved">Clear solved cells</string>
     <string name="pop_up_title">Choose Strategies</string>
     <string name="invalid_input">Invalid input</string>
     <string name="no_effect">The chosen strategies had no effect on the puzzle</string>
     <string name="select_cell">Select a cell to enter input</string>
-    <string name="no_strategy_chosen">Choose at least one strategy</string>
     <string name="ok">OK</string>
-    <string name="cancel">Cancel</string>
     <string name="title">SOLVADOKU</string>
 
     <string name="naked_single">When a cell has only one possible candidate remaining, we call it a Naked Single. The candidate then gets inserted into the cell.</string>
@@ -32,6 +28,7 @@
     <string name="brute_force">If all previous strategies are not successful in solving the Sudoku puzzle, Solvadoku uses Brute Force as a last resort to solve the puzzle. This method uses trial and error to solve the puzzle by computing all remaining possibilities until a logically valid solution is found.</string>
 
     <string name="pencil_marks">Partial solve with pencil marks</string>
+
     <string name="no_pencil_marks">Partial solve without pencil marks</string>
 
     <string name="settings">Settings and Information</string>
@@ -44,6 +41,12 @@
     <string name="pencil_marks_menu_item">Toggle Pencil Marks</string>
 
     <string name="db_key">settings</string>
+
+    <string name="about_solvadoku">Solvadoku\'s objective is to encourage Sudoku enthusiasts to tackle harder puzzles and learn new solving strategies along the way</string>
+    <string name="app_release_version">solvadoku version 2.0</string>
+    <string name="about_menu">About</string>
+    <string name="github_repo_text">Our project is Free and Open-Source Software!\n\nCheck out the Github Repository for Solvadoku</string>
+
     <string name="cell_focus_value">%d</string>
     <string name="_1">1</string>
     <string name="_2">2</string>
