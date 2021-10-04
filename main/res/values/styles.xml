@@ -14,6 +14,10 @@
         <item name="android:textViewStyle">@style/TextViewStyle</item>
     </style>
 
+    <style name="AppTheme.SplashScreen">
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+    </style>
+
     <style name="CheckedTextStyle" parent="android:Widget.Holo.CheckedTextView">
         <item name="android:fontFamily">@font/ralewaymed</item>
     </style>
@@ -25,15 +29,6 @@
     <style name="TextViewStyle" parent="android:Widget.Holo.TextView">
         <item name="android:fontFamily">@font/ralewaymed</item>
     </style>
-
-    <style name="NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="disabled_darken">
         <item name="android:textColor">@drawable/text_color</item>

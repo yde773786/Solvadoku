@@ -34,67 +34,73 @@
     </androidx.appcompat.widget.Toolbar>
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/about_solvadoku_text"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.19"
+        android:layout_weight="0.15"
         android:background="@drawable/normal_green"
         android:fontFamily="@font/raleway"
-        android:gravity="bottom|center"
-        android:paddingStart="17dp"
-        android:paddingEnd="17dp"
-        android:text="@string/desc"
+        android:gravity="center"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:text="@string/about_solvadoku_text"
         android:textColor="@color/colorGrey"
         android:textSize="22sp" />
 
     <LinearLayout
-        android:id="@+id/linearLayout4"
+        android:id="@+id/github_elements_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.25"
+        android:layout_weight="0.15"
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/github_repo_text"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1.1"
+            android:layout_weight="0.7"
             android:fontFamily="@font/raleway"
             android:gravity="center"
-            android:paddingStart="17dp"
+            android:paddingTop="10dp"
+            android:paddingStart="20dp"
             android:paddingEnd="5dp"
-            android:text="@string/github"
+            android:text="@string/github_repo_text"
             android:textColor="@color/colorGrey"
-            android:textSize="22sp" />
+            android:textSize="19sp" />
 
         <ImageView
-            android:id="@+id/github"
+            android:id="@+id/github_repo_link"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.25"
-            android:paddingEnd="17dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:contentDescription="@string/contentDescriptionGitHubRepoButton"
+            android:gravity="center"
+            android:paddingStart="15dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="20dp"
             android:tag="https://github.com/yde773786/Solvadoku"
-            app:srcCompat="@mipmap/github" />
+            app:srcCompat="@drawable/ic_github" />
 
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="125dp"
+        android:id="@+id/app_icon"
+        android:layout_width="100dp"
         android:layout_height="0dp"
-        android:layout_gravity="center"
-        android:layout_weight="0.13"
-        app:srcCompat="@drawable/ic_settingsicon" />
+        android:layout_gravity="bottom|center"
+        android:layout_weight="0.1"
+        app:srcCompat="@drawable/ic_solvadoku_circle_icon"
+        android:contentDescription="@string/contentDescriptionSolvadokuIconAboutPage" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/release_version_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="0.02"
-        android:fontFamily="@font/raleway"
-        android:text="@string/about"
+        android:fontFamily="@font/majormono"
+        android:text="@string/app_release_version"
         android:textColor="@color/colorGrey"
-        android:textSize="16sp" />
+        android:textSize="12sp" />
 
 </LinearLayout>

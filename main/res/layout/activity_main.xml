@@ -19,7 +19,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
         <TextView
             android:id="@+id/toolbar_title"
             android:layout_width="wrap_content"
@@ -29,7 +28,6 @@
             android:text="@string/title"
             android:textColor="@color/colorWhite"
             android:textSize="27.5sp" />
-
 
     </androidx.appcompat.widget.Toolbar>
 
@@ -77,11 +75,11 @@
                 android:cropToPadding="false"
                 android:scaleType="centerCrop"
                 app:columnCount="3"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="3:4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:rowCount="4">
 
                 <Button
@@ -292,7 +290,7 @@
                     android:id="@+id/solve"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.7"
+                    android:layout_weight="0.75"
                     android:background="@drawable/core_enabled"
                     android:fontFamily="@font/raleway"
                     android:text="@string/solve"
@@ -303,7 +301,7 @@
                     android:id="@+id/choose_strategies"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.3"
+                    android:layout_weight="0.25"
                     android:background="@drawable/assist_enabled"
                     android:contentDescription="@string/contentDescriptionChooseStrategiesButton"
                     android:cropToPadding="true"

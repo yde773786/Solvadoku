@@ -51,7 +51,7 @@ public class StepsActivity extends AppCompatActivity {
 
         public CheckViewHolder(@NonNull View itemView) {
             super(itemView);
-            ImageButton about = (ImageButton) itemView.findViewById(R.id.about);
+            ImageButton about = (ImageButton) itemView.findViewById(R.id.about_btn);
             algorithm = (TextView) itemView.findViewById(R.id.algorithm);
             insert = (TextView) itemView.findViewById(R.id.insert);
             algorithmDetail = new HashMap<>();

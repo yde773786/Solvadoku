@@ -22,12 +22,12 @@ public class SudokuGrid extends SquareGrid {
 
     private final HashMap<TextView, int[]> cellToState = new HashMap<>();
     private final HashMap<TextView, int[]> cellToIndex = new HashMap<>();
-    private HashMap<String, Typeface> fontCache = new HashMap<String, Typeface>();
+    private HashMap<String, Typeface> fontCache = new HashMap<>();
     private boolean isLegalPuzzle;
     private boolean[][] isError;
     PencilMarksGrid[][] pencilMarksGrids;
     public final int CLEAR = 0, DISABLED = 1, SELECTED = 2, INVALID = 3, CURRENT = 4;
-    public final int SOLVED = R.color.colorDeepBlue, INPUT = R.color.colorBlack;
+    public final int SOLVED = R.color.solved_cell_text, INPUT = R.color.input_cell_text;
     private TextView focusedCell;
 
     public SudokuGrid(Context context) {
@@ -154,32 +154,32 @@ public class SudokuGrid extends SquareGrid {
     private void addCellToState(TextView textView, int r, int c) {
         if (c == 2 || c == 5) {
             if (r == 2 || r == 5) {
-                cellToState.put(textView, new int[]{R.drawable.bottom_right, R.drawable.bottom_rightgrey,
+                cellToState.put(textView, new int[]{R.drawable.bottom_right, R.drawable.bottom_rightgreen,
                         R.drawable.bottom_rightblue, R.drawable.bottom_rightred, 0});
             } else if (r == 3 || r == 6) {
-                cellToState.put(textView, new int[]{R.drawable.top_right, R.drawable.top_rightgrey,
+                cellToState.put(textView, new int[]{R.drawable.top_right, R.drawable.top_rightgreen,
                         R.drawable.top_rightblue, R.drawable.top_rightred, 0});
             } else
-                cellToState.put(textView, new int[]{R.drawable.right_border, R.drawable.right_bordergrey,
+                cellToState.put(textView, new int[]{R.drawable.right_border, R.drawable.right_bordergreen,
                         R.drawable.right_borderblue, R.drawable.right_borderred, 0});
         } else if (c == 3 || c == 6) {
             if (r == 2 || r == 5) {
-                cellToState.put(textView, new int[]{R.drawable.bottom_left, R.drawable.bottom_leftgrey,
+                cellToState.put(textView, new int[]{R.drawable.bottom_left, R.drawable.bottom_leftgreen,
                         R.drawable.bottom_leftblue, R.drawable.bottom_leftred, 0});
             } else if (r == 3 || r == 6) {
-                cellToState.put(textView, new int[]{R.drawable.top_left, R.drawable.top_leftgrey,
+                cellToState.put(textView, new int[]{R.drawable.top_left, R.drawable.top_leftgreen,
                         R.drawable.top_leftblue, R.drawable.top_leftred, 0});
             } else
-                cellToState.put(textView, new int[]{R.drawable.left_border, R.drawable.left_bordergrey,
+                cellToState.put(textView, new int[]{R.drawable.left_border, R.drawable.left_bordergreen,
                         R.drawable.left_borderblue, R.drawable.left_borderred, 0});
         } else if (r == 2 || r == 5) {
-            cellToState.put(textView, new int[]{R.drawable.bottom_border, R.drawable.bottom_bordergrey,
+            cellToState.put(textView, new int[]{R.drawable.bottom_border, R.drawable.bottom_bordergreen,
                     R.drawable.bottom_borderblue, R.drawable.bottom_borderred, 0});
         } else if (r == 3 || r == 6) {
-            cellToState.put(textView, new int[]{R.drawable.top_border, R.drawable.top_bordergrey,
+            cellToState.put(textView, new int[]{R.drawable.top_border, R.drawable.top_bordergreen,
                     R.drawable.top_borderblue, R.drawable.top_borderred, 0});
         } else
-            cellToState.put(textView, new int[]{R.drawable.border, R.drawable.bordergrey,
+            cellToState.put(textView, new int[]{R.drawable.border, R.drawable.bordergreen,
                     R.drawable.borderblue, R.drawable.borderred, 0});
     }
 

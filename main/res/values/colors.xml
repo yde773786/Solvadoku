@@ -4,17 +4,16 @@
     <color name="colortoolbar">#4CAA79</color>
     <color name="colorAccent">#D81B60</color>
     <color name="colorPrimaryDark">#1C1C1C</color>
+    <color name="colorGreen">#D1FFDE</color>
     <color name="colorGrey">#D3D3D3</color>
     <color name="stepsButton">#316248</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="secondarybtn">#282830</color>
     <color name="colorBlack">#000000</color>
-    <color name="colorRed">#FF0000</color>
     <color name="lightBlue">#ADD8E6</color>
-    <color name="numKeys">#515151</color>
-    <color name="numKeysFocus">#494949</color>
     <color name="lightRed">#FFCCCB</color>
-    <color name="colorDeepBlue">#186CB3</color>
+    <color name="solved_cell_text">#626262</color>
+    <color name="input_cell_text">#000000</color>
     <color name="corebtn">#4B926D</color>
 
     <color name="number_key_unpressed">#515151</color>
@@ -25,6 +24,16 @@
 
     <color name="clear_board_button_unpressed">#C14D5B</color>
     <color name="clear_board_button_pressed">#8E3540</color>
+
+    <color name="pencil_marks_button_enabled_unpressed">#4B926D</color>
+    <color name="pencil_marks_button_enabled_pressed">#32664B</color>
+
+    <color name="pencil_marks_button_disabled_unpressed">#858585</color>
+    <color name="pencil_marks_button_disabled_pressed">#3A3A3A</color>
+
+    <color name="about_button_unpressed">#A9FFD2</color>
+    <color name="about_button_pressed">#86CBA7</color>
+    <color name="about_button_foreground">#4B926D</color>
 
     <color name="sudoku_board_numbers">#171717</color>
 
