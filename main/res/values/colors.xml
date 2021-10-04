@@ -25,7 +25,7 @@
     <color name="clear_board_button_unpressed">#C14D5B</color>
     <color name="clear_board_button_pressed">#8E3540</color>
 
-    <color name="pencil_marks_button_enabled_unpressed">#4B926D</color>
+    <color name="pencil_marks_button_enabled_unpressed">#57D694</color>
     <color name="pencil_marks_button_enabled_pressed">#32664B</color>
 
     <color name="pencil_marks_button_disabled_unpressed">#858585</color>
