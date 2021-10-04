@@ -21,7 +21,7 @@
         <activity
             android:name=".UI.MainActivity"
             android:exported="true"
-            android:screenOrientation="portrait">
+            android:screenOrientation="fullSensor">
         </activity>
         <activity android:name=".UI.AboutActivity" />
         <activity android:name=".UI.StepsActivity" />
