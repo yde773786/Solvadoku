@@ -7,21 +7,16 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 
 import com.yde.solvadoku.Logic.Cell;
 import com.yde.solvadoku.Logic.Sudoku;
@@ -37,15 +32,15 @@ public class MainActivity extends AppCompatActivity {
     private TextView[][] unit;
     private boolean isInitialBoard;
     private boolean[][] initialBoard;
-    private Button solve;
     private SudokuGrid sudokuGrid;
-    private Button checkSteps;
-    private MenuItem pencil_marks_btn;
-    private MenuItem about_btn;
-    private ImageButton next;
+    private Button solve_btn;
+    private Button check_steps_btn;
     private ImageButton choose_strategies_btn;
-    private ImageButton reset;
-    private ImageButton erase;
+    private ImageButton pencil_marks_btn;
+    private ImageButton about_btn;
+    private ImageButton next_cell_btn;
+    private ImageButton clear_board_btn;
+    private ImageButton erase_cell_btn;
     Cell[][] puzzle;
     Button[] keypad = new Button[9];
     private static boolean putPencilMarks;
@@ -63,10 +58,11 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         try {
             Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
-        } catch (NullPointerException ignored) {
+        }
+        catch (NullPointerException ignored) {
         }
 
-        putPencilMarks = false;
+        putPencilMarks = true;
         isInitialBoard = true;
         AtomicReference<ArrayList<TextView>> solvedBoard = new AtomicReference<>(new ArrayList<>());
         sudokuGrid = findViewById(R.id.gridLayout);
@@ -83,21 +79,21 @@ public class MainActivity extends AppCompatActivity {
                 if (sudokuGrid.setFocusedValue(getString(R.string.cell_focus_value, finalI + 1))) {
                     sudokuGrid.giveNextCellFocus();
                 } else {
-                    Toast.makeText(MainActivity.this, R.string.select_cell, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, R.string.select_cell_toast, Toast.LENGTH_SHORT).show();
                 }
             });
         }
 
-        reset = findViewById(R.id.clear_board);
-        reset.setOnClickListener(view -> {
+        clear_board_btn = findViewById(R.id.clear_board);
+        clear_board_btn.setOnClickListener(view -> {
             sudokuGrid.resetSudoku();
             initialBoard = new boolean[9][9];
-            setEnabledSudokuButton(solve, true);
+            setEnabledSudokuButton(solve_btn, true);
             setEnabledEditingButtons(true);
-            pencil_marks_btn.setEnabled(false);
+            setActivatedSudokuButton(pencil_marks_btn,false);
 
             sudokuGrid.resetFocusedCell();
-            setEnabledSudokuButton(checkSteps, false);
+            setEnabledSudokuButton(check_steps_btn, false);
 
             if (putPencilMarks) {
                 for (int i = 0; i < 9; i++) {
@@ -139,11 +135,11 @@ public class MainActivity extends AppCompatActivity {
             dialog.show();
         });
 
-        solve = findViewById(R.id.solve);
-        solve.setOnClickListener(view -> {
+        solve_btn = findViewById(R.id.solve);
+        solve_btn.setOnClickListener(view -> {
 
             if (sudokuGrid.getIsLegalPuzzle()) {
-                setEnabledSudokuButton(checkSteps, true);
+                setEnabledSudokuButton(check_steps_btn, true);
                 Sudoku.cellCount = 0;
 
                 for (int i = 0; i < 9; i++) {
@@ -153,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 setEnabledEditingButtons(false);
-                pencil_marks_btn.setEnabled(true);
+                setActivatedSudokuButton(pencil_marks_btn,true);
 
                 // Finds initial board pieces (Runs first time only)
                 if (isInitialBoard) {
@@ -207,94 +203,90 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (Sudoku.cellCount == 81) {
-                    setEnabledSudokuButton(solve, false);
+                    setEnabledSudokuButton(solve_btn, false);
                 }
             } else {
                 Toast.makeText(MainActivity.this, R.string.invalid_input, Toast.LENGTH_SHORT).show();
             }
         });
 
-        erase = findViewById(R.id.erase);
-        erase.setOnClickListener(view -> sudokuGrid.setFocusedValue(getString(R.string.empty)));
+        erase_cell_btn = findViewById(R.id.erase);
+        erase_cell_btn.setOnClickListener(view -> sudokuGrid.setFocusedValue(getString(R.string.empty)));
 
-        next = findViewById(R.id.next_cell);
-        next.setOnClickListener(view -> sudokuGrid.giveNextCellFocus());
+        next_cell_btn = findViewById(R.id.next_cell);
+        next_cell_btn.setOnClickListener(view -> sudokuGrid.giveNextCellFocus());
 
-        checkSteps = findViewById(R.id.check_steps);
-        setEnabledSudokuButton(checkSteps, false);
+        check_steps_btn = findViewById(R.id.check_steps);
+        setEnabledSudokuButton(check_steps_btn, false);
 
-        checkSteps.setOnClickListener(view -> {
+        check_steps_btn.setOnClickListener(view -> {
             ArrayList<String[]> viewHolderList = Sudoku.viewHolderList;
             if (viewHolderList.size() != 0) {
                 Intent intent = new Intent(MainActivity.this, StepsActivity.class);
                 intent.putExtra("CheckSteps", viewHolderList);
                 startActivity(intent);
             } else
-                Toast.makeText(MainActivity.this, R.string.no_effect, Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, R.string.no_effect_toast, Toast.LENGTH_SHORT).show();
         });
 
-    }
+        pencil_marks_btn = findViewById(R.id.pencil_marks_button);
+        // Disabling the Pencil Marks Button.
+        setActivatedSudokuButton(pencil_marks_btn, false);
+        pencil_marks_btn.setOnClickListener(view -> {
+            // Checking if the Pencil Marks Button is enabled.
+            if(pencil_marks_btn.isActivated()) {
+                // Toggling the Pencil Marks state.
+                putPencilMarks = !putPencilMarks;
+                // Toggling the Pencil Marks icon to represent its state (disabled or enabled).
+                pencil_marks_btn.setBackgroundResource(putPencilMarks ? R.drawable.button_pencil_marks_enabled : R.drawable.button_pencil_marks_disabled);
+                // Loop to display the Pencil Marks in all the empty cells.
+                for (int i = 0; i < 9; i++) {
+                    for (int j = 0; j < 9; j++) {
+                        if (putPencilMarks && !sudokuGrid.hasValue(unit[i][j])) {
+                            sudokuGrid.pencilDisplay(puzzle[i][j], i, j);
+                        } else {
+                            sudokuGrid.pencilClear(i, j);
+                        }
+                    }
+                }
+            }
+            // If the Pencil Marks Button is not enabled, display toast message.
+            else{
+                Toast.makeText(MainActivity.this, R.string.pencil_marks_disabled_toast, Toast.LENGTH_LONG).show();
+            }
+        });
+
+        about_btn = findViewById(R.id.about_button);
+        about_btn.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, AboutActivity.class);
+            startActivity(intent);
+        });
+
+
+    } // end of onCreate method
 
     private int value(TextView textView) {
         return Integer.parseInt(textView.getText().toString());
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
-
-        // Creating references to the Menu Item objects.
-        pencil_marks_btn = menu.findItem(R.id.pencil_marks_btn);
-        about_btn = menu.findItem(R.id.about_btn);
-
-        // Disabling the Pencil Marks Button.
-        pencil_marks_btn.setEnabled(false);
-        return true;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        // If the user selected the About Button.
-        if (item == about_btn) {
-            Intent intent = new Intent(MainActivity.this, AboutActivity.class);
-            startActivity(intent);
-            return true;
-        }
-        // If the user selected the Pencil Marks Button.
-        else if (item == pencil_marks_btn) {
-            // Toggling the Pencil Marks state.
-            putPencilMarks = !putPencilMarks;
-            // Toggling the Pencil Marks icon to represent its state (disabled or enabled).
-            pencil_marks_btn.setIcon(ContextCompat.getDrawable(this, putPencilMarks ? R.drawable.ic_pencil_marks_enabled : R.drawable.ic_pencil_marks_disabled));
-            // Loop to display the Pencil Marks in all the empty cells.
-            for (int i = 0; i < 9; i++) {
-                for (int j = 0; j < 9; j++) {
-                    if (putPencilMarks && !sudokuGrid.hasValue(unit[i][j])) {
-                        sudokuGrid.pencilDisplay(puzzle[i][j], i, j);
-                    } else {
-                        sudokuGrid.pencilClear(i, j);
-                    }
-                }
-            }
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     private void setEnabledSudokuButton(Button button, boolean isEnabled) {
         button.setEnabled(isEnabled);
         button.setAlpha(isEnabled ? 1.0f : 0.4f);
     }
 
+    // Activated allows the button to still be clickable, but it won't carry out its function.
+    private void setActivatedSudokuButton(ImageButton button, boolean isActivated) {
+        button.setActivated(isActivated);
+        button.setAlpha(isActivated ? 1.0f : 0.4f);
+    }
+
     private void setEnabledEditingButtons(boolean isEnabled) {
         for (Button key : keypad) {
             key.setEnabled(isEnabled);
         }
-        next.setEnabled(isEnabled);
-        erase.setEnabled(isEnabled);
+        next_cell_btn.setEnabled(isEnabled);
+        erase_cell_btn.setEnabled(isEnabled);
     }
 
 } // end of MainActivity class
