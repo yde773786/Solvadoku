@@ -40,7 +40,7 @@
         <item name="android:layout_margin">20dp</item>
         <item name="android:background">@drawable/button_number_key</item>
         <item name="android:gravity">center</item>
-        <item name="android:fontFamily">@font/majormono"</item>
+        <item name="android:fontFamily">@fonts/majormono"</item>
         <item name="android:padding">20dp</item>
         <item name="android:textColor">@color/colorWhite</item>
         <item name="android:textSize">34sp</item>
@@ -62,7 +62,7 @@
         <item name="android:layout_margin">12dp</item>
         <item name="android:background">@drawable/button_number_key</item>
         <item name="android:gravity">center</item>
-        <item name="android:fontFamily">@font/majormono"</item>
+        <item name="android:fontFamily">@fonts/majormono"</item>
         <item name="android:padding">10dp</item>
         <item name="android:textColor">@color/colorWhite</item>
         <item name="android:textSize">40sp</item>
