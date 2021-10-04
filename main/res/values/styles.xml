@@ -34,5 +34,49 @@
         <item name="android:textColor">@drawable/text_color</item>
     </style>
 
+    <style name="number_keys_portrait" parent="android:Widget.Button">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_margin">20dp</item>
+        <item name="android:background">@drawable/button_number_key</item>
+        <item name="android:gravity">center</item>
+        <item name="android:fontFamily">@font/majormono"</item>
+        <item name="android:padding">20dp</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textSize">34sp</item>
+    </style>
+
+    <style name="function_keys_portrait" parent="android:Widget.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">0.33</item>
+        <item name="android:layout_margin">12dp</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">25dp</item>
+    </style>
+
+    <style name="number_keys_landscape" parent="android:Widget.Button">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_margin">12dp</item>
+        <item name="android:background">@drawable/button_number_key</item>
+        <item name="android:gravity">center</item>
+        <item name="android:fontFamily">@font/majormono"</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textSize">40sp</item>
+    </style>
+
+    <style name="function_keys_landscape" parent="android:Widget.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">0.33</item>
+        <item name="android:layout_margin">12dp</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">25dp</item>
+    </style>
+
 
 </resources>
