@@ -6,7 +6,7 @@
     <string name="invalid_input">Invalid input</string>
     <string name="no_effect_toast">The chosen strategies had no effect on the puzzle</string>
     <string name="select_cell_toast">Select a cell to enter input</string>
-    <string name="pencil_marks_disabled_toast">Solve a Sudoku Puzzle to enable Pencil Marks</string>
+    <string name="pencil_marks_disabled_toast">Press Solve to enable Pencil Marks</string>
     <string name="ok">OK</string>
     <string name="title">SOLVADOKU</string>
 
