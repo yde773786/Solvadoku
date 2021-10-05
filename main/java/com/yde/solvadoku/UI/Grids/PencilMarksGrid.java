@@ -2,6 +2,7 @@ package com.yde.solvadoku.UI.Grids;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
@@ -44,7 +45,7 @@ public class PencilMarksGrid extends SquareGrid {
                         GridLayout.spec(i, 0.33f), GridLayout.spec(j, 0.33f)
                 );
                 textView.setLayoutParams(gridParams);
-                textView.setTextSize(9);
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.pencil_marks_text_size));
                 textView.setGravity(Gravity.CENTER);
                 unit[i][j] = textView;
                 addView(textView, i + j);

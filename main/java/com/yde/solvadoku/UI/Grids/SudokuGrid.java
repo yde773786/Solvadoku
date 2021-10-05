@@ -3,6 +3,7 @@ package com.yde.solvadoku.UI.Grids;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.widget.RelativeLayout;
@@ -59,7 +60,7 @@ public class SudokuGrid extends SquareGrid {
                 cellGrid.setLayoutParams(gridParams);
 
                 TextView textView = cellGrid.findViewById(R.id.main_display);
-                textView.setTextSize(27);
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.sudoku_cell_text_size));
                 textView.setGravity(Gravity.CENTER);
                 textView.setTypeface(getTypeface(text_font));
                 textView.setTextColor(text_color);
