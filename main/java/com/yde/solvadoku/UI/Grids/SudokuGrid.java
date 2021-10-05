@@ -374,22 +374,26 @@ public class SudokuGrid extends SquareGrid {
      * Gives the adjacent to currently focused cell focus.
      */
     public void giveNextCellFocus() {
-        int row, col;
-        int[] focused_cell_index = cellToIndex.get(focusedCell);
-        switchBackground(focusedCell, getCurrentState(focusedCell));
+        if(focusedCell != null){
+            int row, col;
+            int[] focused_cell_index = cellToIndex.get(focusedCell);
+            switchBackground(focusedCell, getCurrentState(focusedCell));
 
-        assert focused_cell_index != null;
+            assert focused_cell_index != null;
+            row = focused_cell_index[0];
+            col = focused_cell_index[1];
 
-        row = focused_cell_index[0];
-        col = focused_cell_index[1];
+            // Moving to the next column.
+            col++;
+            // If the next column goes beyond the number of columns in the board, go to next row.
+            if(col % 9 == 0)
+                row++;
 
-        // Moving to the next column.
-        col++;
-        // If the next column goes beyond the number of columns in the board, go to next row.
-        if(col % 9 == 0)
-            row++;
-
-        focusedCell = unit[row % 9][col % 9];
+            focusedCell = unit[row % 9][col % 9];
+        }
+        else{
+            focusedCell = unit[0][0];
+        }
         switchBackground(focusedCell, SELECTED);
     }
 }
