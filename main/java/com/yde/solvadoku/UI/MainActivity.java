@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
         putPencilMarks = true;
         isInitialBoard = true;
         AtomicReference<ArrayList<TextView>> solvedBoard = new AtomicReference<>(new ArrayList<>());
-        sudokuGrid = findViewById(R.id.gridLayout);
+        sudokuGrid = findViewById(R.id.sudoku_board);
         unit = sudokuGrid.getUnit();
         puzzle = new Cell[9][9];
         initialBoard = new boolean[9][9];
