@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
             Context context = new ContextThemeWrapper(MainActivity.this, R.style.CustomDialog);
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             LayoutInflater inflater = getLayoutInflater();
-            View customTitle = inflater.inflate(R.layout.custom_title, null);
+            View customTitle = inflater.inflate(R.layout.choose_strategies, null);
 
             final String[] logics = {"Naked Single", "Hidden Single", "Naked Pair", "Pointing Pair",
                     "Claiming Pair", "Hidden Pair", "Naked Triple", "Hidden Triple", "X-Wing", "Swordfish", "Jellyfish",
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                 if (isChecked) {
                     checkedItems.add(logics[i]);
                 } else checkedItems.remove(logics[i]);
-            }).setPositiveButton(R.string.ok, (dialogInterface, x) -> {
+            }).setPositiveButton(R.string.confirm, (dialogInterface, x) -> {
             });
 
             AlertDialog dialog = builder.create();

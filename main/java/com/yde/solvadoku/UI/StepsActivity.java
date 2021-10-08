@@ -91,10 +91,10 @@ public class StepsActivity extends AppCompatActivity {
             Context designContext = new ContextThemeWrapper(context, R.style.CustomDialog);
             AlertDialog.Builder builder = new AlertDialog.Builder(designContext);
             LayoutInflater inflater = getLayoutInflater();
-            View dialogView = inflater.inflate(R.layout.custom_title, null);
+            View dialogView = inflater.inflate(R.layout.choose_strategies, null);
             builder.setCustomTitle(dialogView)
                     .setMessage(algorithmDetail.get(pure_algorithm))
-                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -142,7 +142,7 @@ public class StepsActivity extends AppCompatActivity {
         @NonNull
         @Override
         public CheckViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            return new CheckViewHolder(LayoutInflater.from(context).inflate(R.layout.step, parent, false));
+            return new CheckViewHolder(LayoutInflater.from(context).inflate(R.layout.steps_list, parent, false));
         }
 
         @Override
