@@ -20,10 +20,11 @@
         <TextView
             android:id="@+id/pop"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:fontFamily="@font/ralewaymed"
             android:text="@string/pop_up_title"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:textColor="@color/colorWhite" />
 
     </androidx.appcompat.widget.Toolbar>
