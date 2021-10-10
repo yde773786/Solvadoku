@@ -24,6 +24,7 @@ import com.yde.solvadoku.R;
 import com.yde.solvadoku.UI.Grids.SudokuGrid;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -44,7 +45,10 @@ public class MainActivity extends AppCompatActivity {
     Cell[][] puzzle;
     Button[] keypad = new Button[9];
     private static boolean putPencilMarks;
-    final ArrayList<String> checkedItems = new ArrayList<>();
+    final String[] LOGICS = {"Naked Single", "Hidden Single", "Naked Pair", "Pointing Pair",
+            "Claiming Pair", "Hidden Pair", "Naked Triple", "Hidden Triple", "X-Wing", "Swordfish", "Jellyfish",
+            "Naked Quad", "Hidden Quad", "Finned X-Wing", "Finned Swordfish", "Finned Jellyfish", "Brute Force"};
+    final ArrayList<String> checkedItems = new ArrayList<>(Arrays.asList(LOGICS));
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("ClickableViewAccessibility")
@@ -113,21 +117,18 @@ public class MainActivity extends AppCompatActivity {
             LayoutInflater inflater = getLayoutInflater();
             View customTitle = inflater.inflate(R.layout.choose_strategies, null);
 
-            final String[] logics = {"Naked Single", "Hidden Single", "Naked Pair", "Pointing Pair",
-                    "Claiming Pair", "Hidden Pair", "Naked Triple", "Hidden Triple", "X-Wing", "Swordfish", "Jellyfish",
-                    "Naked Quad", "Hidden Quad", "Finned X-Wing", "Finned Swordfish", "Finned Jellyfish", "Brute Force"};
-            boolean[] previous = new boolean[logics.length];
+            boolean[] previous = new boolean[LOGICS.length];
 
-            for (int i = 0; i < logics.length; i++) {
-                if (checkedItems.contains(logics[i])) {
+            for (int i = 0; i < LOGICS.length; i++) {
+                if (checkedItems.contains(LOGICS[i])) {
                     previous[i] = true;
                 }
             }
 
-            builder.setCustomTitle(customTitle).setMultiChoiceItems(logics, previous, (dialogInterface, i, isChecked) -> {
+            builder.setCustomTitle(customTitle).setMultiChoiceItems(LOGICS, previous, (dialogInterface, i, isChecked) -> {
                 if (isChecked) {
-                    checkedItems.add(logics[i]);
-                } else checkedItems.remove(logics[i]);
+                    checkedItems.add(LOGICS[i]);
+                } else checkedItems.remove(LOGICS[i]);
             }).setPositiveButton(R.string.confirm, (dialogInterface, x) -> {
             });
 
