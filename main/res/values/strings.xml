@@ -29,8 +29,8 @@
     <string name="brute_force">If all previous strategies are not successful in solving the Sudoku puzzle, Solvadoku uses Brute Force as a last resort to solve the puzzle. This method uses trial and error to solve the puzzle by computing all remaining possibilities until a logically valid solution is found.</string>
 
     <string name="about_solvadoku_text">Solvadoku aims to give Sudoku enthusiasts the confidence to tackle tougher puzzles and pick up new solving techniques along the way</string>
-    <string name="github_repo_text">Our project is Free and Open-Source Software!\n\nCheck out the Github Repository for Solvadoku</string>
-    <string name="contact_us_text">We\'d love to hear your feedback!\nIf you wish to report a bug, request a feature or have any suggestions, feel free to reach out to us!</string>
+    <string name="github_repo_text">Our project is Free and Open-Source Software!<br/> Check out the Github Repository for Solvadoku: <br/> <a href="https://github.com/yde773786/Solvadoku">github.com/yde773786/Solvadoku</a></string>
+    <string name="contact_us_text">We\'d love to hear your feedback!<br/> If you wish to report a bug, request a feature or have suggestions, reach out to us at<br/> <a href="mailto:solvadokuteam@gmail.com?">solvadokuteam@gmail.com</a></string>
     <string name="app_release_version">solvadoku version 2.0</string>
 
     <string name="cell_focus_value">%d</string>
@@ -54,5 +54,6 @@
     <string name="contentDescriptionPencilMarksButton">Display Pencil Marks</string>
     <string name="contentDescriptionAboutButton">About the Solvadoku App</string>
     <string name="contentDescriptionMoreInfo">Show more info about this strategy</string>
+    <string name="contentDescriptionContactInfo">Email the Solvadoku Team</string>
 
 </resources>
