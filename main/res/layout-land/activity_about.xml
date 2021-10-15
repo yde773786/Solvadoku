@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    android:orientation="vertical"
+    tools:context=".UI.AboutActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colortoolbar"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/AppTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            style="@style/toolbar_title"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="5dp" />
+
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/about_solvadoku_text"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="0.15"
+        android:background="@drawable/normal_green"
+        android:fontFamily="@font/raleway"
+        android:gravity="center"
+        android:padding="12dp"
+        android:text="@string/about_solvadoku_text"
+        android:textColor="@color/colorWhite"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/bottom_barrier"
+        app:layout_constraintEnd_toStartOf="@id/halfway_divider_vertical_about"
+        app:layout_constraintStart_toEndOf="@id/start_guideline_vertical_about"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+    <TextView
+        android:id="@+id/github_repo_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/raleway"
+        android:gravity="center"
+        android:padding="8dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:text="@string/github_repo_text"
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@id/halfway_divider_horizontal_about"
+        app:layout_constraintEnd_toStartOf="@id/icon_divider_vertical_about"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@id/halfway_divider_vertical_about"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+    <ImageView
+        android:id="@+id/github_repo_link"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:contentDescription="@string/contentDescriptionGitHubRepoButton"
+        android:gravity="center"
+        android:tag="https://github.com/yde773786/Solvadoku"
+        app:layout_constraintBottom_toBottomOf="@+id/github_repo_text"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@id/end_guideline_vertical_about"
+        app:layout_constraintStart_toEndOf="@id/icon_divider_vertical_about"
+        app:layout_constraintTop_toTopOf="@+id/github_repo_text"
+        app:srcCompat="@drawable/ic_github" />
+
+    <TextView
+        android:id="@+id/contact_info_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/normal_green"
+        android:fontFamily="@font/raleway"
+        android:gravity="center"
+        android:padding="8dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:text="@string/contact_us_text"
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/bottom_barrier"
+        app:layout_constraintEnd_toStartOf="@id/icon_divider_vertical_about"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@id/halfway_divider_vertical_about"
+        app:layout_constraintTop_toBottomOf="@id/halfway_divider_horizontal_about" />
+
+    <ImageView
+        android:id="@+id/email_link"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:background="@drawable/button_contact_info"
+        android:contentDescription="@string/contentDescriptionContactInfo"
+        android:padding="18dp"
+        android:tag="mailto:solvadokuteam@gmail.com?"
+        app:layout_constraintBottom_toBottomOf="@+id/contact_info_text"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@id/end_guideline_vertical_about"
+        app:layout_constraintStart_toEndOf="@id/icon_divider_vertical_about"
+        app:layout_constraintTop_toTopOf="@+id/contact_info_text"
+        app:srcCompat="@drawable/ic_mail" />
+
+    <TextView
+        android:id="@+id/release_version_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:fontFamily="@font/majormono"
+        android:text="@string/app_release_version"
+        android:textColor="@color/colorGrey"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/halfway_divider_horizontal_about"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.50" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/bottom_barrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="top"
+        app:constraint_referenced_ids="release_version_text" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/start_guideline_vertical_about"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="12dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/halfway_divider_vertical_about"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.4" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/icon_divider_vertical_about"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="100dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/end_guideline_vertical_about"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="18dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
