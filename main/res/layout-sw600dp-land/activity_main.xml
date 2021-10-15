@@ -24,10 +24,10 @@
 
             <TextView
                 android:id="@+id/toolbar_title"
+                style="@style/toolbar_title"
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                style="@style/toolbar_title"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -56,8 +56,8 @@
                 android:layout_marginEnd="40dp"
                 android:background="@drawable/button_pencil_marks_enabled"
                 android:contentDescription="@string/contentDescriptionPencilMarksButton"
-                android:padding="9dp"
-                android:scaleType="fitCenter"
+                android:paddingHorizontal="30dp"
+                android:paddingVertical="11dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/about_button"
                 app:layout_constraintTop_toTopOf="parent"
@@ -71,15 +71,16 @@
         android:id="@+id/sudoku_board"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="25dp"
+        android:layout_margin="20dp"
         android:focusableInTouchMode="true"
         android:scaleType="centerCrop"
         app:columnCount="9"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/end_guideline_horizontal"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@id/vertical_guideline_2"
-        app:layout_constraintStart_toEndOf="@id/vertical_guideline_1"
+        app:layout_constraintEnd_toStartOf="@id/midway_divider"
+        app:layout_constraintStart_toEndOf="@id/start_guideline_vertical"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_marginBaseline="2dp"
         app:rowCount="9" />
 
 
@@ -88,13 +89,14 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="10dp"
+        android:layout_marginBottom="27dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/buttons_horizontal_guideline_2"
+        app:layout_constraintBottom_toTopOf="@id/keypad"
         app:layout_constraintDimensionRatio="3:2"
-        app:layout_constraintEnd_toStartOf="@+id/check_steps"
+        app:layout_constraintEnd_toStartOf="@id/check_steps"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/vertical_guideline_2"
-        app:layout_constraintTop_toBottomOf="@id/buttons_horizontal_guideline_1">
+        app:layout_constraintStart_toEndOf="@id/midway_divider"
+        app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <Button
             android:id="@+id/solve"
@@ -125,17 +127,17 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="10dp"
+        android:layout_marginBottom="27dp"
         android:background="@drawable/secondary_enabled"
         android:fontFamily="@font/raleway"
         android:text="@string/steps"
         android:textColor="@color/colorWhite"
         android:textSize="40sp"
-        app:layout_constraintBottom_toTopOf="@id/buttons_horizontal_guideline_2"
+        app:layout_constraintBottom_toTopOf="@id/keypad"
         app:layout_constraintDimensionRatio="3:2"
-        app:layout_constraintEnd_toStartOf="@+id/vertical_guideline_3"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/solve_button_layout"
-        app:layout_constraintTop_toBottomOf="@id/buttons_horizontal_guideline_1" />
+        app:layout_constraintEnd_toStartOf="@id/end_guideline_vertical"
+        app:layout_constraintStart_toEndOf="@id/solve_button_layout"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
 
     <androidx.gridlayout.widget.GridLayout
@@ -143,15 +145,18 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="10dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:adjustViewBounds="false"
         android:cropToPadding="false"
         android:scaleType="centerCrop"
         app:columnCount="4"
-        app:layout_constraintBottom_toTopOf="@+id/buttons_horizontal_guideline_3"
+        app:layout_constraintBottom_toTopOf="@+id/end_guideline_horizontal"
         app:layout_constraintDimensionRatio="4:3"
-        app:layout_constraintEnd_toStartOf="@+id/vertical_guideline_3"
-        app:layout_constraintStart_toEndOf="@id/vertical_guideline_2"
-        app:layout_constraintTop_toBottomOf="@id/buttons_horizontal_guideline_2"
+        app:layout_constraintEnd_toStartOf="@id/end_guideline_vertical"
+        app:layout_constraintStart_toEndOf="@id/midway_divider"
+        app:layout_constraintTop_toBottomOf="@id/barrier8"
         app:rowCount="3">
 
         <Button
@@ -272,53 +277,42 @@
 
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/buttons_horizontal_guideline_1"
+        android:id="@+id/end_guideline_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="20dp"
-        app:layout_constraintGuide_percent="0.20" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/buttons_horizontal_guideline_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="20dp"
-        app:layout_constraintGuide_percent="0.50" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/buttons_horizontal_guideline_3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="20dp"
-        app:layout_constraintGuide_percent="0.87" />
+        app:layout_constraintGuide_end="27dp" />
 
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/vertical_guideline_1"
+        android:id="@+id/start_guideline_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="20dp"
-        app:layout_constraintGuide_percent="0.025" />
+        app:layout_constraintGuide_begin="27dp" />
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/vertical_guideline_2"
+        android:id="@+id/end_guideline_vertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="20dp"
+        app:layout_constraintGuide_end="27dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/midway_divider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="27dp"
         app:layout_constraintGuide_percent="0.60" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/vertical_guideline_3"
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="20dp"
-        app:layout_constraintGuide_percent="0.975" />
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="solve_button_layout,check_steps"
+        tools:layout_editor_absoluteY="216dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
