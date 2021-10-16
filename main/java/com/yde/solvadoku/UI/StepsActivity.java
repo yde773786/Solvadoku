@@ -94,7 +94,7 @@ public class StepsActivity extends AppCompatActivity {
             View dialogView = inflater.inflate(R.layout.choose_strategies, null);
             builder.setCustomTitle(dialogView)
                     .setMessage(algorithmDetail.get(pure_algorithm))
-                    .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                    .setPositiveButton(R.string.dialog_confirmation, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
 
