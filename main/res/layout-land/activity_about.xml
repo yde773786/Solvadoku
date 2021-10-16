@@ -41,8 +41,8 @@
         android:text="@string/about_solvadoku_text"
         android:textColor="@color/colorWhite"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@id/bottom_barrier"
-        app:layout_constraintEnd_toStartOf="@id/halfway_divider_vertical_about"
+        app:layout_constraintBottom_toTopOf="@id/halfway_divider_horizontal_about"
+        app:layout_constraintEnd_toStartOf="@id/end_guideline_vertical_about"
         app:layout_constraintStart_toEndOf="@id/start_guideline_vertical_about"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
@@ -58,23 +58,25 @@
         android:text="@string/github_repo_text"
         android:textColor="@color/colorWhite"
         android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@id/halfway_divider_horizontal_about"
-        app:layout_constraintEnd_toStartOf="@id/icon_divider_vertical_about"
+        app:layout_constraintBottom_toTopOf="@id/bottom_barrier"
+        app:layout_constraintEnd_toStartOf="@id/github_repo_link"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@id/halfway_divider_vertical_about"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:layout_constraintStart_toEndOf="@id/start_guideline_vertical_about"
+        app:layout_constraintTop_toBottomOf="@id/halfway_divider_horizontal_about"
+        app:layout_constraintVertical_bias="0.3" />
 
     <ImageView
         android:id="@+id/github_repo_link"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:layout_marginEnd="12dp"
         android:contentDescription="@string/contentDescriptionGitHubRepoButton"
         android:gravity="center"
         android:tag="https://github.com/yde773786/Solvadoku"
         app:layout_constraintBottom_toBottomOf="@+id/github_repo_text"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@id/end_guideline_vertical_about"
-        app:layout_constraintStart_toEndOf="@id/icon_divider_vertical_about"
+        app:layout_constraintEnd_toStartOf="@id/halfway_divider_vertical_about"
+        app:layout_constraintStart_toEndOf="@id/github_repo_text"
         app:layout_constraintTop_toTopOf="@+id/github_repo_text"
         app:srcCompat="@drawable/ic_github" />
 
@@ -93,15 +95,17 @@
         android:textColor="@color/colorWhite"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@id/bottom_barrier"
-        app:layout_constraintEnd_toStartOf="@id/icon_divider_vertical_about"
+        app:layout_constraintEnd_toStartOf="@id/email_link"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@id/halfway_divider_vertical_about"
-        app:layout_constraintTop_toBottomOf="@id/halfway_divider_horizontal_about" />
+        app:layout_constraintTop_toBottomOf="@id/halfway_divider_horizontal_about"
+        app:layout_constraintVertical_bias="0.3" />
 
     <ImageView
         android:id="@+id/email_link"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:layout_marginEnd="12dp"
         android:background="@drawable/button_contact_info"
         android:contentDescription="@string/contentDescriptionContactInfo"
         android:padding="18dp"
@@ -109,7 +113,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/contact_info_text"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toStartOf="@id/end_guideline_vertical_about"
-        app:layout_constraintStart_toEndOf="@id/icon_divider_vertical_about"
+        app:layout_constraintStart_toEndOf="@id/contact_info_text"
         app:layout_constraintTop_toTopOf="@+id/contact_info_text"
         app:srcCompat="@drawable/ic_mail" />
 
@@ -132,14 +136,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.50" />
+        app:layout_constraintGuide_percent="0.42" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/bottom_barrier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:barrierDirection="top"
-        app:constraint_referenced_ids="release_version_text" />
+        app:constraint_referenced_ids="app_icon"
+        tools:layout_editor_absoluteY="407dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/start_guideline_vertical_about"
@@ -153,14 +158,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.4" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/icon_divider_vertical_about"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_end="100dp" />
+        app:layout_constraintGuide_percent="0.50" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/end_guideline_vertical_about"
@@ -168,5 +166,18 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_end="18dp" />
+
+    <ImageView
+        android:id="@+id/app_icon"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="4dp"
+        android:contentDescription="@string/contentDescriptionSolvadokuIconAboutPage"
+        app:layout_constraintBottom_toTopOf="@id/release_version_text"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toStartOf="@id/end_guideline_vertical_about"
+        app:layout_constraintStart_toEndOf="@id/start_guideline_vertical_about"
+        app:srcCompat="@drawable/ic_solvadoku_circle_icon" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

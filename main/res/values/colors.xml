@@ -35,8 +35,9 @@
     <color name="about_button_pressed">#86CBA7</color>
     <color name="about_button_foreground">#4B926D</color>
 
-    <color name="contact_info_button_unpressed">#2B774E</color>
-    <color name="contact_info_button_pressed">#5AC38A</color>
+    <color name="contact_info_button_unpressed">#A9FFD2</color>
+    <color name="contact_info_button_pressed">#86CBA7</color>
+    <color name="contact_info_button_foreground">#4B4B4B</color>
 
     <color name="sudoku_board_numbers">#171717</color>
 
