@@ -8,14 +8,14 @@
         android:id="@+id/about_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@color/colorGrey"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/linearLayout3"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_more_info"
+        android:backgroundTint="@color/colorWhite"
         android:contentDescription="@string/contentDescriptionMoreInfo" />
 
     <LinearLayout
