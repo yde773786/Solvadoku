@@ -52,6 +52,7 @@
         <item name="android:textColor">@color/colorWhite</item>
         <item name="android:text">@string/title</item>
         <item name="android:layout_marginStart">10dp</item>
+        <item name="android:letterSpacing">0.08</item>
     </style>
 
     <style name="number_key" parent="Widget.AppCompat.Button">
