@@ -69,4 +69,22 @@
         <item name="android:padding">25dp</item>
     </style>
 
+    <style name="github_link" >
+        <item name="android:layout_width">130dp</item>
+        <item name="android:layout_height">130dp</item>
+        <item name="android:contentDescription">@string/contentDescriptionGitHubRepoLink</item>
+        <item name="android:tag">https://github.com/yde773786/Solvadoku</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="email_link" >
+        <item name="android:layout_width">130dp</item>
+        <item name="android:layout_height">130dp</item>
+        <item name="android:background">@drawable/button_email_link</item>
+        <item name="android:contentDescription">@string/contentDescriptionContactInfo</item>
+        <item name="android:padding">30dp</item>
+        <item name="android:tag">mailto:solvadokuteam@gmail.com?</item>
+        <item name="android:gravity">center</item>
+    </style>
+
 </resources>
