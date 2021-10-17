@@ -50,7 +50,7 @@
     <string name="contentDescriptionEraseButton">Erase the number entered in the cell</string>
     <string name="contentDescriptionNextCellButton">Go to the next cell</string>
     <string name="contentDescriptionChooseStrategiesButton">Choose strategies</string>
-    <string name="contentDescriptionGitHubRepoButton">Link to Solvadoku GitHub Repository</string>
+    <string name="contentDescriptionGitHubRepoLink">Link to Solvadoku GitHub Repository</string>
     <string name="contentDescriptionSolvadokuIconAboutPage">Solvadoku App Icon</string>
     <string name="contentDescriptionPencilMarksButton">Display Pencil Marks</string>
     <string name="contentDescriptionAboutButton">About the Solvadoku App</string>
