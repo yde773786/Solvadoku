@@ -2,13 +2,16 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_pressed="false">
         <shape android:shape="oval">
-            <solid android:color="@color/contact_info_button_unpressed" />
+            <gradient
+                android:startColor="@color/colorPrimaryLight"
+                android:endColor="@color/colorPrimaryDark"
+                android:angle="330" />
         </shape>
     </item>
 
     <item android:state_pressed="true">
         <shape android:shape="oval">
-            <solid android:color="@color/contact_info_button_pressed" />
+            <solid android:color="@color/colorPrimaryLight" />
         </shape>
     </item>
 </selector>
