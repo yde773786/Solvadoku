@@ -59,12 +59,9 @@
 
     <ImageView
         android:id="@+id/github_repo_link"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
+        style="@style/github_link"
         android:layout_marginEnd="24dp"
-        android:contentDescription="@string/contentDescriptionGitHubRepoButton"
-        android:gravity="center"
-        android:tag="https://github.com/yde773786/Solvadoku"
+        android:contentDescription="@string/contentDescriptionGitHubRepoLink"
         app:layout_constraintBottom_toBottomOf="@id/bottom_barrier"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toStartOf="@id/halfway_divider_vertical_about"
@@ -93,19 +90,15 @@
 
     <ImageView
         android:id="@+id/email_link"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
+        style="@style/email_link"
         android:layout_marginEnd="24dp"
-        android:background="@drawable/button_contact_info"
-        android:contentDescription="@string/contentDescriptionContactInfo"
-        android:padding="30dp"
-        android:tag="mailto:solvadokuteam@gmail.com?"
+        android:contentDescription="@string/contentDescriptionEmailContactInfo"
         app:layout_constraintBottom_toBottomOf="@+id/contact_info_text"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toStartOf="@id/end_guideline_vertical_about"
         app:layout_constraintStart_toEndOf="@id/contact_info_text"
         app:layout_constraintTop_toTopOf="@+id/contact_info_text"
-        app:srcCompat="@drawable/ic_mail" />
+        app:srcCompat="@drawable/ic_email" />
 
     <ImageView
         android:id="@+id/app_icon"
