@@ -55,6 +55,6 @@
     <string name="contentDescriptionPencilMarksButton">Display Pencil Marks</string>
     <string name="contentDescriptionAboutButton">About the Solvadoku App</string>
     <string name="contentDescriptionMoreInfo">Show more info about this strategy</string>
-    <string name="contentDescriptionContactInfo">Email the Solvadoku Team</string>
+    <string name="contentDescriptionEmailContactInfo">Email the Solvadoku Team</string>
 
 </resources>
