@@ -1,4 +1,4 @@
-package com.yde.solvadoku.UI;
+package com.yde.solvadoku.UI.controllers;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -17,11 +17,14 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.yde.solvadoku.Logic.Cell;
 import com.yde.solvadoku.Logic.Sudoku;
 import com.yde.solvadoku.R;
-import com.yde.solvadoku.UI.Grids.SudokuGrid;
+import com.yde.solvadoku.UI.grids.SudokuGrid;
+import com.yde.solvadoku.UI.persistence.MainActivityViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton pencil_marks_btn;
     private ImageButton about_btn;
     private ImageButton next_cell_btn;
+    private ViewModel mViewModel;
     private ImageButton clear_board_btn;
     private ImageButton erase_cell_btn;
     Cell[][] puzzle;
@@ -58,12 +62,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
+
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
         try {
             Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
-        }
-        catch (NullPointerException ignored) {
+        } catch (NullPointerException ignored) {
         }
 
         putPencilMarks = true;

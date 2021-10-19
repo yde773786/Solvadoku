@@ -1,4 +1,4 @@
-package com.yde.solvadoku.UI.Grids;
+package com.yde.solvadoku.UI.grids;
 
 import android.content.Context;
 import android.graphics.Typeface;

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorDarkGrey"
     android:paddingBottom="4dp"
-    tools:context=".UI.MainActivity">
+    tools:context=".UI.controllers.MainActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -67,7 +67,7 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <com.yde.solvadoku.UI.Grids.SudokuGrid
+    <com.yde.solvadoku.UI.grids.SudokuGrid
         android:id="@+id/sudoku_board"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -83,7 +83,7 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:rowCount="9">
 
-    </com.yde.solvadoku.UI.Grids.SudokuGrid>
+    </com.yde.solvadoku.UI.grids.SudokuGrid>
 
 
     <androidx.gridlayout.widget.GridLayout

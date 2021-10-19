@@ -1,10 +1,9 @@
-package com.yde.solvadoku.UI.Grids;
+package com.yde.solvadoku.UI.grids;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.TextView;
 
 import androidx.gridlayout.widget.GridLayout;
