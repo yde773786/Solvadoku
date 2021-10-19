@@ -11,19 +11,30 @@ import com.yde.solvadoku.R;
 
 public class AboutActivity extends AppCompatActivity {
 
-    Intent intent;
+    Intent open_link_intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
-        ImageView github = findViewById(R.id.github_repo_link);
-        github.setOnClickListener(view -> {
-            intent = new Intent();
-            intent.setAction(Intent.ACTION_VIEW);
+
+        ImageView github_link = findViewById(R.id.github_repo_link);
+        github_link.setOnClickListener(view -> {
+            open_link_intent = new Intent();
+            open_link_intent.setAction(Intent.ACTION_VIEW);
             String url = (String) view.getTag();
-            intent.setData(Uri.parse(url));
-            startActivity(intent);
+            open_link_intent.setData(Uri.parse(url));
+            startActivity(open_link_intent);
+        });
+
+        ImageView send_email_link = findViewById(R.id.email_link);
+        send_email_link.setOnClickListener(view -> {
+            open_link_intent = new Intent();
+            open_link_intent.setAction(Intent.ACTION_VIEW);
+            String url = (String) view.getTag();
+            open_link_intent.setData(Uri.parse(url));
+            startActivity(open_link_intent);
         });
     }
 }

@@ -4,17 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/colorDarkGrey"
     android:paddingBottom="4dp"
     tools:context=".UI.MainActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colortoolbar"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="@style/AppTheme"
+        style="@style/toolbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -255,7 +251,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.25"
-            android:background="@drawable/assist_enabled"
+            android:background="@drawable/button_choose_strat"
             android:contentDescription="@string/contentDescriptionChooseStrategiesButton"
             android:cropToPadding="true"
             android:padding="12dp"
@@ -272,7 +268,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="25dp"
-        android:background="@drawable/secondary_enabled"
+        android:background="@drawable/button_show_steps"
         android:fontFamily="@font/raleway"
         android:text="@string/steps"
         android:textColor="@color/colorWhite"

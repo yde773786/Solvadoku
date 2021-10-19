@@ -5,15 +5,10 @@
         android:right="1dp"
         android:top="1dp">
         <shape android:shape="rectangle">
-            <solid android:color="@color/secondarybtn" />
+            <solid android:color="@color/choose_strat_button" />
             <corners
                 android:bottomRightRadius="12dp"
-                android:bottomLeftRadius="12dp"
-                android:topLeftRadius="12dp"
                 android:topRightRadius="12dp" />
-            <stroke
-                android:width="3dip"
-                android:color="@color/colorPrimary" />
         </shape>
     </item>
 </layer-list>

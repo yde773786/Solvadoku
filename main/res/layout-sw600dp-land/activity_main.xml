@@ -4,16 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
+    android:background="@color/colorDarkGrey"
     tools:context=".UI.MainActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/colortoolbar"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="@style/AppTheme"
+        style="@style/toolbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -80,7 +76,6 @@
         app:layout_constraintEnd_toStartOf="@id/midway_divider"
         app:layout_constraintStart_toEndOf="@id/start_guideline_vertical"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_marginBaseline="2dp"
         app:rowCount="9" />
 
 
@@ -114,7 +109,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.25"
-            android:background="@drawable/assist_enabled"
+            android:background="@drawable/button_choose_strat"
             android:contentDescription="@string/contentDescriptionChooseStrategiesButton"
             android:cropToPadding="true"
             android:padding="18dp"
@@ -128,7 +123,7 @@
         android:layout_height="0dp"
         android:layout_margin="10dp"
         android:layout_marginBottom="27dp"
-        android:background="@drawable/secondary_enabled"
+        android:background="@drawable/button_show_steps"
         android:fontFamily="@font/raleway"
         android:text="@string/steps"
         android:textColor="@color/colorWhite"

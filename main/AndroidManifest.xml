@@ -35,7 +35,7 @@
 
         <activity
             android:name=".UI.StepsActivity"
-            android:screenOrientation="fullSensor">
+            android:screenOrientation="fullUser">
         </activity>
     </application>
 

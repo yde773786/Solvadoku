@@ -2,13 +2,13 @@
     <string name="app_name">Solvadoku</string>
     <string name="solve">SOLVE </string>
     <string name="steps">STEPS</string>
-    <string name="pop_up_title">Choose Strategies</string>
+    <string name="choose_strat_title">Choose Strategies</string>
     <string name="invalid_input">Invalid input</string>
     <string name="no_effect_toast">The chosen strategies had no effect on the puzzle</string>
     <string name="select_cell_toast">Select a cell to enter input</string>
     <string name="pencil_marks_disabled_toast">Press Solve to enable Pencil Marks</string>
     <string name="confirm">Confirm</string>
-    <string name="dialog_confirmation">Ok! Got it</string>
+    <string name="dialog_confirmation">Got it!</string>
     <string name="title">SOLVADOKU</string>
 
     <string name="naked_single">When a cell has only one possible candidate remaining, we call it a Naked Single. The candidate then gets inserted into the cell.</string>
@@ -50,11 +50,11 @@
     <string name="contentDescriptionEraseButton">Erase the number entered in the cell</string>
     <string name="contentDescriptionNextCellButton">Go to the next cell</string>
     <string name="contentDescriptionChooseStrategiesButton">Choose strategies</string>
-    <string name="contentDescriptionGitHubRepoButton">Link to Solvadoku GitHub Repository</string>
+    <string name="contentDescriptionGitHubRepoLink">Link to Solvadoku GitHub Repository</string>
     <string name="contentDescriptionSolvadokuIconAboutPage">Solvadoku App Icon</string>
     <string name="contentDescriptionPencilMarksButton">Display Pencil Marks</string>
     <string name="contentDescriptionAboutButton">About the Solvadoku App</string>
     <string name="contentDescriptionMoreInfo">Show more info about this strategy</string>
-    <string name="contentDescriptionContactInfo">Email the Solvadoku Team</string>
+    <string name="contentDescriptionEmailContactInfo">Email the Solvadoku Team</string>
 
 </resources>
