@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorDarkGrey"
     android:orientation="vertical"
-    tools:context=".UI.MainActivity">
+    tools:context=".UI.controllers.MainActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -60,7 +60,7 @@
 
     </androidx.appcompat.widget.Toolbar>
 
-    <com.yde.solvadoku.UI.Grids.SudokuGrid
+    <com.yde.solvadoku.UI.grids.SudokuGrid
         android:id="@+id/sudoku_board"
         android:layout_width="match_parent"
         android:layout_height="0dp"

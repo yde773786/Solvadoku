@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true" />
 
-    <com.yde.solvadoku.UI.Grids.PencilMarksGrid
+    <com.yde.solvadoku.UI.grids.PencilMarksGrid
         android:id="@+id/add_display"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

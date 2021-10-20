@@ -1,4 +1,4 @@
-package com.yde.solvadoku.UI;
+package com.yde.solvadoku.UI.controllers;
 
 import android.app.Activity;
 import android.content.Intent;

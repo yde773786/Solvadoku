@@ -1,4 +1,4 @@
-package com.yde.solvadoku.UI;
+package com.yde.solvadoku.UI.controllers;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -102,8 +102,8 @@ public class StepsActivity extends AppCompatActivity {
                     });
             AlertDialog dialog = builder.create();
             dialog.show();
-            TextView title = (TextView) dialog.findViewById(R.id.pop);
-            TextView content = (TextView) dialog.findViewById(android.R.id.message);
+            TextView title = dialog.findViewById(R.id.pop);
+            TextView content = dialog.findViewById(android.R.id.message);
             Typeface face = Typeface.createFromAsset(getAssets(), "fonts/raleway.ttf");
             content.setTypeface(face);
             title.setText(pure_algorithm);
