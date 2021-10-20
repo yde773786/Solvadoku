@@ -26,9 +26,7 @@ import com.yde.solvadoku.UI.grids.SudokuGrid;
 import com.yde.solvadoku.UI.persistence.MainActivityViewModel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class MainActivity extends AppCompatActivity {
 
