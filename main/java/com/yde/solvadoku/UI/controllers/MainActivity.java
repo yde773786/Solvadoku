@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,6 +59,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        check_steps_btn = findViewById(R.id.check_steps);
+        keypad = new Button[]{findViewById(R.id.one), findViewById(R.id.two), findViewById(R.id.three), findViewById(R.id.four),
+                findViewById(R.id.five), findViewById(R.id.six), findViewById(R.id.seven), findViewById(R.id.eight), findViewById(R.id.nine)};
+        next_cell_btn = findViewById(R.id.next_cell);
+        choose_strategies_btn = findViewById(R.id.choose_strategies);
+        clear_board_btn = findViewById(R.id.clear_board);
+        erase_cell_btn = findViewById(R.id.erase);
+        pencil_marks_btn = findViewById(R.id.pencil_marks_button);
+        about_btn = findViewById(R.id.about_button);
+        solve_btn = findViewById(R.id.solve);
+
         mViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
         checkedItems = mViewModel.getCheckedItems();
 
@@ -70,14 +82,22 @@ public class MainActivity extends AppCompatActivity {
 
         putPencilMarks = mViewModel.isPencilMarks();
         isInitialBoard = true;
-        AtomicReference<ArrayList<TextView>> solvedBoard = new AtomicReference<>(new ArrayList<>());
+        initialBoard = new boolean[9][9];
         sudokuGrid = findViewById(R.id.sudoku_board);
         unit = sudokuGrid.getUnit();
         puzzle = new Cell[9][9];
-        initialBoard = new boolean[9][9];
 
-        keypad = new Button[]{findViewById(R.id.one), findViewById(R.id.two), findViewById(R.id.three), findViewById(R.id.four),
-                findViewById(R.id.five), findViewById(R.id.six), findViewById(R.id.seven), findViewById(R.id.eight), findViewById(R.id.nine)};
+        String[][] values = mViewModel.getValues();
+        Log.i("YO", Arrays.deepToString(mViewModel.getValues()));
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                unit[i][j].setText(values[i][j]);
+            }
+        }
+
+        if (mViewModel.isSolving()) {
+            solver();
+        }
 
         for (int i = 0; i < keypad.length; i++) {
             final int finalI = i;
@@ -90,7 +110,6 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        clear_board_btn = findViewById(R.id.clear_board);
         clear_board_btn.setOnClickListener(view -> {
             sudokuGrid.resetSudoku();
             initialBoard = new boolean[9][9];
@@ -112,7 +131,6 @@ public class MainActivity extends AppCompatActivity {
             isInitialBoard = true;
         });
 
-        choose_strategies_btn = findViewById(R.id.choose_strategies);
         choose_strategies_btn.setOnClickListener(view -> {
             Context context = new ContextThemeWrapper(MainActivity.this, R.style.CustomDialog);
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -138,88 +156,14 @@ public class MainActivity extends AppCompatActivity {
             dialog.show();
         });
 
-        solve_btn = findViewById(R.id.solve);
         solve_btn.setOnClickListener(view -> {
-
-            if (sudokuGrid.getIsLegalPuzzle()) {
-                setEnabledSudokuButton(check_steps_btn, true);
-                Sudoku.cellCount = 0;
-
-                for (int i = 0; i < 9; i++) {
-                    for (int j = 0; j < 9; j++) {
-                        puzzle[i][j] = new Cell();
-                    }
-                }
-
-                setEnabledEditingButtons(false);
-                setActivatedSudokuButton(pencil_marks_btn,true);
-
-                // Finds initial board pieces (Runs first time only)
-                if (isInitialBoard) {
-                    for (int i = 0; i < 9; i++) {
-                        for (int j = 0; j < 9; j++) {
-                            if (sudokuGrid.hasValue(unit[i][j])) {
-                                initialBoard[i][j] = true;
-                            }
-                        }
-                    }
-
-                    isInitialBoard = false;
-                }
-
-                // Places the initial board on every solve click
-                for (int i = 0; i < 9; i++) {
-                    for (int j = 0; j < 9; j++) {
-                        if (initialBoard[i][j]) {
-                            Sudoku.placeNumber(puzzle, i, j, value(unit[i][j]));
-                        }
-                    }
-                }
-
-                solvedBoard.set(new ArrayList<>());
-
-                Sudoku.resetSolution();
-                Sudoku.partiallySolve(puzzle, checkedItems);
-
-                for (int i = 0; i < 9; i++) {
-                    for (int j = 0; j < 9; j++) {
-
-                        if (!initialBoard[i][j]) {
-                            if (puzzle[i][j].getSolution() != 0) { // Just solved cell
-                                solvedBoard.get().add(unit[i][j]);
-                                sudokuGrid.switchBackground(unit[i][j], sudokuGrid.DISABLED);
-                                sudokuGrid.switchTextColor(unit[i][j], sudokuGrid.SOLVED);
-                                unit[i][j].setText(String.valueOf(puzzle[i][j].getSolution()));
-                            } else { // Previously solved cell
-                                sudokuGrid.switchBackground(unit[i][j], sudokuGrid.CLEAR);
-                                unit[i][j].setText(R.string.empty);
-                            }
-                        }
-
-                        if (putPencilMarks && !sudokuGrid.hasValue(unit[i][j])) {
-                            sudokuGrid.pencilDisplay(puzzle[i][j], i, j);
-                        } else {
-                            sudokuGrid.pencilClear(i, j);
-                        }
-                        unit[i][j].setEnabled(false);
-                    }
-                }
-
-                if (Sudoku.cellCount == 81) {
-                    setEnabledSudokuButton(solve_btn, false);
-                }
-            } else {
-                Toast.makeText(MainActivity.this, R.string.invalid_input, Toast.LENGTH_SHORT).show();
-            }
+            solver();
         });
 
-        erase_cell_btn = findViewById(R.id.erase);
         erase_cell_btn.setOnClickListener(view -> sudokuGrid.setFocusedValue(getString(R.string.empty)));
 
-        next_cell_btn = findViewById(R.id.next_cell);
         next_cell_btn.setOnClickListener(view -> sudokuGrid.giveNextCellFocus());
 
-        check_steps_btn = findViewById(R.id.check_steps);
         setEnabledSudokuButton(check_steps_btn, false);
 
         check_steps_btn.setOnClickListener(view -> {
@@ -232,12 +176,11 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, R.string.no_effect_toast, Toast.LENGTH_SHORT).show();
         });
 
-        pencil_marks_btn = findViewById(R.id.pencil_marks_button);
         // Disabling the Pencil Marks Button.
         setActivatedSudokuButton(pencil_marks_btn, false);
         pencil_marks_btn.setOnClickListener(view -> {
             // Checking if the Pencil Marks Button is enabled.
-            if(pencil_marks_btn.isActivated()) {
+            if (pencil_marks_btn.isActivated()) {
                 // Toggling the Pencil Marks state.
                 putPencilMarks = !putPencilMarks;
                 // Toggling the Pencil Marks icon to represent its state (disabled or enabled).
@@ -254,12 +197,11 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             // If the Pencil Marks Button is not enabled, display toast message.
-            else{
+            else {
                 Toast.makeText(MainActivity.this, R.string.pencil_marks_disabled_toast, Toast.LENGTH_LONG).show();
             }
         });
 
-        about_btn = findViewById(R.id.about_button);
         about_btn.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, AboutActivity.class);
             startActivity(intent);
@@ -267,6 +209,76 @@ public class MainActivity extends AppCompatActivity {
 
 
     } // end of onCreate method
+
+    private void solver() {
+        if (sudokuGrid.getIsLegalPuzzle()) {
+            setEnabledSudokuButton(check_steps_btn, true);
+            Sudoku.cellCount = 0;
+
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    puzzle[i][j] = new Cell();
+                }
+            }
+
+            setEnabledEditingButtons(false);
+            setActivatedSudokuButton(pencil_marks_btn, true);
+
+            // Finds initial board pieces (Runs first time only)
+            if (isInitialBoard) {
+                for (int i = 0; i < 9; i++) {
+                    for (int j = 0; j < 9; j++) {
+                        if (sudokuGrid.hasValue(unit[i][j])) {
+                            initialBoard[i][j] = true;
+                        }
+                    }
+                }
+
+                isInitialBoard = false;
+            }
+
+            // Places the initial board on every solve click
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    if (initialBoard[i][j]) {
+                        Sudoku.placeNumber(puzzle, i, j, value(unit[i][j]));
+                    }
+                }
+            }
+
+            Sudoku.resetSolution();
+            Sudoku.partiallySolve(puzzle, checkedItems);
+
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+
+                    if (!initialBoard[i][j]) {
+                        if (puzzle[i][j].getSolution() != 0) { // Just solved cell
+                            sudokuGrid.switchBackground(unit[i][j], sudokuGrid.DISABLED);
+                            sudokuGrid.switchTextColor(unit[i][j], sudokuGrid.SOLVED);
+                            unit[i][j].setText(String.valueOf(puzzle[i][j].getSolution()));
+                        } else { // Previously solved cell
+                            sudokuGrid.switchBackground(unit[i][j], sudokuGrid.CLEAR);
+                            unit[i][j].setText(R.string.empty);
+                        }
+                    }
+
+                    if (putPencilMarks && !sudokuGrid.hasValue(unit[i][j])) {
+                        sudokuGrid.pencilDisplay(puzzle[i][j], i, j);
+                    } else {
+                        sudokuGrid.pencilClear(i, j);
+                    }
+                    unit[i][j].setEnabled(false);
+                }
+            }
+
+            if (Sudoku.cellCount == 81) {
+                setEnabledSudokuButton(solve_btn, false);
+            }
+        } else {
+            Toast.makeText(MainActivity.this, R.string.invalid_input, Toast.LENGTH_SHORT).show();
+        }
+    }
 
     private int value(TextView textView) {
         return Integer.parseInt(textView.getText().toString());
@@ -297,5 +309,15 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         mViewModel.setCheckedItems(checkedItems);
         mViewModel.setPencilMarks(putPencilMarks);
+        mViewModel.setSolving(check_steps_btn.isEnabled());
+
+        String[][] values = new String[9][9];
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                values[i][j] = unit[i][j].getText().toString();
+            }
+        }
+
+        mViewModel.setValues(values);
     }
 } // end of MainActivity class

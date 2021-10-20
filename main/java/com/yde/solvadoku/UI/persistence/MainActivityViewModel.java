@@ -1,9 +1,6 @@
 package com.yde.solvadoku.UI.persistence;
 
 import androidx.lifecycle.ViewModel;
-
-import com.yde.solvadoku.Logic.Cell;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -13,17 +10,26 @@ public class MainActivityViewModel extends ViewModel {
             "Claiming Pair", "Hidden Pair", "Naked Triple", "Hidden Triple", "X-Wing", "Swordfish", "Jellyfish",
             "Naked Quad", "Hidden Quad", "Finned X-Wing", "Finned Swordfish", "Finned Jellyfish", "Brute Force"};
 
-    private Cell[][] grid = new Cell[9][9];
+    private String[][] values = new String[9][9];
+
     private boolean pencilMarks;
     private ArrayList<String> checkedItems = new ArrayList<>(Arrays.asList(MainActivityViewModel.LOGICS));
-    ;
+    private boolean isSolving;
 
-    public Cell[][] getGrid() {
-        return grid;
+    public String[][] getValues() {
+        return values;
     }
 
-    public void setGrid(Cell[][] grid) {
-        this.grid = grid;
+    public void setValues(String[][] values) {
+        this.values = values;
+    }
+
+    public boolean isSolving() {
+        return isSolving;
+    }
+
+    public void setSolving(boolean solving) {
+        isSolving = solving;
     }
 
     public boolean isPencilMarks() {
