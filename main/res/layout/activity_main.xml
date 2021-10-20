@@ -253,11 +253,11 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.75"
-                    android:background="@drawable/core_enabled"
+                    android:background="@drawable/button_solve"
                     android:fontFamily="@font/raleway"
                     android:text="@string/solve"
                     android:textColor="@color/colorWhite"
-                    android:textSize="24sp" />
+                    android:textSize="23sp" />
 
                 <ImageButton
                     android:id="@+id/choose_strategies"
@@ -267,7 +267,7 @@
                     android:background="@drawable/button_choose_strat"
                     android:contentDescription="@string/contentDescriptionChooseStrategiesButton"
                     android:cropToPadding="true"
-                    android:padding="12dp"
+                    android:padding="12.5dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_dropdown_arrow_icon" />
             </LinearLayout>

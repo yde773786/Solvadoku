@@ -98,11 +98,11 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.75"
-            android:background="@drawable/core_enabled"
+            android:background="@drawable/button_solve"
             android:fontFamily="@font/raleway"
             android:text="@string/solve"
             android:textColor="@color/colorWhite"
-            android:textSize="40sp" />
+            android:textSize="38sp" />
 
         <ImageButton
             android:id="@+id/choose_strategies"
