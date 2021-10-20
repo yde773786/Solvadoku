@@ -17,7 +17,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.yde.solvadoku.Logic.Cell;
@@ -43,16 +42,13 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton pencil_marks_btn;
     private ImageButton about_btn;
     private ImageButton next_cell_btn;
-    private ViewModel mViewModel;
+    private MainActivityViewModel mViewModel;
     private ImageButton clear_board_btn;
     private ImageButton erase_cell_btn;
     Cell[][] puzzle;
     Button[] keypad = new Button[9];
     private static boolean putPencilMarks;
-    final String[] LOGICS = {"Naked Single", "Hidden Single", "Naked Pair", "Pointing Pair",
-            "Claiming Pair", "Hidden Pair", "Naked Triple", "Hidden Triple", "X-Wing", "Swordfish", "Jellyfish",
-            "Naked Quad", "Hidden Quad", "Finned X-Wing", "Finned Swordfish", "Finned Jellyfish", "Brute Force"};
-    final ArrayList<String> checkedItems = new ArrayList<>(Arrays.asList(LOGICS));
+    private ArrayList<String> checkedItems;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @SuppressLint("ClickableViewAccessibility")
@@ -63,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
+        checkedItems = mViewModel.getCheckedItems();
 
         Toolbar myToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
@@ -71,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (NullPointerException ignored) {
         }
 
-        putPencilMarks = true;
+        putPencilMarks = mViewModel.isPencilMarks();
         isInitialBoard = true;
         AtomicReference<ArrayList<TextView>> solvedBoard = new AtomicReference<>(new ArrayList<>());
         sudokuGrid = findViewById(R.id.sudoku_board);
@@ -122,18 +119,18 @@ public class MainActivity extends AppCompatActivity {
             LayoutInflater inflater = getLayoutInflater();
             View customTitle = inflater.inflate(R.layout.choose_strategies, null);
 
-            boolean[] previous = new boolean[LOGICS.length];
+            boolean[] previous = new boolean[MainActivityViewModel.LOGICS.length];
 
-            for (int i = 0; i < LOGICS.length; i++) {
-                if (checkedItems.contains(LOGICS[i])) {
+            for (int i = 0; i < MainActivityViewModel.LOGICS.length; i++) {
+                if (checkedItems.contains(MainActivityViewModel.LOGICS[i])) {
                     previous[i] = true;
                 }
             }
 
-            builder.setCustomTitle(customTitle).setMultiChoiceItems(LOGICS, previous, (dialogInterface, i, isChecked) -> {
+            builder.setCustomTitle(customTitle).setMultiChoiceItems(MainActivityViewModel.LOGICS, previous, (dialogInterface, i, isChecked) -> {
                 if (isChecked) {
-                    checkedItems.add(LOGICS[i]);
-                } else checkedItems.remove(LOGICS[i]);
+                    checkedItems.add(MainActivityViewModel.LOGICS[i]);
+                } else checkedItems.remove(MainActivityViewModel.LOGICS[i]);
             }).setPositiveButton(R.string.confirm, (dialogInterface, x) -> {
             });
 
@@ -295,4 +292,10 @@ public class MainActivity extends AppCompatActivity {
         erase_cell_btn.setEnabled(isEnabled);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mViewModel.setCheckedItems(checkedItems);
+        mViewModel.setPencilMarks(putPencilMarks);
+    }
 } // end of MainActivity class
