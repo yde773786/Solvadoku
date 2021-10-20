@@ -166,6 +166,6 @@
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toStartOf="@id/end_guideline_vertical_about"
         app:layout_constraintStart_toEndOf="@id/start_guideline_vertical_about"
-        app:srcCompat="@drawable/ic_solvadoku_circle_icon" />
+        app:srcCompat="@drawable/ic_launcher_round" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
