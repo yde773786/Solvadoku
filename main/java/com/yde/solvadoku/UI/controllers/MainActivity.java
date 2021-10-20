@@ -88,12 +88,13 @@ public class MainActivity extends AppCompatActivity {
         puzzle = new Cell[9][9];
 
         String[][] values = mViewModel.getValues();
-        Log.i("YO", Arrays.deepToString(mViewModel.getValues()));
+
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 unit[i][j].setText(values[i][j]);
             }
         }
+        sudokuGrid.paintUpdate();
 
         if (mViewModel.isSolving()) {
             solver();
@@ -164,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
 
         next_cell_btn.setOnClickListener(view -> sudokuGrid.giveNextCellFocus());
 
-        setEnabledSudokuButton(check_steps_btn, false);
+        setEnabledSudokuButton(check_steps_btn, mViewModel.isSolving());
 
         check_steps_btn.setOnClickListener(view -> {
             ArrayList<String[]> viewHolderList = Sudoku.viewHolderList;
@@ -177,7 +178,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // Disabling the Pencil Marks Button.
-        setActivatedSudokuButton(pencil_marks_btn, false);
+        setActivatedSudokuButton(pencil_marks_btn, mViewModel.isSolving());
         pencil_marks_btn.setOnClickListener(view -> {
             // Checking if the Pencil Marks Button is enabled.
             if (pencil_marks_btn.isActivated()) {
@@ -314,7 +315,11 @@ public class MainActivity extends AppCompatActivity {
         String[][] values = new String[9][9];
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                values[i][j] = unit[i][j].getText().toString();
+                if (initialBoard[i][j] && mViewModel.isSolving()) {
+                    values[i][j] = unit[i][j].getText().toString();
+                } else if (!mViewModel.isSolving()) {
+                    values[i][j] = unit[i][j].getText().toString();
+                }
             }
         }
 

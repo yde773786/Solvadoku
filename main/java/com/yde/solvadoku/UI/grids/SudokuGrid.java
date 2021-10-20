@@ -218,7 +218,7 @@ public class SudokuGrid extends SquareGrid {
     /**
      * Paints the row, column or block as per current condition of board
      */
-    private void paintUpdate() {
+    public void paintUpdate() {
         isLegalPuzzle = true;
         isError = new boolean[9][9];
 
