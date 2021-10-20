@@ -1,14 +1,19 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:bottom="1dp"
-        android:left="1dp"
-        android:right="1dp"
-        android:top="1dp">
-        <shape android:shape="rectangle">
-            <solid android:color="@color/choose_strat_button" />
-            <corners
-                android:bottomRightRadius="12dp"
-                android:topRightRadius="12dp" />
-        </shape>
-    </item>
+<item android:state_pressed="false">
+    <shape android:shape="rectangle">
+        <solid android:color="@color/choose_strat_button_unpressed" />
+        <corners
+            android:bottomRightRadius="12dp"
+            android:topRightRadius="12dp" />
+    </shape>
+</item>
+
+<item android:state_pressed="true">
+    <shape android:shape="rectangle">
+        <solid android:color="@color/primary_buttons_pressed" />
+        <corners
+            android:bottomRightRadius="12dp"
+            android:topRightRadius="12dp" />
+    </shape>
+</item>
 </layer-list>

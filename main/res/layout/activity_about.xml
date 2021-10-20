@@ -164,6 +164,6 @@
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/ic_solvadoku_circle_icon" />
+        app:srcCompat="@drawable/ic_launcher_round" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
