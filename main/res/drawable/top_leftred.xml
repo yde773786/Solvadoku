@@ -3,12 +3,12 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- This is the line -->
     <item
-        android:top="1.5dp"
-        android:left="1.5dp">
+        android:top="@dimen/major_line"
+        android:left="@dimen/major_line">
         <shape>
             <solid android:color="@color/lightRed"></solid>
             <stroke
-                android:width="0.1dp"
+                android:width="@dimen/minor_line"
                 android:color="@color/colorBlack" />
         </shape>
     </item>
