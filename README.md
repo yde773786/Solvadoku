@@ -1,6 +1,8 @@
 # Solvadoku
-![Logo](https://github.com/yde773786/Solvadoku/blob/master/ic_launcher-playstore.png)
 
+<p align="center">
+  <img src="https://github.com/yde773786/Solvadoku/blob/master/ic_launcher-playstore.png" alt="Solvadoku-logo" width="120px" height="120px"/>
+</p>
 
 An Android application that solves and provides steps on how a Sudoku puzzle was solved.
 
