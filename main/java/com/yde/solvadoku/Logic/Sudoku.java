@@ -592,7 +592,7 @@ public final class Sudoku {
                 algorithm.add("Pointing Pair in Row " + (row + 1));
             else
                 algorithm.add("Pointing Pair in Column " + (col + 1));
-            insert.add("Candidate: " + num + " is common to cells " + insert_candidates[0] + " " + insert_candidates[1]);
+            insert.add("Candidate " + num + " is common to cells " + insert_candidates[0] + " " + insert_candidates[1]);
             remove.add(remove_str);
         }
 
@@ -730,7 +730,7 @@ public final class Sudoku {
                 algorithm.add("Claiming Pair in Row " + (current + 1));
             else
                 algorithm.add("Claiming Pair in Column " + (current + 1));
-            insert.add("Candidate: " + num + " is common to cells " + insert_candidates[0] + " " + insert_candidates[1]);
+            insert.add("Candidate " + num + " is common to cells " + insert_candidates[0] + " " + insert_candidates[1]);
             remove.add(remove_str);
         }
 
