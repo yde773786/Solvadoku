@@ -12,7 +12,7 @@ public class MainActivityViewModel extends ViewModel {
 
     private String[][] values = new String[9][9];
 
-    private boolean pencilMarks;
+    private boolean pencilMarks = true;
     private ArrayList<String> checkedItems = new ArrayList<>(Arrays.asList(MainActivityViewModel.LOGICS));
     private boolean isSolving;
 

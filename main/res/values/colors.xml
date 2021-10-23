@@ -43,8 +43,9 @@
     <color name="about_button_pressed">#86CBA7</color>
     <color name="about_button_foreground">@color/colorPrimaryDarker</color>
 
-    <color name="contact_info_button_unpressed">#A9FFD2</color>
-    <color name="contact_info_button_pressed">#86CBA7</color>
     <color name="contact_info_button_foreground">#4B4B4B</color>
+
+    <color name="major_line">#212121</color>
+    <color name="minor_line">#808080</color>
 
 </resources>
