@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="pencil_marks_text_size">8sp</dimen>
+    <dimen name="minor_line">0.2dp</dimen>
+    <dimen name="major_line">0.3dp</dimen>
 </resources>
