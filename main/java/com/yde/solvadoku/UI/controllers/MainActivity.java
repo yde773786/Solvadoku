@@ -147,8 +147,8 @@ public class MainActivity extends AppCompatActivity {
                 if (isChecked) {
                     checkedItems.add(MainActivityViewModel.LOGICS[i]);
                 } else checkedItems.remove(MainActivityViewModel.LOGICS[i]);
-            }).setPositiveButton(R.string.confirm, (dialogInterface, x) -> {
             });
+            builder.setPositiveButton(R.string.confirm, (dialogInterface, x) -> { });
 
             AlertDialog dialog = builder.create();
             dialog.show();
