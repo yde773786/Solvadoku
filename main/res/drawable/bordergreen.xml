@@ -3,11 +3,11 @@
     android:shape="rectangle">
 
     <!-- View background color -->
-    <solid android:color="@color/colorGreen"></solid>
+    <solid android:color="@color/colorGreen" />
 
     <stroke
         android:width="@dimen/minor_line"
-        android:color="@color/colorBlack"></stroke>
+        android:color="@color/minor_line" />
 
 
 </shape>
