@@ -32,7 +32,7 @@
     <string name="about_solvadoku_text">Solvadoku\'s aim is to give Sudoku enthusiasts the confidence to tackle tougher puzzles and pick up new solving techniques along the way</string>
     <string name="github_repo_text">Our project is Free and Open-Source Software!<br/> Check out the Github Repository for Solvadoku: <br/> <a href="https://github.com/yde773786/Solvadoku">github.com/yde773786/Solvadoku</a></string>
     <string name="contact_us_text">We\'d love to hear your feedback!<br/> If you wish to report a bug, request a feature or have suggestions, reach out to us at<br/> <a href="mailto:solvadokuteam@gmail.com?">solvadokuteam@gmail.com</a></string>
-    <string name="app_release_version">solvadoku version 2.0</string>
+    <string name="app_release_version">solvadoku version 2.0.1</string>
 
     <string name="cell_focus_value">%d</string>
     <string name="_1">1</string>
