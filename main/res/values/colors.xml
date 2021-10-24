@@ -12,7 +12,7 @@
     <color name="colorGrey">#D3D3D3</color>
     <color name="colorBlack">#000000</color>
     <color name="colorGreen">#D1FFDE</color>
-    <color name="lightBlue">#ADD8E6</color>
+    <color name="lightBlue">#CAEEFA</color>
     <color name="lightRed">#FFCCCB</color>
 
     <color name="toolbar">@color/colorPrimary</color>
