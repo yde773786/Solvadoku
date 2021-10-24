@@ -10,8 +10,10 @@
 
     <style name="CustomDialog" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:checkedTextViewStyle">@style/CheckedTextStyle</item>
-        <item name="android:buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
         <item name="android:textViewStyle">@style/TextViewStyle</item>
+        <item name="colorControlNormal">@color/colorPrimary</item>   <!-- normal border color  -->
+        <item name="colorControlActivated">@color/colorPrimary</item> <!-- activated color  -->
     </style>
 
     <style name="AppTheme.SplashScreen">
