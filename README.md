@@ -1,6 +1,8 @@
 # Solvadoku
-![Logo](https://github.com/yde773786/Solvadoku/blob/master/ic_launcher-playstore.png)
 
+<p align="center">
+  <img src="https://github.com/yde773786/Solvadoku/blob/master/ic_launcher-playstore.png" alt="Solvadoku-logo" width="360px" height="360px"/>
+</p>
 
 An Android application that solves and provides steps on how a Sudoku puzzle was solved.
 
@@ -42,7 +44,7 @@ The Sudoku solving strategies we use:
 * Brute Force
 
 
-Available on Play Store as Version(1.1.3)
+Available on Play Store as Version(2.0.0)
 https://play.google.com/store/apps/details?id=com.yde.solvadoku
 
 Contributors: CookieCrumbs19212 and yde773786
