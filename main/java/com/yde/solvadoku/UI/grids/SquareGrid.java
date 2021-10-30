@@ -8,7 +8,7 @@ import androidx.gridlayout.widget.GridLayout;
 
 public class SquareGrid extends GridLayout {
 
-    public TextView[][] unit;
+    public TextView[][] grid;
 
     public SquareGrid(Context context) {
         super(context);
