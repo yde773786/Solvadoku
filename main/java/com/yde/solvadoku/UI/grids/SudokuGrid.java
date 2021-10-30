@@ -1,5 +1,6 @@
 package com.yde.solvadoku.UI.grids;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
@@ -23,7 +24,7 @@ public class SudokuGrid extends SquareGrid {
 
     private final HashMap<TextView, int[]> cellToState = new HashMap<>();
     private final HashMap<TextView, int[]> cellToIndex = new HashMap<>();
-    private HashMap<String, Typeface> fontCache = new HashMap<>();
+    private final HashMap<String, Typeface> fontCache = new HashMap<>();
     private boolean isLegalPuzzle;
     private boolean[][] isError;
     PencilMarksGrid[][] pencilMarksGrids;
@@ -33,7 +34,7 @@ public class SudokuGrid extends SquareGrid {
 
     public SudokuGrid(Context context) {
         super(context);
-        unit = new TextView[9][9];
+        grid = new TextView[9][9];
         pencilMarksGrids = new PencilMarksGrid[9][9];
         isLegalPuzzle = true;
         paintSudoku();
@@ -44,12 +45,11 @@ public class SudokuGrid extends SquareGrid {
      * TextViews with required functionality and backgrounds
      */
     private void paintSudoku() {
-
-        final String text_font = "majormono.ttf";
         final int text_color = getResources().getColor(R.color.input_cell_text);
 
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
+                @SuppressLint("InflateParams")
                 RelativeLayout cellGrid = (RelativeLayout) LayoutInflater.from(getContext()).inflate(R.layout.cell_grid, null);
 
                 GridLayout.LayoutParams gridParams = new GridLayout.LayoutParams(
@@ -61,7 +61,7 @@ public class SudokuGrid extends SquareGrid {
 
                 TextView textView = cellGrid.findViewById(R.id.main_display);
                 textView.setGravity(Gravity.CENTER);
-                textView.setTypeface(getTypeface(text_font));
+                textView.setTypeface(getTypeface());
                 textView.setTextColor(text_color);
                 TextViewCompat.setAutoSizeTextTypeWithDefaults(textView,TextViewCompat.AUTO_SIZE_TEXT_TYPE_UNIFORM);
 
@@ -76,7 +76,7 @@ public class SudokuGrid extends SquareGrid {
                     switchBackground(textView, SELECTED);
                 });
 
-                unit[i][j] = textView;
+                grid[i][j] = textView;
                 pencilMarksGrids[i][j] = cellGrid.findViewById(R.id.add_display);
                 switchBackground(textView, CLEAR);
                 addView(cellGrid, i + j);
@@ -89,26 +89,28 @@ public class SudokuGrid extends SquareGrid {
      * If Typeface does not exist in cache, it will retrieve it from the
      * assets folder and add it to the cache
      *
-     * @param font_name name of the Typeface
-     *
-     * @return the requested Typeface if it is present in assets, else return default Typeface.
+     * @return the Typeface if it is present in assets, else return default Typeface.
      */
-    private Typeface getTypeface(String font_name) {
+    private Typeface getTypeface() {
+        // Name of the typeface for the cell.
+        final String cell_typeface = "majormono.ttf";
+
         // Attempting to get the Typeface from the fontCache.
-        Typeface tf = fontCache.get(font_name);
+        Typeface tf = fontCache.get(cell_typeface);
+
         // If the requested Typeface does not exist in cache, add it from the assets folder.
         if(tf == null) {
             try {
-                tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/"+font_name);
+                tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/"+ cell_typeface);
             }
             catch (Exception e) {
                 // returning the default system typeface.
                 return Typeface.DEFAULT;
             }
-            fontCache.put(font_name, tf);
+            fontCache.put(cell_typeface, tf);
         }
         return tf;
-    }
+    } // end of getTypeface()
 
     /**
      * Repaints sudoku puzzle on click of 'reset puzzle'
@@ -116,11 +118,11 @@ public class SudokuGrid extends SquareGrid {
     public void resetSudoku() {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
-                unit[i][j].setText(R.string.empty);
-                unit[i][j].setEnabled(true);
-                unit[i][j].setText(R.string.empty);
-                switchBackground(unit[i][j], CLEAR);
-                switchTextColor(unit[i][j], INPUT);
+                grid[i][j].setText(R.string.empty);
+                grid[i][j].setEnabled(true);
+                grid[i][j].setText(R.string.empty);
+                switchBackground(grid[i][j], CLEAR);
+                switchTextColor(grid[i][j], INPUT);
             }
         }
     }
@@ -129,13 +131,13 @@ public class SudokuGrid extends SquareGrid {
         super(context, attrs);
         isLegalPuzzle = true;
         pencilMarksGrids = new PencilMarksGrid[9][9];
-        unit = new TextView[9][9];
+        grid = new TextView[9][9];
         paintSudoku();
     }
 
     public SudokuGrid(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        unit = new TextView[9][9];
+        grid = new TextView[9][9];
         pencilMarksGrids = new PencilMarksGrid[9][9];
         isLegalPuzzle = true;
         paintSudoku();
@@ -211,8 +213,8 @@ public class SudokuGrid extends SquareGrid {
      *
      * @return Sudoku grid required.
      */
-    public TextView[][] getUnit() {
-        return unit;
+    public TextView[][] getGrid() {
+        return grid;
     }
 
     /**
@@ -231,9 +233,9 @@ public class SudokuGrid extends SquareGrid {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 9; j++) {
                 if (isError[i][j]) {
-                    switchBackground(unit[i][j], INVALID);
+                    switchBackground(grid[i][j], INVALID);
                 } else {
-                    switchBackground(unit[i][j], CLEAR);
+                    switchBackground(grid[i][j], CLEAR);
                 }
             }
         }
@@ -270,7 +272,7 @@ public class SudokuGrid extends SquareGrid {
         Set<Integer> repeat = new HashSet<>();
 
         for (int j = 0; j < 9; j++) {
-            Integer currValue = unit[j][i].getText().toString().equals("") ? 0 : Integer.parseInt(unit[j][i].getText().toString());
+            Integer currValue = grid[j][i].getText().toString().equals("") ? 0 : Integer.parseInt(grid[j][i].getText().toString());
             if (repeat.contains(currValue) && currValue != 0) {
                 for (int k = 0; k < 9; k++) {
                     isError[k][i] = true;
@@ -292,7 +294,7 @@ public class SudokuGrid extends SquareGrid {
         Set<Integer> repeat = new HashSet<>();
 
         for (int j = 0; j < 9; j++) {
-            Integer currValue = unit[i][j].getText().toString().equals("") ? 0 : Integer.parseInt(unit[i][j].getText().toString());
+            Integer currValue = grid[i][j].getText().toString().equals("") ? 0 : Integer.parseInt(grid[i][j].getText().toString());
             if (repeat.contains(currValue) && currValue != 0) {
                 for (int k = 0; k < 9; k++) {
                     isError[i][k] = true;
@@ -317,7 +319,7 @@ public class SudokuGrid extends SquareGrid {
 
         for (int k = startI; k < startI + 3; k++) {
             for (int l = startJ; l < startJ + 3; l++) {
-                Integer currValue = unit[k][l].getText().toString().equals("") ? 0 : Integer.parseInt(unit[k][l].getText().toString());
+                Integer currValue = grid[k][l].getText().toString().equals("") ? 0 : Integer.parseInt(grid[k][l].getText().toString());
 
                 if (repeat.contains(currValue) && currValue != 0) {
                     for (int m = startI; m < startI + 3; m++) {
@@ -390,10 +392,10 @@ public class SudokuGrid extends SquareGrid {
             if(col % 9 == 0)
                 row++;
 
-            focusedCell = unit[row % 9][col % 9];
+            focusedCell = grid[row % 9][col % 9];
         }
         else{
-            focusedCell = unit[0][0];
+            focusedCell = grid[0][0];
         }
         switchBackground(focusedCell, SELECTED);
     }
