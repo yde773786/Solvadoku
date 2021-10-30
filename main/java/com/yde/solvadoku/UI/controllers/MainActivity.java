@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
         isInitialBoard = true;
         initialBoard = new boolean[9][9];
         sudokuGrid = findViewById(R.id.sudoku_board);
-        unit = sudokuGrid.getUnit();
+        unit = sudokuGrid.getGrid();
         puzzle = new Cell[9][9];
 
         String[][] values = mViewModel.getValues();
