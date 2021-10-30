@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="@font/ralewaymed"
-            android:text="@string/choose_strat_title"
+            android:text="@string/solve_mode_title"
             android:textSize="20sp"
             android:textColor="@color/colorWhite" />
 
