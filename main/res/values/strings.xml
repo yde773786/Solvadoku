@@ -2,7 +2,7 @@
     <string name="app_name">Solvadoku</string>
     <string name="solve">SOLVE </string>
     <string name="steps">STEPS</string>
-    <string name="choose_strat_title">Choose Strategies</string>
+    <string name="solve_mode_title">Select Mode</string>
     <string name="invalid_input">Invalid input</string>
     <string name="no_effect_toast">The chosen strategies had no effect on the puzzle</string>
     <string name="select_cell_toast">Select a cell to enter input</string>
@@ -10,6 +10,8 @@
     <string name="confirm">CONFIRM</string>
     <string name="dialog_confirmation">Got it!</string>
     <string name="title">SOLVADOKU</string>
+    <string name="pencil_marks_mode_text">Pencil Marks Mode</string>
+    <string name="solve_mode_text">Solve Mode</string>
 
     <string name="naked_single">When a cell has only one possible candidate remaining, we call it a Naked Single. The candidate then gets inserted into the cell.</string>
     <string name="hidden_single">When a candidate that exists in a particular House (Row, Column, or Block) does not exist in any other cell in that same house, we call it a Hidden Single because it \"hides\" behind the other candidates in the cell. The candidate then gets inserted into the cell.</string>
